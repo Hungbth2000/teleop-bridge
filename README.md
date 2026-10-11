@@ -1,354 +1,113 @@
 # Remote Teleoperation Bridge
 
-A C++ networking bridge for a remote robot teleoperation system,
-developed as part of the Remote Teleoperation Engineer coding challenge.
+**Task 1 · Proposed architecture (pre-measurement)** — C++ bridges connect unchanged local [zenoh](https://zenoh.io/) applications between an operator in Stuttgart and a warehouse robot in the Netherlands. **Design targets and estimates are not test results.** Task 2/3 measurements will determine which assumptions hold.
 
-## Objectives
+## 1. End-to-end topology
 
-- Forward data between local zenoh routers at the operator and robot sites.
-- Support freshness-sensitive control and robot-state traffic.
-- Deliver reliable safety commands and request/reply messages.
-- Prioritize traffic under bandwidth constraints.
-- Measure latency, throughput, packet loss, and recovery behavior.
-- Evaluate transport protocols under different network conditions.
+![System Architecture](https://github.com/Hungbth2000/teleop-bridge/blob/main/docs/images/architecture.png)
 
-## Project Structure
+**Lane mapping:** QUIC **DATAGRAM** = head/wrist H.264 fragments, newest-wins motion commands (100 Hz), newest-wins robot state (50 Hz). QUIC **STREAM** = ordered reliable e-stop/enable/mode commands and zenoh query/reply. Application envelopes carry `session_id`, sequence/command ID, timestamps, frame/fragment IDs and deadlines. Video reassembly drops incomplete/expired frames. Reliable commands require **B3 execution ACK, ordered processing and deduplication**; QUIC delivery alone is not exactly-once execution. Queries receive one matched reply or an explicit deadline timeout. QUIC DATAGRAM support must be negotiated. Camera encoding at B1/B2 is a proposed implementation assumption; if these nodes publish raw frames, encode at the robot bridge instead without changing the WAN lanes.
 
-- `bridge/` - C++ bridge implementation
-- `mock/` - Simulated operator, cameras, and robot controller
-- `tests/` - Automated tests
-- `experiments/` - Network experiments and analysis
-- `docs/` - Architecture and design decisions
+The **warehouse permits outbound UDP/443** (assumption to confirm); no inbound warehouse port is required. Each bridge independently initiates a connection to the relay. The relay forwards two bidirectional connections, so QUIC/TLS is **hop-by-hop**, not end-to-end through the relay.
 
-## System Architecture
+## 2. Bill of materials
 
-The proposed architecture connects a remote operator in Stuttgart to a robot in a warehouse in the Netherlands. The design uses local zenoh routers for communication between application nodes and C++ bridges for communication over the public Internet.
+| Product / software | Location | Incremental cost (rough) | Why |
+|---|---|---:|---|
+| Existing operator PC + robot computer, cameras | Both sites | €0 assumed | Reuse assignment hardware; CPU/H.264 acceleration to verify |
+| [Eclipse zenoh](https://zenoh.io/) + custom C++ bridge | Both sites | €0 license | Local pub/sub/query API; isolated WAN policy |
+| [MsQuic](https://github.com/microsoft/msquic) | Both bridges + relay | €0 license | TLS 1.3 QUIC streams, DATAGRAM, migration capabilities |
+| H.264 encoder/decoder (hardware if supported) | Robot / operator | €0 assumed | Low-latency compressed video; no B-frames |
+| [Hetzner Cloud](https://www.hetzner.com/cloud) EU VPS | Relay | ~€5–15/month | Public reachable endpoint; bandwidth/egress fees extra |
+| Existing Wi-Fi AP/gateway | Warehouse | €0 assumed | Primary uplink, roaming coverage |
+| [Teltonika RUTX50](https://teltonika-networks.com/products/routers/rutx50) (candidate) + SIM | Robot / cellular network | ~€480–700 + €10–30/month | Independent 5G/LTE backup; power, mounting and coverage to verify |
 
-A public QUIC relay is used because the warehouse network does not permit inbound connections. Both bridges initiate outbound QUIC connections to the relay.
+*Costs are unverified planning estimates, not quotations; taxes, data egress, installation and integration excluded.*
 
-### Architecture Overview
+## 3. Bandwidth and graceful degradation
 
-- **Operator site (Stuttgart):** Operator application nodes A1–A3, local zenoh router, and C++ bridge.
-- **Robot site (Netherlands):** Robot application nodes B1–B3, local zenoh router, and C++ bridge.
-- **Public relay:** Cloud-hosted server forwarding traffic between the two bridge connections.
-- **Primary network:** Warehouse Wi-Fi.
-- **Backup network:** LTE/5G cellular connectivity.
+**Scope:** 8 Mb/s normal and 2 Mb/s for 15 s/minute are **robot-outbound** caps, not bidirectional totals. Operator→robot traffic has its own budget. Decimal Mb/s used throughout.
 
-Local application communication uses zenoh over TCP. WAN communication uses QUIC with integrated TLS 1.3 over UDP/IP.
+**Source/calculation:** RGB24 uncompressed `width × height × 30 fps × 24 bits` = **663.55 Mb/s** (head 1280×720) and **165.89 Mb/s each** (640×360 wrists). H.264 targets below are **selected rate-control settings, not derived codec guarantees**. Example IP overhead: 1,100 B encoded video + 12 B fragment + 3 B DATAGRAM frame + 4 B QUIC header + 16 B authentication tag + 8 B UDP + 20 B IPv4 = **1,163 B**. Estimated video wire multiplier = `1163/1100 = 1.0573`; actual headers, small final fragments, QUIC control, link-layer airtime and bursts vary.
 
-### Communication Protocols
+| Robot → operator | Normal H.264/payload | Normal IP estimate | Degraded payload | Degraded IP estimate |
+|---|---:|---:|---:|---:|
+| Head 720p30 | 3.00 Mb/s | 3.172 Mb/s | 1.20 Mb/s | 1.269 Mb/s |
+| Left wrist 360p30 | 1.00 | 1.057 | **off** | 0 |
+| Right wrist 360p30 | 1.00 | 1.057 | **off** | 0 |
+| State 50 Hz × assumed 100 B | 0.040 | 0.065 | 0.040 | 0.065 |
+| **Estimated total** | **5.040** | **5.351** | **1.240** | **1.334** |
+| **Remaining under cap** | — | **2.649** | — | **0.666** |
 
-| Data lane | Direction | Transport |
+State estimate: `100×50×8 = 40 kb/s` payload; assuming one 100+63 B packet/update: `163×50×8 = 65.2 kb/s` IP. **Operator→robot** fast commands: `100 B×100 Hz×8 = 80 kb/s` payload, ~`(100+63)×100×8 = 130.4 kb/s` IP; reliable commands and queries are event-driven, not included in this fixed rate. Robot-side QUIC ACKs, execution ACKs and query replies **do** consume robot egress.
+
+**Sacrifice order at 2 Mb/s:** (1) reserve capacity and scheduler priority for critical command responses, state and QUIC control; (2) suspend both wrist videos; (3) lower head encoder from 3.0 to **1.2 Mb/s**; (4) drop expired video fragments/frames rather than queue them. The head target averages `1.2e6/(30×8) = 5,000 B/frame`, but I-frames can burst. Use bounded queues, priority-aware packet scheduling, encoder feedback and an **actual-byte egress limiter** (including transport overhead); merely limiting H.264 bytes is insufficient. **≥80% of head frames intact within 200 ms at 2 Mb/s is a test criterion, not a prediction.**
+
+## 4. Per-hop latency budgets (ms)
+
+These are **engineering allocations** for a nominal usable path, **not measured one-way delays** or guarantees under Wi-Fi impairment. End-to-end camera presentation includes display time; the assignment's 200 ms head-frame criterion is **frame arrival**, not screen presentation.
+
+| Camera → screen stage | ms | Hand → motion stage | ms |
+|---|---:|---|---:|
+| Camera acquisition (up to 1 frame at 30 fps) | 33 | Input sampling / command creation (100 Hz cycle) | 10 |
+| H.264 encode | 15 | Local zenoh | 2 |
+| Robot local zenoh | 2 | Operator bridge queue | 3 |
+| Robot bridge queue/fragment | 5 | Operator → relay WAN | 20 |
+| Robot Wi-Fi + WAN → relay | 65 | Relay forward | 3 |
+| Relay forwarding | 3 | Relay → robot WAN + Wi-Fi | 45 |
+| Relay → operator WAN | 20 | Robot bridge + zenoh | 2 |
+| Operator bridge + zenoh | 2 | B3 validation/control cycle | 5 |
+| H.264 decode | 10 | Actuator initial response | 10 |
+| Screen/render | 20 | — | — |
+| **Total screen latency** | **175** | **Total motion latency** | **100** |
+
+**Camera frame arrival budget:** 175−10−20 = **145 ms** before decode/display, nominally leaving 55 ms relative to the 200 ms delivery threshold. **Hand-to-B3 application:** 100−10 = **90 ms** nominally; B3 rejects age **>150 ms**, never applies older sequence numbers, and stops after **300 ms** without fresh commands. Warehouse Wi-Fi RTT in the proposed impairment test ranges **40–280 ms**; RTT/2 is only a rough one-way proxy if paths are symmetric. High delay or blackout can violate either budget. Measure one-way age using synchronized clocks or a clearly documented common time base.
+
+## 5. Roaming, outages and recovery
+
+**Primary:** overlapping warehouse AP coverage, preferably 802.11k/v/r where supported; `wlan0` preferred. **Backup:** independently registered, already-online LTE/5G on `wwan0`. Robot bridge monitors link events and application/QUIC path health, attempts QUIC path migration over cellular, and falls back to a fresh outbound QUIC connection. Proposed probes **50 ms**, path *suspect* after ~**150 ms** silence; jitter can cause false positives, so path switching uses hysteresis (e.g. **5 s** stable Wi-Fi before failback). These timers are **design settings to test**, not hardware guarantees.
+
+| Time after loss | 2 s Wi-Fi outage (cellular may work) | 30 s outage (both paths unavailable) |
 |---|---|---|
-| Head camera | Robot → Operator | QUIC DATAGRAM |
-| Wrist cameras | Robot → Operator | QUIC DATAGRAM |
-| Fast movement commands (100 Hz) | Operator → Robot | QUIC DATAGRAM |
-| Reliable commands | Operator → Robot | QUIC STREAM |
-| Robot state (50 Hz) | Robot → Operator | QUIC DATAGRAM |
-| Query / reply | Bidirectional request/response | QUIC STREAM |
+| 0–150 ms | Bridge detects link/probe loss; operator notices stale state/video; try cellular | Same; reconnect attempts begin |
+| By 300 ms without fresh commands | **B3 stops motion locally**, independent of transport | **B3 stops motion locally** |
+| 0.3–2 s | If cellular succeeds, migrate/reconnect, discard stale queues, refresh state/video; otherwise stay stopped | Stay stopped; retry with bounded backoff; operator UI shows disconnected |
+| At 2 s / 30 s | Wi-Fi returns: probe, avoid flapping; only resume with fresh authorized commands | Network returns: re-authenticate, reconcile session/command IDs and state, discard old commands/video |
+| After recovery | Resume only after B3 safety checks / re-enable if latched | Require explicit re-enable after prolonged stop (proposed policy) |
 
-Reliable commands require application-level IDs, deduplication, ordered execution, and acknowledgments. The bridge scheduler prioritizes critical traffic and limits outgoing bandwidth.
+**Restart requirement:** target **≤1 s** for bridge restart recovery of control/video **when network paths are available**; this must be measured in Task 2. Neither failover nor a reliable stream can guarantee remote e-stop within 200 ms during a complete blackout; B3's local watchdog is the fallback.
 
-H.264 is the proposed video codec. Actual encoder bitrates and frame-delivery performance must be validated experimentally.
+## 6. Security and key custody
 
-### Bill of Materials
+| Threat | Defence | Keys / trust location |
+|---|---|---|
+| Wi-Fi/Internet sniffing, MITM | QUIC TLS 1.3, verify relay certificate; mTLS client identities | Robot/operator private identity keys: TPM/OS-protected storage (prototype: service-owned `0600` files); trusted CA public certs on endpoints |
+| Unauthorized operator, command injection/replay | Relay device allowlist + per-session authorization; B3 sequence, timestamp, ID/dedup and watchdog checks; zenoh local ACLs | Relay allowlist / trust anchors; B3 authorization state and last applied ID |
+| Compromised relay | Relay can see/change data under hop-by-hop QUIC; optional **end-to-end AEAD** for command/video payloads, with endpoint-only keys | E2E private/session keys **only** on operator/robot, never relay |
+| Flooding, stale commands, stolen credentials | Priority scheduling, bounded queues, rate limits; revoke/rotate credentials, fail safe | Relay TLS private key: restricted VPS secret store; **no private keys in Git** |
 
-| Component | Location | Estimated cost | Purpose |
+## 7. Three architectural trade-offs
+
+| Decision | Chosen | Rejected / reason | Cost of choice |
 |---|---|---|---|
-| Existing operator workstation | Stuttgart | €0 incremental | Runs A1–A3, zenoh router and bridge |
-| Existing robot computer | Netherlands | €0 incremental | Runs B1–B3, zenoh router and bridge |
-| Eclipse zenoh | Both sites | Free | Local messaging and query/reply |
-| Custom C++ bridge | Both sites | No license cost | WAN transport, scheduling and rate limiting |
-| MsQuic | Bridges and relay | Free | QUIC streams, datagrams and TLS 1.3 |
-| H.264 encoder/decoder | Robot/operator | €0 incremental if supported | Video compression and playback |
-| Hetzner Cloud VPS | Germany | Approx. €5–15/month | Public relay |
-| Existing warehouse Wi-Fi/gateway | Netherlands | €0 incremental | Primary connectivity |
-| Teltonika RUTX50 5G router | Netherlands | Approx. €480–700 | Cellular backup option |
-| Cellular SIM/data plan | Netherlands | Approx. €10–30/month | Backup Internet connectivity |
-
-Prices are preliminary estimates, not supplier quotations. Cloud traffic, IPv4 charges, taxes, hardware integration, and development costs are excluded.
-
-### Bandwidth Plan and Degradation Strategy
-
-#### 1. Requirements and Assumptions
-
-The robot communicates with a remote operator through a public QUIC relay. The robot's outbound WAN bandwidth is limited to **8 Mbit/s during normal operation** and **2 Mbit/s during degraded operation**, with degradation lasting 15 seconds per minute.
-
-The system must deliver at least **80% of head-camera frames intact within 200 ms** during the 2 Mbit/s condition.
-
-The bandwidth limit applies to **robot outbound traffic**, not the combined bidirectional traffic. Operator-to-robot commands are therefore budgeted separately.
-
-The following estimates assume:
-
-- H.264 video encoding, with configurable bitrate.
-- QUIC DATAGRAM for video, fast commands, and robot state.
-- QUIC STREAM for reliable commands and query/reply.
-- IPv4 networking with an assumed 1,100-byte video payload per packet.
-- Robot state messages of approximately 100 bytes at 50 Hz (assumed size).
-- Wrist-camera traffic can be reduced or suspended during degradation.
-
-Encoder bitrates and packet overhead are initial design assumptions, not measured values.
-
-#### 2. Camera Bandwidth Calculation
-
-**2.1 Uncompressed video**
-
-The required raw video bitrate is calculated as:
-
-\[
-R_{\text{raw}} = W \times H \times FPS \times BPP
-\]
-
-Assuming uncompressed RGB video (24 bits per pixel):
-
-| Camera | Resolution | FPS | Calculation | Raw bitrate |
-|---|---|---:|---|---:|
-| Head | 1280 × 720 | 30 | 1280 × 720 × 30 × 24 | 663.55 Mbit/s |
-| Left wrist | 640 × 360 | 30 | 640 × 360 × 30 × 24 | 165.89 Mbit/s |
-| Right wrist | 640 × 360 | 30 | 640 × 360 × 30 × 24 | 165.89 Mbit/s |
-| **Total** | | | | **995.33 Mbit/s** |
-
-The uncompressed bandwidth substantially exceeds the available WAN capacity. Video compression is therefore required.
-
-**2.2 Estimated H.264 bitrate**
-
-H.264 bitrate depends on scene complexity, movement, encoder configuration, and acceptable image quality. It cannot be determined exactly from resolution and frame rate alone.
-
-For initial planning, the following encoder targets are selected:
-
-| Camera | Normal target | Degraded target |
-|---|---:|---:|
-| Head (720p, 30 fps) | 3.0 Mbit/s | 1.2 Mbit/s |
-| Left wrist (360p, 30 fps) | 1.0 Mbit/s | Disabled |
-| Right wrist (360p, 30 fps) | 1.0 Mbit/s | Disabled |
-| **Total video payload** | **5.0 Mbit/s** | **1.2 Mbit/s** |
-
-The corresponding compression ratio relative to uncompressed RGB is:
-
-\[
-C = \frac{R_{\text{raw}}}{R_{\text{encoded}}}
-\]
-
-For the head camera:
-
-- Normal: 663.55 / 3.0 ≈ **221:1**
-- Degraded: 663.55 / 1.2 ≈ **553:1**
-
-For each wrist camera during normal operation:
-
-- 165.89 / 1.0 ≈ **166:1**
-
-These ratios describe the compression required to reach the selected targets. They do not demonstrate that the resulting video quality is sufficient.
-
-At 1.2 Mbit/s and 30 fps, the head camera has an average encoded frame size of:
-
-\[
-S_{\text{frame}} = \frac{1{,}200{,}000}{30 \times 8}
-= 5{,}000\text{ bytes}
-\]
-
-Actual H.264 frame sizes vary, especially between independently coded frames and predicted frames.
-
-#### 3. Network Protocol Overhead
-
-The compressed video is fragmented into application messages and transmitted using QUIC DATAGRAM over UDP/IP.
-
-For estimation, assume the following packet structure:
-
-| Component | Assumed size |
-|---|---:|
-| H.264 payload chunk | 1,100 bytes |
-| Application fragmentation header | 12 bytes |
-| QUIC DATAGRAM frame header | 3 bytes |
-| QUIC packet header | 4 bytes |
-| QUIC authentication tag | 16 bytes |
-| UDP header | 8 bytes |
-| IPv4 header | 20 bytes |
-| **Total IP packet size** | **1,163 bytes** |
-
-The estimated overhead is:
-
-\[
-O = \frac{1163-1100}{1100} \times 100
-\approx 5.73\%
-\]
-
-Therefore, the estimated IP-layer bitrate for a video stream is:
-
-\[
-R_{\text{WAN}} = R_{\text{video}} \times \frac{1163}{1100}
-\]
-
-For the degraded head camera:
-
-\[
-R_{\text{head,WAN}} = 1.2 \times \frac{1163}{1100}
-\approx \boxed{1.269\text{ Mbit/s}}
-\]
-
-This estimate excludes additional QUIC ACK/control traffic, retransmissions, variable packetization, and link-layer overhead. The assumed packet sizes are not fixed values defined by QUIC.
-
-#### 4. Robot-to-Operator Bandwidth Allocation
-
-Robot outbound traffic includes camera video, robot state, query replies, application acknowledgments, and QUIC control traffic.
-
-Robot state is estimated at 100 bytes per update, transmitted at 50 Hz:
-
-\[
-R_{\text{state,payload}} = 100 \times 50 \times 8
-= 40\text{ kbit/s}
-\]
-
-Assuming one packet per update with 63 bytes of combined overhead:
-
-\[
-R_{\text{state,WAN}} = (100+63)\times50\times8
-= 65.2\text{ kbit/s}
-\]
-
-**4.1 Normal operation: 8 Mbit/s**
-
-| Data stream | Payload bitrate | Estimated IP-layer bitrate |
-|---|---:|---:|
-| Head camera | 3,000 kbit/s | 3,172 kbit/s |
-| Left wrist camera | 1,000 kbit/s | 1,057 kbit/s |
-| Right wrist camera | 1,000 kbit/s | 1,057 kbit/s |
-| Robot state | 40 kbit/s | 65 kbit/s |
-| **Estimated total** | **5,040 kbit/s** | **5,351 kbit/s** |
-| **Unallocated capacity** | | **2,649 kbit/s** |
-
-The remaining capacity accommodates transport overhead not included in the model, acknowledgments, query replies, encoder bursts, and other traffic.
-
-**4.2 Degraded operation: 2 Mbit/s**
-
-| Data stream | Payload bitrate | Estimated IP-layer bitrate |
-|---|---:|---:|
-| Head camera | 1,200 kbit/s | 1,269 kbit/s |
-| Left wrist camera | 0 | 0 |
-| Right wrist camera | 0 | 0 |
-| Robot state | 40 kbit/s | 65 kbit/s |
-| **Estimated total** | **1,240 kbit/s** | **1,334 kbit/s** |
-| **Unallocated capacity** | | **666 kbit/s** |
-
-The estimated degraded traffic uses approximately:
-
-\[
-\frac{1.334}{2.0}\times100 \approx 66.7\%
-\]
-
-of the available robot outbound bandwidth.
-
-The remaining approximately 666 kbit/s is a planning reserve, not guaranteed available capacity. The actual transmitted rate must be measured and constrained by the bridge's bandwidth limiter.
-
-#### 5. Operator-to-Robot Bandwidth
-
-Operator-to-robot traffic is budgeted separately because the specified 2 Mbit/s cap applies to robot outbound traffic.
-
-Fast movement commands contain approximately 100 bytes and are transmitted at 100 Hz:
-
-\[
-R_{\text{fast,payload}} = 100 \times 100 \times 8
-= \boxed{80\text{ kbit/s}}
-\]
-
-Assuming 63 bytes of overhead per command:
-
-\[
-R_{\text{fast,WAN}} = (100+63)\times100\times8
-= \boxed{130.4\text{ kbit/s}}
-\]
-
-| Data stream | Estimated bitrate | Transport |
-|---|---:|---|
-| Fast movement commands | 80 kbit/s payload; ~130 kbit/s IP-layer | QUIC DATAGRAM |
-| E-stop, enable, mode changes | Event-driven, size TBD | QUIC STREAM |
-| Query requests | Event-driven, size TBD | QUIC STREAM |
-| QUIC acknowledgments | Variable | QUIC control |
-
-Although operator-to-robot traffic is not subject to the robot outbound cap, it can still affect latency through Wi-Fi contention, congestion, and packet loss.
-
-#### 6. Degradation Strategy at 2 Mbit/s
-
-When the available robot outbound bandwidth decreases, the bridge applies the following policy.
-
-**Priority 1 — Preserve safety and essential state**
-
-Robot state updates, reliable-command acknowledgments, and essential protocol control traffic remain prioritized. The robot controller independently enforces command age, sequence ordering, and the 300 ms movement-command watchdog.
-
-**Priority 2 — Preserve head-camera delivery**
-
-The head camera receives the primary video allocation. Its H.264 encoder target is reduced from 3.0 Mbit/s to an initial 1.2 Mbit/s.
-
-The objective is to preserve timely head-camera frames rather than maximize visual quality. The 1.2 Mbit/s target must be validated against the requirement that at least 80% of head frames arrive intact within 200 ms.
-
-**Priority 3 — Reduce wrist-camera traffic first**
-
-Wrist-camera encoder bitrate and frame rate are reduced before head-camera traffic. Under the proposed conservative 2 Mbit/s profile, both wrist streams are suspended.
-
-**Priority 4 — Discard expired video**
-
-The bridge uses bounded queues and frame deadlines. Stale frames and incomplete frames that cannot meet their deadline are discarded instead of being retained in growing transmission queues.
-
-If network conditions remain insufficient, the system must favor safe robot behavior over continued teleoperation.
-
-#### 7. Bandwidth Enforcement and Validation
-
-The robot bridge uses a priority-aware scheduler and rate limiter to control WAN transmission.
-
-The scheduler selects traffic according to priority, while the limiter enforces the configured 8 Mbit/s or 2 Mbit/s budget.
-
-The implementation must account for the bytes included in the assignment's actual-byte measurement, including relevant QUIC/UDP/IP headers, control packets, and retransmissions. Limiting only application payload bytes is insufficient.
-
-Tasks 2 and 3 will validate:
-
-- Actual robot outbound send rate against the configured cap.
-- Head-camera frame integrity and arrival latency.
-- Percentage of head frames arriving intact within 200 ms.
-- Command age, safety violations, and reliable-command latency.
-- Behavior during bandwidth degradation, packet loss, and temporary outages.
-
-**Conclusion:** The proposed design allocates approximately 1.33 Mbit/s of estimated IP-layer traffic to head video and robot state during degraded operation, leaving approximately 0.67 Mbit/s unallocated. Wrist-camera transmission is sacrificed first, while head-camera delivery and essential state traffic remain prioritized. All bitrate targets are provisional and must be verified experimentally.
-
-### Latency Budget
-
-Two end-to-end latency paths are considered: camera-to-screen (robot to operator) and hand-to-motion (operator to robot).
-
-For camera-to-screen communication, the proposed budget is 175 ms, consisting of 33 ms for camera acquisition, 15 ms for H.264 encoding, 2 ms for local zenoh delivery, 5 ms for bridge scheduling, 65 ms for robot-to-relay transmission, 3 ms for relay forwarding, 20 ms for relay-to-operator transmission, 2 ms for local delivery, 10 ms for decoding, and 20 ms for display.
-
-For hand-to-motion communication, the proposed normal-network budget is 100 ms, consisting of 10 ms for input sampling, 2 ms for local zenoh delivery, 3 ms for bridge scheduling, 20 ms for operator-to-relay transmission, 3 ms for relay forwarding, 45 ms for relay-to-robot transmission, 2 ms for local delivery, 5 ms for controller processing, and 10 ms for actuator response.
-
-These values are design targets rather than measured latencies. The warehouse Wi-Fi RTT may vary between 40 and 280 ms, potentially causing deadline violations. To minimize latency, the bridges use priority-aware scheduling and bounded queues, while outdated video frames and movement commands are discarded.
-
-The robot controller independently rejects commands older than 150 ms and stops after 300 ms without fresh commands. Tasks 2 and 3 will measure actual command age, video delivery latency, and deadline compliance under simulated network conditions.
-
-### Roaming, Cellular Failover, and Outage Recovery
-
-The robot uses warehouse Wi-Fi (`wlan0`) as its primary network connection and an independently connected LTE/5G modem (`wwan0`) as backup. Overlapping Wi-Fi coverage and 802.11k/v/r support are preferred to reduce roaming interruption. Both paths reach a public QUIC relay using outbound UDP/443, avoiding inbound firewall requirements at the warehouse.
-
-The robot bridge monitors link events, QUIC path health, and application-level responses. As an initial configuration, path probes run every 50 ms, with a path considered suspect after approximately 150 ms without a response. The bridge attempts QUIC path migration to cellular, falling back to a new outbound connection if migration fails. These thresholds and recovery times require experimental validation.
-
-**2-second outage:** At 0–150 ms, the bridge detects a possible connection failure and begins failover. If no fresh movement command reaches B3 for 300 ms, its independent watchdog stops the robot. If cellular connectivity is restored, the bridge resumes communication, discards stale queued data, and synchronizes session state. Motion resumes only after valid fresh commands and any required re-enable checks. When Wi-Fi returns, the bridge waits for stable connectivity before switching back.
-
-**30-second outage:** If neither Wi-Fi nor cellular can reach the relay, B3 stops after 300 ms without fresh commands and remains stopped throughout the outage. The bridges retry connectivity while the operator interface indicates disconnection. Once the network returns, the bridges reconnect, discard outdated commands and frames, synchronize sequence numbers and robot state, and require fresh control authorization before resuming motion.
-
-B3 rejects commands older than 150 ms and never applies an older sequence number. Network recovery cannot bypass these checks. Wi-Fi roaming and cellular failover improve availability but cannot guarantee uninterrupted operation or meet the 200 ms e-stop deadline during a complete network blackout.
-
-### Security: Threats, Defences and Key Storage
-
-The teleoperation system is exposed to several threats, including network eavesdropping, unauthorized access, command injection, replay attacks, denial-of-service, and compromise of the public relay.
-
-Both the operator and robot bridges establish outbound QUIC connections secured with TLS 1.3 to the relay. Mutual certificate authentication (mTLS) identifies authorized devices, while the relay enforces an allowlist and associates connections with the correct teleoperation session. Because the relay terminates QUIC, transport encryption alone does not provide end-to-end confidentiality; additional application-level encryption would be required to protect data from a compromised relay.
-
-Motion commands include sequence numbers and timestamps. B3 rejects commands older than 150 ms or with sequence numbers older than the last applied command. Reliable commands use unique IDs, ordered processing, and deduplication to prevent repeated execution. Priority scheduling and bounded queues reduce congestion-related risks, while the independent 300 ms B3 watchdog stops motion when fresh commands are missing.
-
-Each bridge has a separate device identity and private key, preferably stored in a TPM-backed or OS-protected key store. The relay stores its TLS private key in restricted server-side storage. Public CA certificates and device allowlists are distributed to the relevant endpoints. Private keys are never included in the source repository. Credentials can be rotated or revoked if a device is compromised.
-
-Local zenoh access is restricted to authorized processes. After reconnection, the robot verifies session authorization and command sequence state before accepting new motion commands.
-
-### Architectural Trade-offs (weighted decisions)
-
-**1. QUIC vs. TCP/UDP:** QUIC was selected because it supports unreliable DATAGRAM delivery for video, fast motion commands, and robot state, alongside reliable STREAM delivery for critical commands and queries. TCP-only transport was rejected due to head-of-line blocking, while plain UDP would require custom security, reliability, and congestion-control mechanisms. QUIC still requires application-level prioritization and deduplication.
-
-**2. Public relay vs. direct connection/VPN:** Both bridges establish outbound QUIC connections to a public relay, avoiding inbound firewall changes at the warehouse. Direct peer-to-peer connectivity was rejected because NAT traversal and firewall permissions cannot be assumed. A site-to-site VPN was not selected because it introduces additional network configuration and IT dependencies. The relay introduces an extra hop and availability risk.
-
-**3. Adaptive streaming vs. fixed/equal allocation:** Priority-aware bandwidth management was selected to protect head-camera delivery under the 2 Mbit/s robot outbound limit. Normal video targets are 3.0 Mbit/s for the head and 1.0 Mbit/s per wrist camera. During degradation, wrist streams are suspended first and the head target is reduced to 1.2 Mbit/s. Fixed or equal-rate allocation was rejected because it risks congestion or sacrifices bandwidth needed for the head-camera deadline. Encoder targets and delivery performance will be validated in Tasks 2 and 3.
+| **Transport** | QUIC DATAGRAM + STREAM | TCP-only: stale data blocked by retransmission; raw UDP: build security/reliability ourselves | QUIC scheduling, DATAGRAM negotiation, app-level exactly-once logic |
+| **Reachability** | Public outbound QUIC relay | Direct P2P: NAT/firewall traversal uncertain; site VPN: warehouse IT dependency | Extra hop, relay cost and trust/failure domain |
+| **Degradation** | Prioritize head + state; drop wrists first | Fixed/equal video rates: overload 2 Mb/s or starve required head frames | Encoder adaptation and precise byte accounting |
+
+## 8. Task 2/3 evidence and revision log
+
+| Check | Target / question | Measured | Design change |
+|---|---|---|---|
+| 2 Mb/s egress | Count actual transmitted bytes under cap | **Pending** | Pending |
+| Head frames | ≥80% intact and ≤200 ms at 2 Mb/s | **Pending** | Pending |
+| Fast control | Age p50/p95/p99; zero stale/out-of-order applications | **Pending** | Pending |
+| Reliable / query | Exactly-once ordered execution; one reply or timeout | **Pending** | Pending |
+| E-stop | ≤200 ms when link can deliver; test under video saturation | **Pending** | Pending |
+| Bridge restart | Control/video recover within 1 s on available link | **Pending** | Pending |
+| Network impairment | LAN, intercity, jitter/loss/blackouts, failover behavior | **Pending** | Pending |
+
+**Number provenance:** camera sizes/rates, command/state frequencies, age/watchdog thresholds, link caps and deadline come from the **challenge specification**; raw bitrates, payload rates, packet-overhead examples and table totals are **calculations shown above**; encoder targets, packet sizes, latency allocations, detection timers, prices and cellular equipment are **explicit assumptions** to validate with datasheets, quotations and Tasks 2/3. Do not treat proposed latency or frame success rates as achieved measurements.
+
+---
+
+**Repository layout:** `bridge/` C++ implementation · `mock/` simulated endpoints · `tests/` assertions · `experiments/` impairment runs/plots · `docs/` supporting notes.
