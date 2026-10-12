@@ -1,38 +1,12 @@
-# C++ build output
+# C++ build artifacts
 build/
 cmake-build-*/
 CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-compile_commands.json
 
-# Compiled binaries and libraries
-*.o
-*.a
-*.so
-*.out
-
-# Python
-__pycache__/
-*.py[cod]
+# Python virtual environment
 .venv/
-venv/
+__pycache__/
+*.pyc
 
-# Local environment and credentials
-.env
-.env.*
-!.env.example
-*.pem
-*.key
-
-# Logs and experiment output
-logs/
+# Local test results
 results/
-*.log
-
-# Editor and OS files
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
