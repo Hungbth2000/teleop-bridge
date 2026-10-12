@@ -1,11 +1,11 @@
-#include <cerrno>
+
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include <cerrno>
 #include <chrono>
 #include <cstdint>
-#include <cstring>
 #include <iostream>
 #include <mutex>
 #include <stdexcept>
@@ -16,50 +16,69 @@
 
 constexpr int TCP_PORT = 9000;
 constexpr uint32_t MAX_MESSAGE_SIZE = 1024 * 1024;
-constexpr const char* TOPIC = "teleop/test/message";
 
+constexpr const char* ROBOT_TOPIC =
+    "teleop/test/robot_to_operator";
+
+constexpr const char* OPERATOR_TOPIC =
+    "teleop/test/operator_to_robot";
+
+// Send exactly the requested number of bytes.
 bool send_all(int fd, const void* data, size_t size) {
-    const auto* ptr = static_cast<const char*>(data);
+    const char* ptr = static_cast<const char*>(data);
 
     while (size > 0) {
         ssize_t n = send(fd, ptr, size, MSG_NOSIGNAL);
+
+        if (n < 0 && errno == EINTR) {
+            continue;
+        }
         if (n <= 0) {
-            if (n < 0 && errno == EINTR) continue;
             return false;
         }
+
         ptr += n;
         size -= static_cast<size_t>(n);
     }
+
     return true;
 }
 
+// Receive exactly the requested number of bytes.
 bool recv_all(int fd, void* data, size_t size) {
-    auto* ptr = static_cast<char*>(data);
+    char* ptr = static_cast<char*>(data);
 
     while (size > 0) {
         ssize_t n = recv(fd, ptr, size, 0);
+
+        if (n < 0 && errno == EINTR) {
+            continue;
+        }
         if (n <= 0) {
-            if (n < 0 && errno == EINTR) continue;
             return false;
         }
+
         ptr += n;
         size -= static_cast<size_t>(n);
     }
+
     return true;
 }
 
-bool send_message(int fd, const std::string& msg) {
-    if (msg.size() > MAX_MESSAGE_SIZE) return false;
+// Wire format: [4-byte payload length][payload].
+bool send_message(int fd, const std::string& message) {
+    if (message.size() > MAX_MESSAGE_SIZE) {
+        return false;
+    }
 
-    uint32_t length = htonl(
-        static_cast<uint32_t>(msg.size())
-    );
+    uint32_t length =
+        htonl(static_cast<uint32_t>(message.size()));
 
     return send_all(fd, &length, sizeof(length)) &&
-           send_all(fd, msg.data(), msg.size());
+           send_all(fd, message.data(), message.size());
 }
 
-bool recv_message(int fd, std::string& msg) {
+bool recv_message(int fd, std::string& message) {
     uint32_t network_length = 0;
 
     if (!recv_all(fd, &network_length,
@@ -68,10 +87,15 @@ bool recv_message(int fd, std::string& msg) {
     }
 
     uint32_t length = ntohl(network_length);
-    if (length > MAX_MESSAGE_SIZE) return false;
 
-    msg.resize(length);
-    return recv_all(fd, msg.data(), msg.size());
+    if (length > MAX_MESSAGE_SIZE) {
+        std::cerr << "Received oversized message\n";
+        return false;
+    }
+
+    message.resize(length);
+
+    return recv_all(fd, message.data(), length);
 }
 
 zenoh::Session open_zenoh(int port) {
@@ -86,9 +110,11 @@ zenoh::Session open_zenoh(int port) {
     return zenoh::Session::open(std::move(config));
 }
 
-int make_server() {
+int create_server() {
     int fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (fd < 0) throw std::runtime_error("socket failed");
+    if (fd < 0) {
+        throw std::runtime_error("socket failed");
+    }
 
     int reuse = 1;
     setsockopt(fd, SOL_SOCKET, SO_REUSEADDR,
@@ -105,12 +131,15 @@ int make_server() {
         close(fd);
         throw std::runtime_error("bind/listen failed");
     }
+
     return fd;
 }
 
-int connect_to_operator() {
+int connect_to_server() {
     int fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (fd < 0) return -1;
+    if (fd < 0) {
+        return -1;
+    }
 
     sockaddr_in addr{};
     addr.sin_family = AF_INET;
@@ -122,78 +151,123 @@ int connect_to_operator() {
         close(fd);
         return -1;
     }
+
     return fd;
+}
+
+// Handle one active TCP connection in both directions.
+void run_connected(
+    zenoh::Session& session,
+    int fd,
+    const std::string& role
+) {
+    const char* outbound_topic =
+        role == "robot" ? ROBOT_TOPIC : OPERATOR_TOPIC;
+
+    const char* inbound_topic =
+        role == "robot" ? OPERATOR_TOPIC : ROBOT_TOPIC;
+
+    std::mutex send_mutex;
+
+    {
+        // Local zenoh -> TCP.
+        // Subscriber is destroyed before the socket is closed.
+        auto subscriber = session.declare_subscriber(
+            zenoh::KeyExpr(outbound_topic),
+
+            [&](const zenoh::Sample& sample) {
+                std::string message =
+                    sample.get_payload().as_string();
+
+                std::lock_guard<std::mutex> lock(send_mutex);
+
+                if (!send_message(fd, message)) {
+                    std::cerr
+                        << "[" << role << "] Send failed\n";
+
+                    // Wake the receiving loop so it can exit.
+                    shutdown(fd, SHUT_RDWR);
+                    return;
+                }
+
+                std::cout
+                    << "[" << role << "] Sent: "
+                    << message << std::endl;
+            },
+
+            zenoh::closures::none
+        );
+
+        std::cout
+            << "[" << role << "] TX subscription: "
+            << outbound_topic << '\n'
+            << "[" << role << "] RX publication: "
+            << inbound_topic << std::endl;
+
+        // TCP -> local zenoh.
+        std::string message;
+
+        while (recv_message(fd, message)) {
+            std::cout
+                << "[" << role << "] Received: "
+                << message << std::endl;
+
+            session.put(
+                zenoh::KeyExpr(inbound_topic),
+                zenoh::Bytes(message)
+            );
+        }
+    }
+
+    // Subscriber has been destroyed; no callback uses fd now.
+    close(fd);
+
+    std::cout
+        << "[" << role << "] Connection closed\n";
 }
 
 void run_operator() {
     auto session = open_zenoh(7447);
-    int server = make_server();
+    int server = create_server();
 
-    std::cout << "[operator] zenoh connected on 7447\n";
-    std::cout << "[operator] TCP listening on 9000\n";
+    std::cout
+        << "[operator] Connected to zenoh router 7447\n"
+        << "[operator] Listening on TCP port 9000\n";
 
     while (true) {
         int client = accept(server, nullptr, nullptr);
-        if (client < 0) continue;
 
-        std::cout << "[operator] Robot bridge connected\n";
-
-        std::string msg;
-        while (recv_message(client, msg)) {
-            std::cout << "[operator] Received: "
-                      << msg << std::endl;
-
-            session.put(
-                zenoh::KeyExpr(TOPIC),
-                zenoh::Bytes(msg)
-            );
+        if (client < 0) {
+            if (errno == EINTR) continue;
+            continue;
         }
 
-        close(client);
-        std::cout << "[operator] Connection lost\n";
+        std::cout
+            << "[operator] Robot bridge connected\n";
+
+        run_connected(session, client, "operator");
     }
 }
 
 void run_robot() {
     auto session = open_zenoh(7448);
 
-    std::mutex socket_mutex;
-    int connection = -1;
-
-    auto subscriber = session.declare_subscriber(
-        zenoh::KeyExpr(TOPIC),
-        [&](const zenoh::Sample& sample) {
-            std::string msg =
-                sample.get_payload().as_string();
-
-            std::lock_guard<std::mutex> lock(socket_mutex);
-
-            if (connection < 0) return;
-
-            if (!send_message(connection, msg)) {
-                close(connection);
-                connection = -1;
-            } else {
-                std::cout << "[robot] Forwarded: "
-                          << msg << std::endl;
-            }
-        },
-        zenoh::closures::none
-    );
-
-    std::cout << "[robot] zenoh connected on 7448\n";
+    std::cout
+        << "[robot] Connected to zenoh router 7448\n";
 
     while (true) {
-        {
-            std::lock_guard<std::mutex> lock(socket_mutex);
-            if (connection < 0) {
-                connection = connect_to_operator();
-                if (connection >= 0) {
-                    std::cout
-                        << "[robot] Connected to operator\n";
-                }
-            }
+        int fd = connect_to_server();
+
+        if (fd >= 0) {
+            std::cout
+                << "[robot] Connected to operator bridge\n";
+
+            run_connected(session, fd, "robot");
+        } else {
+            std::cout
+                << "[robot] Waiting for operator bridge...\n";
         }
+
         std::this_thread::sleep_for(
             std::chrono::milliseconds(500)
         );

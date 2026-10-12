@@ -10,7 +10,7 @@ PORTS = {
     "robot": 7448,
 }
 
-KEY = "teleop/test/message"
+DEFAULT_KEY = "teleop/test/message"
 
 
 def connect(site):
@@ -32,7 +32,16 @@ def connect(site):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--site", choices=PORTS.keys(), required=True
+        "--site",
+        choices=["operator", "robot"],
+        required=True,
+        help="Select the local zenoh router"
+    )
+
+    parser.add_argument(
+    "--key",
+    default=DEFAULT_KEY,
+    help="zenoh topic for publishing or subscribing"
     )
     parser.add_argument(
         "--mode", choices=["pub", "sub"], required=True
@@ -50,7 +59,7 @@ def main():
                 )
 
             subscriber = session.declare_subscriber(
-                KEY, on_message
+                args.key, on_message
             )
             print("Waiting for messages...", flush=True)
 
@@ -61,7 +70,7 @@ def main():
                 pass
 
         else:
-            publisher = session.declare_publisher(KEY)
+            publisher = session.declare_publisher(args.key)
             counter = 0
 
             try:
