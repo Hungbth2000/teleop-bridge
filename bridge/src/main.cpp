@@ -26,6 +26,9 @@ constexpr const char* ROBOT_TOPIC =
 constexpr const char* OPERATOR_TOPIC =
     "teleop/test/operator_to_robot";
 
+constexpr const char* MOTION_TOPIC =
+    "teleop/commands/motion";
+
 // Send exactly the requested number of bytes.
 bool send_all(int fd, const void* data, size_t size) {
     const char* ptr = static_cast<const char*>(data);
@@ -160,6 +163,7 @@ int connect_to_server() {
 
 // Handle one active TCP connection in both directions.
 
+
 void run_connected(
     zenoh::Session& session,
     int fd,
@@ -167,13 +171,13 @@ void run_connected(
 ) {
     using namespace teleop;
 
-    const char* outbound_topic =
+    const char* test_outbound =
         role == "robot" ? ROBOT_TOPIC : OPERATOR_TOPIC;
 
-    const char* inbound_topic =
+    const char* test_inbound =
         role == "robot" ? OPERATOR_TOPIC : ROBOT_TOPIC;
 
-    const MessageType outbound_type =
+    const MessageType test_type =
         role == "robot"
             ? MessageType::RobotState
             : MessageType::FastCommand;
@@ -181,121 +185,156 @@ void run_connected(
     std::mutex send_mutex;
     std::atomic<std::uint64_t> next_sequence{1};
 
+    // Shared forwarding function for local zenoh publications.
+    auto forward = [&](const zenoh::Sample& sample,
+                       MessageType type,
+                       std::uint8_t stream_id) {
+        try {
+            Message msg{};
+
+            msg.type = type;
+            msg.stream_id = stream_id;
+            msg.sequence = next_sequence.fetch_add(1);
+            msg.timestamp_ns = now_ns();
+            msg.payload = sample.get_payload().as_vector();
+
+            auto encoded = serialize(msg);
+            std::string wire(encoded.begin(), encoded.end());
+
+            std::lock_guard<std::mutex> lock(send_mutex);
+
+            if (!send_message(fd, wire)) {
+                std::cerr
+                    << "[" << role << "] Send failed\n";
+                shutdown(fd, SHUT_RDWR);
+                return;
+            }
+
+            // Avoid printing all 100 movement commands/second.
+            if (type != MessageType::FastCommand ||
+                msg.sequence % 100 == 0) {
+                std::cout
+                    << "[" << role << "] TX"
+                    << " type=" << static_cast<int>(type)
+                    << " seq=" << msg.sequence
+                    << " bytes=" << msg.payload.size()
+                    << std::endl;
+            }
+
+        } catch (const std::exception& e) {
+            std::cerr
+                << "[" << role << "] TX error: "
+                << e.what() << '\n';
+        }
+    };
+
     {
-        // Local zenoh -> serialize -> TCP
-        auto subscriber = session.declare_subscriber(
-            zenoh::KeyExpr(outbound_topic),
-
+        // Preserve the two existing test topics.
+        auto test_sub = session.declare_subscriber(
+            zenoh::KeyExpr(test_outbound),
             [&](const zenoh::Sample& sample) {
-                try {
-                    Message msg{};
+                forward(sample, test_type, 0);
+            },
+            zenoh::closures::none
+        );
 
-                    msg.type = outbound_type;
-                    msg.stream_id = 0;
-                    msg.sequence =
-                        next_sequence.fetch_add(1);
-
-                    msg.timestamp_ns = now_ns();
-
-                    // Binary-safe: do not convert to text.
-                    msg.payload =
-                        sample.get_payload().as_vector();
-
-                    auto encoded = serialize(msg);
-
-                    // Existing TCP helper accepts std::string.
-                    // A std::string can contain binary bytes.
-                    std::string wire(
-                        encoded.begin(),
-                        encoded.end()
+        // Only the operator bridge forwards local
+        // movement commands. The robot callback does nothing,
+        // preventing a forwarding loop.
+        auto motion_sub = session.declare_subscriber(
+            zenoh::KeyExpr(MOTION_TOPIC),
+            [&](const zenoh::Sample& sample) {
+                if (role == "operator") {
+                    forward(
+                        sample,
+                        MessageType::FastCommand,
+                        1
                     );
-
-                    std::lock_guard<std::mutex> lock(
-                        send_mutex
-                    );
-
-                    if (!send_message(fd, wire)) {
-                        std::cerr
-                            << "[" << role
-                            << "] TCP send failed\n";
-
-                        shutdown(fd, SHUT_RDWR);
-                        return;
-                    }
-
-                    std::cout
-                        << "[" << role << "] TX"
-                        << " seq=" << msg.sequence
-                        << " bytes=" << msg.payload.size()
-                        << " type="
-                        << static_cast<int>(msg.type)
-                        << '\n';
-
-                } catch (const std::exception& e) {
-                    std::cerr
-                        << "[" << role
-                        << "] Encoding error: "
-                        << e.what() << '\n';
                 }
             },
-
             zenoh::closures::none
         );
 
         std::cout
-            << "[" << role
-            << "] TX subscription: "
-            << outbound_topic << '\n'
-            << "[" << role
-            << "] RX publication: "
-            << inbound_topic << std::endl;
+            << "[" << role << "] Test TX: "
+            << test_outbound << '\n'
+            << "[" << role << "] Test RX: "
+            << test_inbound << '\n';
 
-        // TCP -> deserialize -> local zenoh
+        if (role == "operator") {
+            std::cout
+                << "[operator] Motion TX: "
+                << MOTION_TOPIC << '\n';
+        } else {
+            std::cout
+                << "[robot] Motion RX: "
+                << MOTION_TOPIC << '\n';
+        }
+
+        // Network -> local zenoh.
         std::string wire;
 
         while (recv_message(fd, wire)) {
             try {
                 std::vector<std::uint8_t> encoded(
-                    wire.begin(),
-                    wire.end()
+                    wire.begin(), wire.end()
                 );
 
                 Message msg = deserialize(encoded);
 
-                double age_ms =
-                    static_cast<double>(
-                        now_ns() - msg.timestamp_ns
-                    ) / 1'000'000.0;
+                const bool is_motion =
+                    role == "robot" &&
+                    msg.type == MessageType::FastCommand &&
+                    msg.stream_id == 1;
 
-                std::cout
-                    << "[" << role << "] RX"
-                    << " seq=" << msg.sequence
-                    << " bytes=" << msg.payload.size()
-                    << " age_ms=" << age_ms
-                    << '\n';
+                const char* destination =
+                    is_motion ? MOTION_TOPIC : test_inbound;
 
-                // Publish only the original payload.
+                // Reject unexpected message types instead of
+                // silently routing arbitrary packets.
+                const bool valid_test =
+                    msg.stream_id == 0 &&
+                    msg.type == (
+                        role == "robot"
+                            ? MessageType::FastCommand
+                            : MessageType::RobotState
+                    );
+
+                if (!is_motion && !valid_test) {
+                    std::cerr
+                        << "[" << role
+                        << "] Unexpected message type\n";
+                    continue;
+                }
+
+                // Publish the original binary payload.
                 session.put(
-                    zenoh::KeyExpr(inbound_topic),
+                    zenoh::KeyExpr(destination),
                     zenoh::Bytes(msg.payload)
                 );
 
+                if (!is_motion) {
+                    std::cout
+                        << "[" << role << "] RX"
+                        << " seq=" << msg.sequence
+                        << " bytes=" << msg.payload.size()
+                        << '\n';
+                }
+
             } catch (const std::exception& e) {
                 std::cerr
-                    << "[" << role
-                    << "] Invalid message: "
+                    << "[" << role << "] RX error: "
                     << e.what() << '\n';
-
                 break;
             }
         }
     }
 
+    // Subscribers are destroyed before closing the socket.
     close(fd);
 
     std::cout
-        << "[" << role
-        << "] Connection closed\n";
+        << "[" << role << "] Connection closed\n";
 }
 
 
