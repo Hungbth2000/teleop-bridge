@@ -11,6 +11,7 @@ find_package(zenohcxx REQUIRED)
 
 add_executable(teleop_bridge
     bridge/src/main.cpp
+    bridge/src/transport/tcp_transport.cpp
 )
 
 target_link_libraries(teleop_bridge PRIVATE

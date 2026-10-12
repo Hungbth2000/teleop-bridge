@@ -1,3 +1,8 @@
+#include <memory>
+
+#include "transport.hpp"
+#include "tcp_transport.hpp"
+
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -191,10 +196,9 @@ int connect_to_server() {
     return fd;
 }
 
-// Handle one active TCP connection in both directions.
 void run_connected(
     zenoh::Session& session,
-    int fd,
+    std::unique_ptr<teleop::ITransport> transport,
     const std::string& role
 ) {
     using namespace teleop;
@@ -213,7 +217,6 @@ void run_connected(
     std::mutex send_mutex;
     std::atomic<std::uint64_t> next_sequence{1};
 
-    // Shared forwarding function for local zenoh publications.
     auto forward = [&](const zenoh::Sample& sample,
                        MessageType type,
                        std::uint8_t stream_id) {
@@ -226,38 +229,44 @@ void run_connected(
             msg.timestamp_ns = now_ns();
             msg.payload = sample.get_payload().as_vector();
 
-            auto encoded = serialize(msg);
-            std::string wire(encoded.begin(), encoded.end());
+            ByteBuffer encoded = serialize(msg);
 
-            std::lock_guard<std::mutex> lock(send_mutex);
+            const DeliveryMode delivery =
+                (type == MessageType::ReliableCommand ||
+                 type == MessageType::ExecutionAck ||
+                 type == MessageType::Query ||
+                 type == MessageType::Reply)
+                    ? DeliveryMode::ReliableOrdered
+                    : DeliveryMode::Unreliable;
 
-            if (!send_message(fd, wire)) {
+            std::lock_guard<std::mutex> guard(send_mutex);
+
+            if (!transport->send(encoded, delivery)) {
                 std::cerr
                     << "[" << role << "] Send failed\n";
-                shutdown(fd, SHUT_RDWR);
+                transport->shutdown();
                 return;
             }
 
-            // Avoid printing all 100 movement commands/second.
             if (type != MessageType::FastCommand ||
                 msg.sequence % 100 == 0) {
                 std::cout
                     << "[" << role << "] TX"
                     << " type=" << static_cast<int>(type)
                     << " seq=" << msg.sequence
-                    << " bytes=" << msg.payload.size()
-                    << std::endl;
+                    << " bytes=" << encoded.size()
+                    << '\n';
             }
 
         } catch (const std::exception& e) {
             std::cerr
-                << "[" << role << "] TX error: "
+                << "[" << role
+                << "] Forward error: "
                 << e.what() << '\n';
         }
     };
 
     {
-        // Preserve the two existing test topics.
         auto test_sub = session.declare_subscriber(
             zenoh::KeyExpr(test_outbound),
             [&](const zenoh::Sample& sample) {
@@ -266,9 +275,6 @@ void run_connected(
             zenoh::closures::none
         );
 
-        // Only the operator bridge forwards local
-        // movement commands. The robot callback does nothing,
-        // preventing a forwarding loop.
         auto motion_sub = session.declare_subscriber(
             zenoh::KeyExpr(MOTION_TOPIC),
             [&](const zenoh::Sample& sample) {
@@ -282,7 +288,7 @@ void run_connected(
             },
             zenoh::closures::none
         );
-  
+
         auto reliable_sub = session.declare_subscriber(
             zenoh::KeyExpr(RELIABLE_TOPIC),
             [&](const zenoh::Sample& sample) {
@@ -312,32 +318,17 @@ void run_connected(
         );
 
         std::cout
-            << "[" << role << "] Test TX: "
-            << test_outbound << '\n'
-            << "[" << role << "] Test RX: "
-            << test_inbound << '\n';
+            << "[" << role
+            << "] Transport: TCP\n"
+            << "[" << role
+            << "] Local subscribers active\n";
 
-        if (role == "operator") {
-            std::cout
-                << "[operator] Motion TX: "
-                << MOTION_TOPIC << '\n';
-        } else {
-            std::cout
-                << "[robot] Motion RX: "
-                << MOTION_TOPIC << '\n';
-        }
+        ByteBuffer encoded;
 
-        // Network -> local zenoh.
-        std::string wire;
-
-        while (recv_message(fd, wire)) {
+        while (transport->receive(encoded)) {
             try {
-                std::vector<std::uint8_t> encoded(
-                    wire.begin(), wire.end()
-                );
-
                 Message msg = deserialize(encoded);
-                
+
                 const bool is_motion =
                     role == "robot" &&
                     msg.type == MessageType::FastCommand &&
@@ -374,11 +365,10 @@ void run_connected(
                 } else {
                     std::cerr
                         << "[" << role
-                        << "] Unexpected message type/stream\n";
+                        << "] Unexpected message type\n";
                     continue;
                 }
 
-                // Publish the original binary payload.
                 session.put(
                     zenoh::KeyExpr(destination),
                     zenoh::Bytes(msg.payload)
@@ -386,23 +376,27 @@ void run_connected(
 
                 if (!is_motion) {
                     std::cout
-                        << "[" << role << "] RX"
+                        << "[" << role
+                        << "] RX type="
+                        << static_cast<int>(msg.type)
                         << " seq=" << msg.sequence
-                        << " bytes=" << msg.payload.size()
                         << '\n';
                 }
 
             } catch (const std::exception& e) {
                 std::cerr
-                    << "[" << role << "] RX error: "
+                    << "[" << role
+                    << "] Receive error: "
                     << e.what() << '\n';
+
                 break;
             }
         }
     }
 
-    // Subscribers are destroyed before closing the socket.
-    close(fd);
+    // All zenoh subscribers have been destroyed
+    // before the transport object is destroyed.
+    transport->shutdown();
 
     std::cout
         << "[" << role << "] Connection closed\n";
@@ -411,27 +405,28 @@ void run_connected(
 
 void run_operator() {
     auto session = open_zenoh(7447);
-    int server = create_server();
+
+    int server = teleop::TcpTransport::create_server(9000);
 
     std::cout
         << "[operator] Connected to zenoh router 7447\n"
-        << "[operator] Listening on TCP port 9000\n";
+        << "[operator] TCP listening on 127.0.0.1:9000\n";
 
     while (true) {
-        int client = accept(server, nullptr, nullptr);
+        auto transport =
+            teleop::TcpTransport::accept_client(server);
 
-        if (client < 0) {
-            if (errno == EINTR) continue;
+        if (!transport) {
+            std::cerr << "[operator] TCP accept failed\n";
             continue;
         }
-
-        // NEW: Disable Nagle on the connected socket.
-        configure_low_latency_tcp(client);
 
         std::cout
             << "[operator] Robot bridge connected\n";
 
-        run_connected(session, client, "operator");
+        run_connected(
+            session, std::move(transport), "operator"
+        );
     }
 }
 
@@ -442,20 +437,21 @@ void run_robot() {
         << "[robot] Connected to zenoh router 7448\n";
 
     while (true) {
-        int fd = connect_to_server();
+        auto transport =
+            teleop::TcpTransport::connect_to(
+                "127.0.0.1", 9000
+            );
 
-        if (fd >= 0) {
-
-            // NEW: Disable Nagle on the connected socket.
-            configure_low_latency_tcp(fd);
-            
+        if (transport) {
             std::cout
                 << "[robot] Connected to operator bridge\n";
 
-            run_connected(session, fd, "robot");
+            run_connected(
+                session, std::move(transport), "robot"
+            );
         } else {
             std::cout
-                << "[robot] Waiting for operator bridge...\n";
+                << "[robot] Waiting for operator bridge\n";
         }
 
         std::this_thread::sleep_for(
@@ -463,6 +459,7 @@ void run_robot() {
         );
     }
 }
+
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
