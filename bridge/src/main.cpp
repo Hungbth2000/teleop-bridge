@@ -1,4 +1,7 @@
 #include <memory>
+#include <thread>
+
+#include "scheduler.hpp"
 
 #include "transport.hpp"
 #include "tcp_transport.hpp"
@@ -196,12 +199,14 @@ int connect_to_server() {
     return fd;
 }
 
+
 void run_connected(
     zenoh::Session& session,
     std::unique_ptr<teleop::ITransport> transport,
     const std::string& role
 ) {
     using namespace teleop;
+    using Clock = std::chrono::steady_clock;
 
     const char* test_outbound =
         role == "robot" ? ROBOT_TOPIC : OPERATOR_TOPIC;
@@ -214,22 +219,56 @@ void run_connected(
             ? MessageType::RobotState
             : MessageType::FastCommand;
 
-    std::mutex send_mutex;
+    PriorityScheduler scheduler;
     std::atomic<std::uint64_t> next_sequence{1};
+
+    // Dedicated sender. Only this thread calls transport->send().
+    std::thread sender([&] {
+        ScheduledMessage item;
+
+        while (scheduler.pop(item)) {
+            // This checks time spent in our scheduler only.
+            // B3 separately checks A1's original timestamp.
+            if (item.type == MessageType::FastCommand) {
+                const auto wait_ms =
+                    std::chrono::duration_cast<
+                        std::chrono::milliseconds
+                    >(Clock::now() - item.queued_at);
+
+                if (wait_ms >=
+                    std::chrono::milliseconds(100)) {
+                    scheduler.record_expired();
+                    continue;
+                }
+            }
+
+            if (!transport->send(
+                    item.bytes,
+                    item.delivery
+                )) {
+                std::cerr
+                    << "[" << role
+                    << "] Transport send failed\n";
+
+                scheduler.close();
+                transport->shutdown();
+                break;
+            }
+
+            scheduler.record_sent();
+        }
+    });
 
     auto forward = [&](const zenoh::Sample& sample,
                        MessageType type,
                        std::uint8_t stream_id) {
         try {
             Message msg{};
-
             msg.type = type;
             msg.stream_id = stream_id;
             msg.sequence = next_sequence.fetch_add(1);
             msg.timestamp_ns = now_ns();
             msg.payload = sample.get_payload().as_vector();
-
-            ByteBuffer encoded = serialize(msg);
 
             const DeliveryMode delivery =
                 (type == MessageType::ReliableCommand ||
@@ -239,29 +278,32 @@ void run_connected(
                     ? DeliveryMode::ReliableOrdered
                     : DeliveryMode::Unreliable;
 
-            std::lock_guard<std::mutex> guard(send_mutex);
+            auto result = scheduler.enqueue(
+                serialize(msg),
+                type,
+                delivery
+            );
 
-            if (!transport->send(encoded, delivery)) {
+            if (result == EnqueueResult::Rejected) {
                 std::cerr
-                    << "[" << role << "] Send failed\n";
-                transport->shutdown();
-                return;
-            }
-
-            if (type != MessageType::FastCommand ||
-                msg.sequence % 100 == 0) {
-                std::cout
-                    << "[" << role << "] TX"
+                    << "[" << role
+                    << "] Queue rejected message"
                     << " type=" << static_cast<int>(type)
-                    << " seq=" << msg.sequence
-                    << " bytes=" << encoded.size()
                     << '\n';
+
+                // Critical traffic must not be silently lost.
+                // Abort this temporary transport session.
+                // A1's retry logic handles unconfirmed commands.
+                if (delivery ==
+                    DeliveryMode::ReliableOrdered) {
+                    transport->shutdown();
+                }
             }
 
         } catch (const std::exception& e) {
             std::cerr
                 << "[" << role
-                << "] Forward error: "
+                << "] Enqueue error: "
                 << e.what() << '\n';
         }
     };
@@ -319,12 +361,11 @@ void run_connected(
 
         std::cout
             << "[" << role
-            << "] Transport: TCP\n"
-            << "[" << role
-            << "] Local subscribers active\n";
+            << "] Scheduler active; sender thread started\n";
 
         ByteBuffer encoded;
 
+        // Receive on the main connection thread.
         while (transport->receive(encoded)) {
             try {
                 Message msg = deserialize(encoded);
@@ -374,32 +415,37 @@ void run_connected(
                     zenoh::Bytes(msg.payload)
                 );
 
-                if (!is_motion) {
-                    std::cout
-                        << "[" << role
-                        << "] RX type="
-                        << static_cast<int>(msg.type)
-                        << " seq=" << msg.sequence
-                        << '\n';
-                }
-
             } catch (const std::exception& e) {
                 std::cerr
                     << "[" << role
                     << "] Receive error: "
                     << e.what() << '\n';
-
                 break;
             }
         }
+
+        // Stop accepting new outbound messages by allowing
+        // the subscriber objects to leave this scope.
     }
 
-    // All zenoh subscribers have been destroyed
-    // before the transport object is destroyed.
+    // Interrupt a blocked socket operation before joining.
     transport->shutdown();
+    scheduler.close();
+
+    if (sender.joinable()) {
+        sender.join();
+    }
+
+    auto stats = scheduler.stats();
 
     std::cout
-        << "[" << role << "] Connection closed\n";
+        << "[" << role << "] Session finished\n"
+        << "  Enqueued: " << stats.accepted << '\n'
+        << "  Sent:     " << stats.sent << '\n'
+        << "  Dropped:  " << stats.dropped << '\n'
+        << "  Expired:  " << stats.expired << '\n'
+        << "  Rejected: " << stats.rejected
+        << std::endl;
 }
 
 
