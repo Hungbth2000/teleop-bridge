@@ -1,4 +1,7 @@
+#include <atomic>
+#include <vector>
 
+#include "message.hpp"
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -156,75 +159,145 @@ int connect_to_server() {
 }
 
 // Handle one active TCP connection in both directions.
+
 void run_connected(
     zenoh::Session& session,
     int fd,
     const std::string& role
 ) {
+    using namespace teleop;
+
     const char* outbound_topic =
         role == "robot" ? ROBOT_TOPIC : OPERATOR_TOPIC;
 
     const char* inbound_topic =
         role == "robot" ? OPERATOR_TOPIC : ROBOT_TOPIC;
 
+    const MessageType outbound_type =
+        role == "robot"
+            ? MessageType::RobotState
+            : MessageType::FastCommand;
+
     std::mutex send_mutex;
+    std::atomic<std::uint64_t> next_sequence{1};
 
     {
-        // Local zenoh -> TCP.
-        // Subscriber is destroyed before the socket is closed.
+        // Local zenoh -> serialize -> TCP
         auto subscriber = session.declare_subscriber(
             zenoh::KeyExpr(outbound_topic),
 
             [&](const zenoh::Sample& sample) {
-                std::string message =
-                    sample.get_payload().as_string();
+                try {
+                    Message msg{};
 
-                std::lock_guard<std::mutex> lock(send_mutex);
+                    msg.type = outbound_type;
+                    msg.stream_id = 0;
+                    msg.sequence =
+                        next_sequence.fetch_add(1);
 
-                if (!send_message(fd, message)) {
+                    msg.timestamp_ns = now_ns();
+
+                    // Binary-safe: do not convert to text.
+                    msg.payload =
+                        sample.get_payload().as_vector();
+
+                    auto encoded = serialize(msg);
+
+                    // Existing TCP helper accepts std::string.
+                    // A std::string can contain binary bytes.
+                    std::string wire(
+                        encoded.begin(),
+                        encoded.end()
+                    );
+
+                    std::lock_guard<std::mutex> lock(
+                        send_mutex
+                    );
+
+                    if (!send_message(fd, wire)) {
+                        std::cerr
+                            << "[" << role
+                            << "] TCP send failed\n";
+
+                        shutdown(fd, SHUT_RDWR);
+                        return;
+                    }
+
+                    std::cout
+                        << "[" << role << "] TX"
+                        << " seq=" << msg.sequence
+                        << " bytes=" << msg.payload.size()
+                        << " type="
+                        << static_cast<int>(msg.type)
+                        << '\n';
+
+                } catch (const std::exception& e) {
                     std::cerr
-                        << "[" << role << "] Send failed\n";
-
-                    // Wake the receiving loop so it can exit.
-                    shutdown(fd, SHUT_RDWR);
-                    return;
+                        << "[" << role
+                        << "] Encoding error: "
+                        << e.what() << '\n';
                 }
-
-                std::cout
-                    << "[" << role << "] Sent: "
-                    << message << std::endl;
             },
 
             zenoh::closures::none
         );
 
         std::cout
-            << "[" << role << "] TX subscription: "
+            << "[" << role
+            << "] TX subscription: "
             << outbound_topic << '\n'
-            << "[" << role << "] RX publication: "
+            << "[" << role
+            << "] RX publication: "
             << inbound_topic << std::endl;
 
-        // TCP -> local zenoh.
-        std::string message;
+        // TCP -> deserialize -> local zenoh
+        std::string wire;
 
-        while (recv_message(fd, message)) {
-            std::cout
-                << "[" << role << "] Received: "
-                << message << std::endl;
+        while (recv_message(fd, wire)) {
+            try {
+                std::vector<std::uint8_t> encoded(
+                    wire.begin(),
+                    wire.end()
+                );
 
-            session.put(
-                zenoh::KeyExpr(inbound_topic),
-                zenoh::Bytes(message)
-            );
+                Message msg = deserialize(encoded);
+
+                double age_ms =
+                    static_cast<double>(
+                        now_ns() - msg.timestamp_ns
+                    ) / 1'000'000.0;
+
+                std::cout
+                    << "[" << role << "] RX"
+                    << " seq=" << msg.sequence
+                    << " bytes=" << msg.payload.size()
+                    << " age_ms=" << age_ms
+                    << '\n';
+
+                // Publish only the original payload.
+                session.put(
+                    zenoh::KeyExpr(inbound_topic),
+                    zenoh::Bytes(msg.payload)
+                );
+
+            } catch (const std::exception& e) {
+                std::cerr
+                    << "[" << role
+                    << "] Invalid message: "
+                    << e.what() << '\n';
+
+                break;
+            }
         }
     }
 
-    // Subscriber has been destroyed; no callback uses fd now.
     close(fd);
 
     std::cout
-        << "[" << role << "] Connection closed\n";
+        << "[" << role
+        << "] Connection closed\n";
 }
+
 
 void run_operator() {
     auto session = open_zenoh(7447);

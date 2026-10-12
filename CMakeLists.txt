@@ -22,3 +22,7 @@ target_compile_options(teleop_bridge PRIVATE
     -Wextra
     -Wpedantic
 )
+
+target_include_directories(teleop_bridge PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/bridge/include
+)
