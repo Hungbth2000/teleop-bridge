@@ -29,6 +29,12 @@ constexpr const char* OPERATOR_TOPIC =
 constexpr const char* MOTION_TOPIC =
     "teleop/commands/motion";
 
+constexpr const char* RELIABLE_TOPIC =
+    "teleop/commands/reliable";
+
+constexpr const char* RELIABLE_ACK_TOPIC =
+    "teleop/commands/reliable_ack";
+
 // Send exactly the requested number of bytes.
 bool send_all(int fd, const void* data, size_t size) {
     const char* ptr = static_cast<const char*>(data);
@@ -162,8 +168,6 @@ int connect_to_server() {
 }
 
 // Handle one active TCP connection in both directions.
-
-
 void run_connected(
     zenoh::Session& session,
     int fd,
@@ -254,6 +258,34 @@ void run_connected(
             },
             zenoh::closures::none
         );
+  
+        auto reliable_sub = session.declare_subscriber(
+            zenoh::KeyExpr(RELIABLE_TOPIC),
+            [&](const zenoh::Sample& sample) {
+                if (role == "operator") {
+                    forward(
+                        sample,
+                        MessageType::ReliableCommand,
+                        2
+                    );
+                }
+            },
+            zenoh::closures::none
+        );
+
+        auto ack_sub = session.declare_subscriber(
+            zenoh::KeyExpr(RELIABLE_ACK_TOPIC),
+            [&](const zenoh::Sample& sample) {
+                if (role == "robot") {
+                    forward(
+                        sample,
+                        MessageType::ExecutionAck,
+                        3
+                    );
+                }
+            },
+            zenoh::closures::none
+        );
 
         std::cout
             << "[" << role << "] Test TX: "
@@ -281,17 +313,22 @@ void run_connected(
                 );
 
                 Message msg = deserialize(encoded);
-
+                
                 const bool is_motion =
                     role == "robot" &&
                     msg.type == MessageType::FastCommand &&
                     msg.stream_id == 1;
 
-                const char* destination =
-                    is_motion ? MOTION_TOPIC : test_inbound;
+                const bool is_reliable =
+                    role == "robot" &&
+                    msg.type == MessageType::ReliableCommand &&
+                    msg.stream_id == 2;
 
-                // Reject unexpected message types instead of
-                // silently routing arbitrary packets.
+                const bool is_ack =
+                    role == "operator" &&
+                    msg.type == MessageType::ExecutionAck &&
+                    msg.stream_id == 3;
+
                 const bool valid_test =
                     msg.stream_id == 0 &&
                     msg.type == (
@@ -300,10 +337,20 @@ void run_connected(
                             : MessageType::RobotState
                     );
 
-                if (!is_motion && !valid_test) {
+                const char* destination = nullptr;
+
+                if (is_motion) {
+                    destination = MOTION_TOPIC;
+                } else if (is_reliable) {
+                    destination = RELIABLE_TOPIC;
+                } else if (is_ack) {
+                    destination = RELIABLE_ACK_TOPIC;
+                } else if (valid_test) {
+                    destination = test_inbound;
+                } else {
                     std::cerr
                         << "[" << role
-                        << "] Unexpected message type\n";
+                        << "] Unexpected message type/stream\n";
                     continue;
                 }
 
