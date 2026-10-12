@@ -1,3 +1,12 @@
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
+#include <arpa/inet.h>
+#include <netinet/tcp.h>  // NEW: TCP_NODELAY
+#include <sys/socket.h>
+#include <unistd.h>
+
 #include <atomic>
 #include <vector>
 
@@ -120,6 +129,21 @@ zenoh::Session open_zenoh(int port) {
 
     auto config = zenoh::Config::from_str(config_json);
     return zenoh::Session::open(std::move(config));
+}
+
+// Disable Nagle's algorithm for low-latency messages.
+void configure_low_latency_tcp(int fd) {
+    int enabled = 1;
+
+    if (setsockopt(
+            fd,
+            IPPROTO_TCP,
+            TCP_NODELAY,
+            &enabled,
+            sizeof(enabled)
+        ) < 0) {
+        perror("TCP_NODELAY");
+    }
 }
 
 int create_server() {
@@ -401,6 +425,9 @@ void run_operator() {
             continue;
         }
 
+        // NEW: Disable Nagle on the connected socket.
+        configure_low_latency_tcp(client);
+
         std::cout
             << "[operator] Robot bridge connected\n";
 
@@ -418,6 +445,10 @@ void run_robot() {
         int fd = connect_to_server();
 
         if (fd >= 0) {
+
+            // NEW: Disable Nagle on the connected socket.
+            configure_low_latency_tcp(fd);
+            
             std::cout
                 << "[robot] Connected to operator bridge\n";
 

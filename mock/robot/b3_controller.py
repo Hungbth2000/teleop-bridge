@@ -1,3 +1,6 @@
+import os
+import sqlite3
+from pathlib import Path
 
 import json
 import statistics
@@ -32,11 +35,8 @@ lock = threading.RLock()
 
 last_sequence = -1
 last_fresh_time_ns = None
-last_reliable_id = -1
-last_reliable_effect_ns = None
 
 robot_moving = False
-estop_latched = False
 
 command_ages_ms = []
 accepted = 0
@@ -45,6 +45,50 @@ rejected_sequence = 0
 blocked_by_estop = 0
 watchdog_events = 0
 
+# Test-only fault injection: drop the first ACK
+# for a newly applied reliable command.
+DROP_FIRST_ACK = os.getenv("TELEOP_DROP_FIRST_ACK", "0") == "1"
+dropped_ack_ids = set()
+
+DB_PATH = Path("results/b3_commands.sqlite3")
+DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+db = sqlite3.connect(DB_PATH, check_same_thread=False)
+db.execute("PRAGMA synchronous=FULL")
+
+db.execute("""
+CREATE TABLE IF NOT EXISTS controller_state (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    last_command_id INTEGER NOT NULL,
+    estop_latched INTEGER NOT NULL,
+    last_effect_ns INTEGER NOT NULL
+)
+""")
+
+# Conservative startup: an uninitialized controller is stopped.
+db.execute("""
+INSERT OR IGNORE INTO controller_state
+(id, last_command_id, estop_latched, last_effect_ns)
+VALUES (1, -1, 1, 0)
+""")
+
+db.commit()
+
+row = db.execute("""
+SELECT last_command_id, estop_latched, last_effect_ns
+FROM controller_state
+WHERE id = 1
+""").fetchone()
+
+last_reliable_id = row[0]
+estop_latched = bool(row[1])
+last_reliable_effect_ns = row[2]
+
+print(
+    f"[B3] Restored state: last_id={last_reliable_id} "
+    f"estop={estop_latched}",
+    flush=True,
+)
 
 def connect():
     config = {
@@ -120,6 +164,7 @@ def on_motion(sample):
         robot_moving = abs(velocity) > 0.0001
 
 
+
 def make_reliable_callback(ack_publisher):
     def on_reliable(sample):
         global last_reliable_id
@@ -130,8 +175,7 @@ def make_reliable_callback(ack_publisher):
         data = sample.payload.to_bytes()
 
         if len(data) != COMMAND_FORMAT.size:
-            print("[B3] Invalid reliable payload",
-                  flush=True)
+            print("[B3] Invalid reliable payload", flush=True)
             return
 
         command_id, opcode, created_ns = (
@@ -139,7 +183,7 @@ def make_reliable_callback(ack_publisher):
         )
 
         with lock:
-            effect_ns = time.monotonic_ns()
+            now_ns = time.monotonic_ns()
 
             if command_id == last_reliable_id:
                 status = ACK_DUPLICATE
@@ -147,43 +191,83 @@ def make_reliable_callback(ack_publisher):
 
             elif command_id < last_reliable_id:
                 status = ACK_OLD
+                effect_ns = now_ns
 
-            elif opcode == E_STOP:
-                estop_latched = True
-                robot_moving = False
+            elif opcode in (E_STOP, RESET):
+                new_estop_state = (opcode == E_STOP)
+
+                try:
+                    # Commit the simulated state transition
+                    # before reporting successful execution.
+                    db.execute("""
+                        UPDATE controller_state
+                        SET last_command_id = ?,
+                            estop_latched = ?,
+                            last_effect_ns = ?
+                        WHERE id = 1
+                    """, (
+                        command_id,
+                        int(new_estop_state),
+                        now_ns,
+                    ))
+                    db.commit()
+
+                except sqlite3.Error as exc:
+                    db.rollback()
+                    print(
+                        f"[B3] Persistence failure: {exc}",
+                        flush=True,
+                    )
+                    # Never acknowledge successful execution
+                    # if the state was not committed.
+                    return
 
                 last_reliable_id = command_id
-                last_reliable_effect_ns = effect_ns
-                status = ACK_APPLIED
+                last_reliable_effect_ns = now_ns
+                estop_latched = new_estop_state
 
-                print(
-                    f"[B3] E-STOP APPLIED id={command_id}",
-                    flush=True,
-                )
-
-            elif opcode == RESET:
-                # Prototype only: authorization and physical
-                # safety checks must precede real re-enable.
-                estop_latched = False
+                # Both E-stop and reset leave robot stopped.
                 robot_moving = False
                 last_fresh_time_ns = None
 
-                last_reliable_id = command_id
-                last_reliable_effect_ns = effect_ns
                 status = ACK_APPLIED
+                effect_ns = now_ns  # Fix: timestamp of original execution
 
+                action = (
+                    "E-STOP APPLIED"
+                    if opcode == E_STOP
+                    else "E-STOP RESET"
+                )
                 print(
-                    f"[B3] E-STOP RESET id={command_id}",
+                    f"[B3] {action} id={command_id}",
                     flush=True,
                 )
 
             else:
                 status = ACK_REJECTED
+                effect_ns = now_ns
 
             ack = ACK_FORMAT.pack(
                 command_id, status, effect_ns
             )
 
+        # Fault injection: simulate losing the first ACK
+        # after the command has already been committed.
+        if (
+            DROP_FIRST_ACK
+            and status == ACK_APPLIED
+            and command_id not in dropped_ack_ids
+        ):
+            dropped_ack_ids.add(command_id)
+
+            print(
+                f"[B3] TEST: Dropping first ACK "
+                f"for id={command_id}",
+                flush=True,
+            )
+            return
+
+        # Send normal ACK, including for duplicate commands.
         ack_publisher.put(ack)
 
         print(
