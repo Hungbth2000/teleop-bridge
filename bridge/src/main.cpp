@@ -1,9 +1,9 @@
 #include <memory>
-#include <thread>
+#include <iomanip>
 
 #include "scheduler.hpp"
-
 #include "transport.hpp"
+#include "receive_stats.hpp"
 #include "tcp_transport.hpp"
 
 #include <arpa/inet.h>
@@ -31,6 +31,7 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <condition_variable>
 
 #include "zenoh.hxx"
 
@@ -199,6 +200,118 @@ int connect_to_server() {
     return fd;
 }
 
+teleop::TrafficKind classify_received_message(
+    const teleop::Message& msg
+) {
+    using namespace teleop;
+
+    // Stream 0 contains the original test messages.
+    if (msg.stream_id == 0) {
+        return TrafficKind::Test;
+    }
+
+    switch (msg.type) {
+        case MessageType::FastCommand:
+            return TrafficKind::Motion;
+
+        case MessageType::ReliableCommand:
+            // Reliable command: !QBQ
+            // 8 bytes ID + 1 byte opcode + 8 bytes timestamp.
+            if (msg.payload.size() != 17) {
+                return TrafficKind::ReliableOther;
+            }
+
+            if (msg.payload[8] == 1) {
+                return TrafficKind::EStop;
+            }
+
+            if (msg.payload[8] == 2) {
+                return TrafficKind::Reset;
+            }
+
+            return TrafficKind::ReliableOther;
+
+        case MessageType::ExecutionAck:
+            return TrafficKind::ExecutionAck;
+
+        case MessageType::RobotState:
+            return TrafficKind::RobotState;
+
+        case MessageType::Video:
+            return TrafficKind::Video;
+
+        case MessageType::Query:
+            return TrafficKind::Query;
+
+        case MessageType::Reply:
+            return TrafficKind::Reply;
+    }
+
+    return TrafficKind::Test;
+}
+
+
+void print_scheduler_stats(
+    const teleop::SchedulerStats& stats,
+    const teleop::ReceiveSnapshot& received,
+    const std::string& role
+) {
+    using namespace teleop;
+
+    std::cout
+        << "\n[" << role << "] Live bridge statistics\n";
+
+    std::cout
+        << std::left
+        << std::setw(18) << "Type"
+        << std::right
+        << std::setw(11) << "Enqueued"
+        << std::setw(10) << "Sent"
+        << std::setw(11) << "Received"
+        << std::setw(10) << "Dropped"
+        << std::setw(10) << "Expired"
+        << std::setw(11) << "Rejected"
+        << std::setw(13) << "Send failed"
+        << '\n';
+
+    for (std::size_t i = 0;
+         i < TRAFFIC_KIND_COUNT;
+         ++i) {
+
+        const auto& c = stats.by_kind[i];
+        const auto rx = received.by_kind[i];
+
+        // Display only categories that have activity.
+        if (c.enqueued == 0 &&
+            c.sent == 0 &&
+            rx == 0 &&
+            c.dropped == 0 &&
+            c.expired == 0 &&
+            c.rejected == 0 &&
+            c.send_failed == 0) {
+            continue;
+        }
+
+        std::cout
+            << std::left
+            << std::setw(18) << TRAFFIC_KIND_NAMES[i]
+            << std::right
+            << std::setw(11) << c.enqueued
+            << std::setw(10) << c.sent
+            << std::setw(11) << rx
+            << std::setw(10) << c.dropped
+            << std::setw(10) << c.expired
+            << std::setw(11) << c.rejected
+            << std::setw(13) << c.send_failed
+            << '\n';
+    }
+
+    std::cout
+        << "Total received: " << received.total
+        << " | Invalid: " << received.invalid
+        << '\n'
+        << std::flush;
+}
 
 void run_connected(
     zenoh::Session& session,
@@ -220,7 +333,37 @@ void run_connected(
             : MessageType::FastCommand;
 
     PriorityScheduler scheduler;
+    ReceiveStats receive_stats;
+
     std::atomic<std::uint64_t> next_sequence{1};
+    
+    std::mutex reporter_mutex;
+    std::condition_variable reporter_cv;
+    bool reporter_running = true;
+
+    std::thread reporter([&] {
+        using namespace std::chrono_literals;
+
+        std::unique_lock<std::mutex> lock(reporter_mutex);
+
+        while (reporter_running) {
+            if (reporter_cv.wait_for(
+                    lock,
+                    5s,
+                    [&] { return !reporter_running; }
+                )) {
+                break;
+            }
+
+            lock.unlock();
+            print_scheduler_stats(
+                scheduler.stats(),
+                receive_stats.snapshot(),
+                role
+            );
+            lock.lock();
+        }
+    });
 
     // Dedicated sender. Only this thread calls transport->send().
     std::thread sender([&] {
@@ -237,7 +380,7 @@ void run_connected(
 
                 if (wait_ms >=
                     std::chrono::milliseconds(100)) {
-                    scheduler.record_expired();
+                    scheduler.record_expired(item.kind);
                     continue;
                 }
             }
@@ -246,6 +389,8 @@ void run_connected(
                     item.bytes,
                     item.delivery
                 )) {
+                scheduler.record_send_failed(item.kind);
+
                 std::cerr
                     << "[" << role
                     << "] Transport send failed\n";
@@ -255,7 +400,7 @@ void run_connected(
                 break;
             }
 
-            scheduler.record_sent();
+            scheduler.record_sent(item.kind);
         }
     });
 
@@ -270,6 +415,69 @@ void run_connected(
             msg.timestamp_ns = now_ns();
             msg.payload = sample.get_payload().as_vector();
 
+            if (type == MessageType::ReliableCommand ||
+                type == MessageType::ExecutionAck) {
+                std::cout
+                    << "[" << role << "] ZENOH CALLBACK"
+                    << " type=" << static_cast<int>(type)
+                    << " bridge_seq=" << msg.sequence
+                    << " bytes=" << msg.payload.size()
+                    << std::endl;
+            }
+
+            // Determine the specific traffic category.
+            TrafficKind kind = TrafficKind::Test;
+
+            if (stream_id == 0) {
+                kind = TrafficKind::Test;
+            } else {
+                switch (type) {
+                    case MessageType::FastCommand:
+                        kind = TrafficKind::Motion;
+                        break;
+
+                    case MessageType::ReliableCommand:
+                        kind = TrafficKind::ReliableOther;
+
+                        // Reliable command payload:
+                        // uint64 command_id (8 bytes)
+                        // uint8  opcode     (1 byte)
+                        // uint64 created_ns (8 bytes)
+                        //
+                        // Opcode is at byte index 8.
+                        if (msg.payload.size() == 17) {
+                            const auto opcode = msg.payload[8];
+
+                            if (opcode == 1) {
+                                kind = TrafficKind::EStop;
+                            } else if (opcode == 2) {
+                                kind = TrafficKind::Reset;
+                            }
+                        }
+                        break;
+
+                    case MessageType::ExecutionAck:
+                        kind = TrafficKind::ExecutionAck;
+                        break;
+
+                    case MessageType::RobotState:
+                        kind = TrafficKind::RobotState;
+                        break;
+
+                    case MessageType::Video:
+                        kind = TrafficKind::Video;
+                        break;
+
+                    case MessageType::Query:
+                        kind = TrafficKind::Query;
+                        break;
+
+                    case MessageType::Reply:
+                        kind = TrafficKind::Reply;
+                        break;
+                }
+            }
+
             const DeliveryMode delivery =
                 (type == MessageType::ReliableCommand ||
                  type == MessageType::ExecutionAck ||
@@ -281,7 +489,8 @@ void run_connected(
             auto result = scheduler.enqueue(
                 serialize(msg),
                 type,
-                delivery
+                delivery,
+                kind
             );
 
             if (result == EnqueueResult::Rejected) {
@@ -370,6 +579,16 @@ void run_connected(
             try {
                 Message msg = deserialize(encoded);
 
+                if (msg.type == MessageType::ReliableCommand ||
+                    msg.type == MessageType::ExecutionAck) {
+                    std::cout
+                        << "[" << role << "] TCP RECEIVED"
+                        << " type=" << static_cast<int>(msg.type)
+                        << " bridge_seq=" << msg.sequence
+                        << " bytes=" << msg.payload.size()
+                        << std::endl;
+                }
+
                 const bool is_motion =
                     role == "robot" &&
                     msg.type == MessageType::FastCommand &&
@@ -404,11 +623,20 @@ void run_connected(
                 } else if (valid_test) {
                     destination = test_inbound;
                 } else {
+                    // Received a message with an unsupported type
+                    // or direction.
+                    receive_stats.record_invalid();
+
                     std::cerr
                         << "[" << role
                         << "] Unexpected message type\n";
                     continue;
                 }
+
+                // NEW: Count this valid, routed incoming message.
+                receive_stats.record_received(
+                    classify_received_message(msg)
+                );
 
                 session.put(
                     zenoh::KeyExpr(destination),
@@ -416,6 +644,8 @@ void run_connected(
                 );
 
             } catch (const std::exception& e) {
+                receive_stats.record_invalid();
+
                 std::cerr
                     << "[" << role
                     << "] Receive error: "
@@ -428,24 +658,48 @@ void run_connected(
         // the subscriber objects to leave this scope.
     }
 
-    // Interrupt a blocked socket operation before joining.
+    // Stop the TCP transport and scheduler.
     transport->shutdown();
     scheduler.close();
 
+    // Wait for the sender thread to finish.
     if (sender.joinable()) {
         sender.join();
     }
 
+    // NEW: Stop the live statistics reporter.
+    {
+        std::lock_guard<std::mutex> lock(reporter_mutex);
+        reporter_running = false;
+    }
+
+    // Wake up the reporter immediately instead of
+    // waiting for its 5-second interval.
+    reporter_cv.notify_one();
+
+    // Wait for the reporter thread to finish.
+    if (reporter.joinable()) {
+        reporter.join();
+    }
+
+    // Print final statistics.
     auto stats = scheduler.stats();
 
     std::cout
-        << "[" << role << "] Session finished\n"
-        << "  Enqueued: " << stats.accepted << '\n'
-        << "  Sent:     " << stats.sent << '\n'
-        << "  Dropped:  " << stats.dropped << '\n'
-        << "  Expired:  " << stats.expired << '\n'
-        << "  Rejected: " << stats.rejected
-        << std::endl;
+        << "\n[" << role << "] Session finished\n"
+        << "  Enqueued:    " << stats.accepted << '\n'
+        << "  Sent:        " << stats.sent << '\n'
+        << "  Dropped:     " << stats.dropped << '\n'
+        << "  Expired:     " << stats.expired << '\n'
+        << "  Rejected:    " << stats.rejected << '\n'
+        << "  Send failed: " << stats.send_failed
+        << "\n";
+
+    print_scheduler_stats(
+        scheduler.stats(),
+        receive_stats.snapshot(),
+        role
+    );
 }
 
 
