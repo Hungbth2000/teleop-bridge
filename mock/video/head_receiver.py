@@ -7,6 +7,7 @@ import threading
 import time
 
 import zenoh
+import argparse
 
 from frame_csv import VideoFrameCsv
 
@@ -38,6 +39,15 @@ def connect():
 
 
 def main():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--format",
+        choices=["synthetic", "h264"],
+        default="synthetic",
+    )
+
+    args = parser.parse_args()
     reassembler = FrameReassembler()
 
     lock = threading.Lock()
@@ -73,15 +83,31 @@ def main():
             frame_id = result.frame_id
             data = result.data
 
-            expected = (
-                struct.pack("!Q", frame_id)
-                + bytes([frame_id % 251])
-                * (len(data) - 8)
-            )
+            
+            if args.format == "synthetic":
+                expected = (
+                    struct.pack("!Q", frame_id)
+                    + bytes([frame_id % 251])
+                    * (len(data) - 8)
+                )
 
-            if data != expected:
+                payload_valid = data == expected
+
+            else:
+                # A basic Annex B access-unit check.
+                # The frame protocol has already
+                # verified total size and CRC32.
+                payload_valid = (
+                    data.startswith(b"\x00\x00\x01\x09")
+                    or data.startswith(
+                        b"\x00\x00\x00\x01\x09"
+                    )
+                )
+
+            if not payload_valid:
                 corrupt_frames += 1
                 return
+
 
             valid_frames += 1
             last_latency_ms = result.latency_ms
