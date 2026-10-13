@@ -6,6 +6,7 @@
 #include "receive_stats.hpp"
 #include "tcp_transport.hpp"
 #include "rate_limiter.hpp"
+#include "csv_telemetry.hpp"
 
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -54,6 +55,9 @@ constexpr const char* RELIABLE_TOPIC =
 
 constexpr const char* RELIABLE_ACK_TOPIC =
     "teleop/commands/reliable_ack";
+
+constexpr const char* VIDEO_LOAD_TOPIC =
+    "teleop/test/video_load";
 
 // Send exactly the requested number of bytes.
 bool send_all(int fd, const void* data, size_t size) {
@@ -447,6 +451,10 @@ void run_connected(
     // Only robot outbound traffic is limited.
     teleop::RateLimiter outbound_limiter;
 
+    // One CSV writer per connected bridge session.
+    // Appends to the role-specific file.
+    teleop::CsvTelemetry csv_telemetry(role, "tcp");
+
     std::atomic<std::uint64_t> next_sequence{1};
     
     std::mutex reporter_mutex;
@@ -502,6 +510,33 @@ void run_connected(
                 elapsed_seconds,
                 role
             );
+
+            // The assignment limits robot outbound traffic.
+            // The operator has no robot-outbound budget.
+            const double configured_budget_mbps =
+                role == "robot"
+                    ? outbound_limiter.current_rate_mbps(
+                        current_time
+                    )
+                    : 0.0;
+
+            // NEW: Persist this reporting interval.
+            try {
+                csv_telemetry.write_sample(
+                    current_tx,
+                    previous_tx,
+                    current_rx,
+                    previous_rx,
+                    elapsed_seconds,
+                    configured_budget_mbps
+                );
+            } catch (const std::exception& e) {
+                std::cerr
+                    << "[" << role
+                    << "] CSV telemetry error: "
+                    << e.what()
+                    << std::endl;
+            }
 
             if (role == "robot") {
                 const double budget =
@@ -733,6 +768,21 @@ void run_connected(
             zenoh::closures::none
         );
 
+        auto video_load_sub = session.declare_subscriber(
+            zenoh::KeyExpr(VIDEO_LOAD_TOPIC),
+            [&](const zenoh::Sample& sample) {
+                // Synthetic robot-to-operator video traffic.
+                if (role == "robot") {
+                    forward(
+                        sample,
+                        MessageType::Video,
+                        4
+                    );
+                }
+            },
+            zenoh::closures::none
+        );
+
         std::cout
             << "[" << role
             << "] Scheduler active; sender thread started\n";
@@ -777,6 +827,11 @@ void run_connected(
                             : MessageType::RobotState
                     );
 
+                const bool is_video_load =
+                    role == "operator" &&
+                    msg.type == MessageType::Video &&
+                    msg.stream_id == 4;
+
                 const char* destination = nullptr;
 
                 if (is_motion) {
@@ -785,6 +840,8 @@ void run_connected(
                     destination = RELIABLE_TOPIC;
                 } else if (is_ack) {
                     destination = RELIABLE_ACK_TOPIC;
+                } else if (is_video_load) {
+                    destination = VIDEO_LOAD_TOPIC;
                 } else if (valid_test) {
                     destination = test_inbound;
                 } else {
