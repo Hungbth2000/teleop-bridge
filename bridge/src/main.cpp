@@ -24,6 +24,7 @@
 #include <unistd.h>
 
 #include <cerrno>
+#include <algorithm>
 #include <chrono>
 #include <cstdint>
 #include <iostream>
@@ -313,6 +314,112 @@ void print_scheduler_stats(
         << std::flush;
 }
 
+void print_bandwidth_stats(
+    const teleop::SchedulerStats& current_tx,
+    const teleop::SchedulerStats& previous_tx,
+    const teleop::ReceiveSnapshot& current_rx,
+    const teleop::ReceiveSnapshot& previous_rx,
+    double elapsed_seconds,
+    const std::string& role
+) {
+    using namespace teleop;
+
+    if (elapsed_seconds <= 0.0) {
+        return;
+    }
+
+    std::cout
+        << "\n[" << role << "] Bandwidth statistics"
+        << " (last " << std::fixed
+        << std::setprecision(2)
+        << elapsed_seconds << " s)\n";
+
+    std::cout
+        << std::left
+        << std::setw(18) << "Type"
+        << std::right
+        << std::setw(16) << "TX bytes total"
+        << std::setw(16) << "RX bytes total"
+        << std::setw(14) << "TX Mbit/s"
+        << std::setw(14) << "RX Mbit/s"
+        << '\n';
+
+    std::uint64_t total_tx = 0;
+    std::uint64_t total_rx = 0;
+
+    double total_tx_mbps = 0.0;
+    double total_rx_mbps = 0.0;
+
+    for (std::size_t i = 0;
+         i < TRAFFIC_KIND_COUNT;
+         ++i) {
+
+        const auto tx_bytes =
+            current_tx.by_kind[i].sent_bytes;
+
+        const auto rx_bytes =
+            current_rx.bytes_by_kind[i];
+
+        if (tx_bytes == 0 && rx_bytes == 0) {
+            continue;
+        }
+
+        const auto previous_tx_bytes =
+            previous_tx.by_kind[i].sent_bytes;
+
+        const auto previous_rx_bytes =
+            previous_rx.bytes_by_kind[i];
+
+        // Counters are cumulative within one session.
+        const auto tx_delta =
+            tx_bytes >= previous_tx_bytes
+                ? tx_bytes - previous_tx_bytes
+                : 0;
+
+        const auto rx_delta =
+            rx_bytes >= previous_rx_bytes
+                ? rx_bytes - previous_rx_bytes
+                : 0;
+
+        const double tx_mbps =
+            (static_cast<double>(tx_delta) * 8.0) /
+            (elapsed_seconds * 1'000'000.0);
+
+        const double rx_mbps =
+            (static_cast<double>(rx_delta) * 8.0) /
+            (elapsed_seconds * 1'000'000.0);
+
+        total_tx += tx_bytes;
+        total_rx += rx_bytes;
+
+        total_tx_mbps += tx_mbps;
+        total_rx_mbps += rx_mbps;
+
+        std::cout
+            << std::left
+            << std::setw(18) << TRAFFIC_KIND_NAMES[i]
+            << std::right
+            << std::setw(16) << tx_bytes
+            << std::setw(16) << rx_bytes
+            << std::setw(14) << std::fixed
+            << std::setprecision(4) << tx_mbps
+            << std::setw(14) << rx_mbps
+            << '\n';
+    }
+
+    std::cout
+        << std::left
+        << std::setw(18) << "TOTAL"
+        << std::right
+        << std::setw(16) << total_tx
+        << std::setw(16) << total_rx
+        << std::setw(14) << std::fixed
+        << std::setprecision(4) << total_tx_mbps
+        << std::setw(14) << total_rx_mbps
+        << '\n'
+        << std::flush;
+}
+
 void run_connected(
     zenoh::Session& session,
     std::unique_ptr<teleop::ITransport> transport,
@@ -341,8 +448,15 @@ void run_connected(
     std::condition_variable reporter_cv;
     bool reporter_running = true;
 
+    
     std::thread reporter([&] {
         using namespace std::chrono_literals;
+        using Clock = std::chrono::steady_clock;
+
+        // Initial snapshots for calculating interval rates.
+        auto previous_tx = scheduler.stats();
+        auto previous_rx = receive_stats.snapshot();
+        auto previous_time = Clock::now();
 
         std::unique_lock<std::mutex> lock(reporter_mutex);
 
@@ -356,11 +470,39 @@ void run_connected(
             }
 
             lock.unlock();
+
+            // Capture current statistics and elapsed time.
+            auto current_tx = scheduler.stats();
+            auto current_rx = receive_stats.snapshot();
+            auto current_time = Clock::now();
+
+            const double elapsed_seconds =
+                std::chrono::duration<double>(
+                    current_time - previous_time
+                ).count();
+
+            // Existing message count table.
             print_scheduler_stats(
-                scheduler.stats(),
-                receive_stats.snapshot(),
+                current_tx,
+                current_rx,
                 role
             );
+
+            // NEW: bandwidth statistics.
+            print_bandwidth_stats(
+                current_tx,
+                previous_tx,
+                current_rx,
+                previous_rx,
+                elapsed_seconds,
+                role
+            );
+
+            // Save snapshots for the next interval.
+            previous_tx = current_tx;
+            previous_rx = current_rx;
+            previous_time = current_time;
+
             lock.lock();
         }
     });
@@ -400,7 +542,10 @@ void run_connected(
                 break;
             }
 
-            scheduler.record_sent(item.kind);
+            scheduler.record_sent(
+                item.kind,
+                item.bytes.size()
+            );
         }
     });
 
@@ -635,7 +780,8 @@ void run_connected(
 
                 // NEW: Count this valid, routed incoming message.
                 receive_stats.record_received(
-                    classify_received_message(msg)
+                    classify_received_message(msg),
+                    encoded.size()
                 );
 
                 session.put(
