@@ -65,6 +65,18 @@ constexpr const char* HEAD_VIDEO_TX_TOPIC =
 constexpr const char* HEAD_VIDEO_RX_TOPIC =
     "teleop/video/head/rx";
 
+constexpr const char* WRIST_LEFT_VIDEO_TX_TOPIC =
+    "teleop/video/wrist_left/tx";
+
+constexpr const char* WRIST_LEFT_VIDEO_RX_TOPIC =
+    "teleop/video/wrist_left/rx";
+
+constexpr const char* WRIST_RIGHT_VIDEO_TX_TOPIC =
+    "teleop/video/wrist_right/tx";
+
+constexpr const char* WRIST_RIGHT_VIDEO_RX_TOPIC =
+    "teleop/video/wrist_right/rx";
+
 constexpr const char* BANDWIDTH_TOPIC =
     "teleop/bridge/bandwidth";
 
@@ -883,12 +895,44 @@ void run_connected(
 
             // Called when a video fragment arrives.
             [&](const zenoh::Sample& sample) {
-                forward(sample, MessageType::Video, 1);
+                if (role == "robot") {
+                    forward(sample, MessageType::Video, 1);
+                }
             },
 
             // Called when the subscriber is dropped.
             []() {}
         );
+
+        auto wrist_left_video_sub =
+            session.declare_subscriber(
+                zenoh::KeyExpr(WRIST_LEFT_VIDEO_TX_TOPIC),
+                [&](const zenoh::Sample& sample) {
+                    if (role == "robot") {
+                        forward(
+                            sample,
+                            MessageType::Video,
+                            2
+                        );
+                    }
+                },
+                []() {}
+            );
+
+        auto wrist_right_video_sub =
+            session.declare_subscriber(
+                zenoh::KeyExpr(WRIST_RIGHT_VIDEO_TX_TOPIC),
+                [&](const zenoh::Sample& sample) {
+                    if (role == "robot") {
+                        forward(
+                            sample,
+                            MessageType::Video,
+                            3
+                        );
+                    }
+                },
+                []() {}
+            );
 
         std::cout
             << "[" << role
@@ -942,8 +986,18 @@ void run_connected(
                 const bool is_head_video =
                     role == "operator" &&
                     msg.type == MessageType::Video &&
-                    msg.stream_id == 1;
+                    msg.stream_id == 1;     
                 
+                const bool is_left_wrist_video =
+                    role == "operator" &&
+                    msg.type == MessageType::Video &&
+                    msg.stream_id == 2;
+
+                const bool is_right_wrist_video =
+                    role == "operator" &&
+                    msg.type == MessageType::Video &&
+                    msg.stream_id == 3;
+
                 const char* destination = nullptr;
 
                 if (is_motion) {
@@ -956,6 +1010,10 @@ void run_connected(
                     destination = VIDEO_LOAD_TOPIC;
                 } else if (is_head_video) {
                     destination = HEAD_VIDEO_RX_TOPIC;
+                } else if (is_left_wrist_video) {
+                    destination = WRIST_LEFT_VIDEO_RX_TOPIC;
+                } else if (is_right_wrist_video) {
+                    destination = WRIST_RIGHT_VIDEO_RX_TOPIC;
                 } else if (valid_test) {
                     destination = test_inbound;
                 } else {

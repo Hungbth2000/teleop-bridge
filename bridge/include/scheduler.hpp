@@ -357,7 +357,7 @@ private:
     std::array<std::deque<ScheduledMessage>, 4> queues_;
 
     const std::array<std::size_t, 4> capacities_{
-        64, 1, 16, 16
+        64, 1, 16, 64
     };
 
     SchedulerStats stats_;
