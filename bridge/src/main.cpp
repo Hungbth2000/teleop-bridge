@@ -59,6 +59,12 @@ constexpr const char* RELIABLE_ACK_TOPIC =
 constexpr const char* VIDEO_LOAD_TOPIC =
     "teleop/test/video_load";
 
+constexpr const char* HEAD_VIDEO_TX_TOPIC =
+    "teleop/video/head/tx";
+
+constexpr const char* HEAD_VIDEO_RX_TOPIC =
+    "teleop/video/head/rx";
+
 // Send exactly the requested number of bytes.
 bool send_all(int fd, const void* data, size_t size) {
     const char* ptr = static_cast<const char*>(data);
@@ -783,6 +789,18 @@ void run_connected(
             zenoh::closures::none
         );
 
+        auto head_video_sub = session.declare_subscriber(
+            zenoh::KeyExpr(HEAD_VIDEO_TX_TOPIC),
+
+            // Called when a video fragment arrives.
+            [&](const zenoh::Sample& sample) {
+                forward(sample, MessageType::Video, 1);
+            },
+
+            // Called when the subscriber is dropped.
+            []() {}
+        );
+
         std::cout
             << "[" << role
             << "] Scheduler active; sender thread started\n";
@@ -832,6 +850,11 @@ void run_connected(
                     msg.type == MessageType::Video &&
                     msg.stream_id == 4;
 
+                const bool is_head_video =
+                    role == "operator" &&
+                    msg.type == MessageType::Video &&
+                    msg.stream_id == 1;
+                
                 const char* destination = nullptr;
 
                 if (is_motion) {
@@ -842,6 +865,8 @@ void run_connected(
                     destination = RELIABLE_ACK_TOPIC;
                 } else if (is_video_load) {
                     destination = VIDEO_LOAD_TOPIC;
+                } else if (is_head_video) {
+                    destination = HEAD_VIDEO_RX_TOPIC;
                 } else if (valid_test) {
                     destination = test_inbound;
                 } else {
