@@ -65,6 +65,9 @@ constexpr const char* HEAD_VIDEO_TX_TOPIC =
 constexpr const char* HEAD_VIDEO_RX_TOPIC =
     "teleop/video/head/rx";
 
+constexpr const char* BANDWIDTH_TOPIC =
+    "teleop/bridge/bandwidth";
+
 // Send exactly the requested number of bytes.
 bool send_all(int fd, const void* data, size_t size) {
     const char* ptr = static_cast<const char*>(data);
@@ -468,6 +471,63 @@ void run_connected(
     bool reporter_running = true;
 
     
+    std::mutex bandwidth_mutex;
+    std::condition_variable bandwidth_cv;
+    bool bandwidth_running = true;
+
+    std::thread bandwidth_publisher([&] {
+        using namespace std::chrono_literals;
+
+        std::unique_lock<std::mutex> lock(
+            bandwidth_mutex
+        );
+
+        while (bandwidth_running) {
+            lock.unlock();
+
+            if (role == "robot") {
+                const auto now = Clock::now();
+
+                const auto budget_bps =
+                    static_cast<std::uint64_t>(
+                        outbound_limiter.current_rate_bps(
+                            now
+                        )
+                    );
+
+                const std::string phase =
+                    budget_bps <= 2'000'000
+                        ? "degraded"
+                        : "normal";
+
+                const std::string payload =
+                    "{\"budget_bps\":" +
+                    std::to_string(budget_bps) +
+                    ",\"phase\":\"" +
+                    phase + "\"}";
+
+                try {
+                    session.put(
+                        BANDWIDTH_TOPIC,
+                        payload
+                    );
+                } catch (const std::exception& e) {
+                    std::cerr
+                        << "[robot] Bandwidth publish error: "
+                        << e.what() << '\n';
+                }
+            }
+
+            lock.lock();
+
+            bandwidth_cv.wait_for(
+                lock,
+                100ms,
+                [&] { return !bandwidth_running; }
+            );
+        }
+    });
+
     std::thread reporter([&] {
         using namespace std::chrono_literals;
         using Clock = std::chrono::steady_clock;
@@ -525,6 +585,35 @@ void run_connected(
                         current_time
                     )
                     : 0.0;
+       
+            if (role == "robot") {
+                const auto budget_bps =
+                    static_cast<std::uint64_t>(
+                        outbound_limiter.current_rate_bps(
+                            current_time
+                        )
+                    );
+
+                const char* phase =
+                    budget_bps <= 2'000'000
+                        ? "degraded"
+                        : "normal";
+
+                const std::string payload =
+                    "{\"budget_bps\":" +
+                    std::to_string(budget_bps) +
+                    ",\"phase\":\"" +
+                    std::string(phase) +
+                    "\"}";
+
+                try {
+                    session.put(BANDWIDTH_TOPIC, payload);
+                } catch (const std::exception& e) {
+                    std::cerr
+                        << "[robot] Bandwidth publication error: "
+                        << e.what() << '\n';
+                }
+            }
 
             // NEW: Persist this reporting interval.
             try {
@@ -928,6 +1017,19 @@ void run_connected(
     // Wait for the reporter thread to finish.
     if (reporter.joinable()) {
         reporter.join();
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(
+            bandwidth_mutex
+        );
+        bandwidth_running = false;
+    }
+
+    bandwidth_cv.notify_one();
+
+    if (bandwidth_publisher.joinable()) {
+        bandwidth_publisher.join();
     }
 
     // Print final statistics.
