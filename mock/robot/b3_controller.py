@@ -350,13 +350,12 @@ def make_reliable_callback(ack_publisher):
 
         # Record successful publication.
         event_logger.log(
-            event="APPLIED",
+            event="ACK_PUBLISHED",
             command_id=command_id,
             opcode=opcode_name,
             status=result_status,
             created_ns=created_ns,
             effect_ns=effect_ns,
-            event_ns=effect_ns,
         )
 
         print(
