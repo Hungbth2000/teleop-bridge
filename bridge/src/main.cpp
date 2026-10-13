@@ -5,6 +5,7 @@
 #include "transport.hpp"
 #include "receive_stats.hpp"
 #include "tcp_transport.hpp"
+#include "rate_limiter.hpp"
 
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -442,6 +443,10 @@ void run_connected(
     PriorityScheduler scheduler;
     ReceiveStats receive_stats;
 
+    // One limiter per connected session.
+    // Only robot outbound traffic is limited.
+    teleop::RateLimiter outbound_limiter;
+
     std::atomic<std::uint64_t> next_sequence{1};
     
     std::mutex reporter_mutex;
@@ -498,6 +503,15 @@ void run_connected(
                 role
             );
 
+            if (role == "robot") {
+                const double budget =
+                    outbound_limiter.current_rate_mbps();
+
+                std::cout
+                    << "[robot] Configured outbound budget: "
+                    << budget << " Mbit/s\n";
+            }
+
             // Save snapshots for the next interval.
             previous_tx = current_tx;
             previous_rx = current_rx;
@@ -511,7 +525,13 @@ void run_connected(
     std::thread sender([&] {
         ScheduledMessage item;
 
-        while (scheduler.pop(item)) {
+        while (
+            role == "robot"
+                ? scheduler.pop_limited(
+                    item, outbound_limiter
+                )
+                : scheduler.pop(item)
+        ) {
             // This checks time spent in our scheduler only.
             // B3 separately checks A1's original timestamp.
             if (item.type == MessageType::FastCommand) {

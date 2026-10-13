@@ -3,6 +3,7 @@
 
 #include "message.hpp"
 #include "transport.hpp"
+#include "rate_limiter.hpp"
 
 #include <array>
 #include <chrono>
@@ -169,6 +170,70 @@ public:
                 result = std::move(queue.front());
                 queue.pop_front();
                 return true;
+            }
+        }
+
+        return false;
+    }
+    
+    bool pop_limited(
+        ScheduledMessage& result,
+        RateLimiter& limiter
+    ) {
+        std::unique_lock<std::mutex> lock(mutex_);
+
+        while (!closed_) {
+            bool found_message = false;
+
+            for (auto& queue : queues_) {
+                if (queue.empty()) {
+                    continue;
+                }
+
+                found_message = true;
+
+                const auto& front = queue.front();
+                const auto bytes = front.bytes.size();
+
+                // An oversized message cannot fit into
+                // the configured token bucket.
+                // We will fragment video before sending.
+                if (bytes > RateLimiter::BURST_BYTES) {
+                    ++stats_.dropped;
+                    ++stats_.by_kind[
+                        static_cast<std::size_t>(
+                            front.kind
+                        )
+                    ].dropped;
+
+                    queue.pop_front();
+                    break;
+                }
+
+                if (limiter.try_consume(bytes)) {
+                    result = std::move(queue.front());
+                    queue.pop_front();
+                    return true;
+                }
+
+                // Insufficient tokens for the highest
+                // priority pending message.
+                // Do not send lower-priority traffic first.
+                break;
+            }
+
+            // Wait briefly, but wake immediately when
+            // another callback enqueues a new message
+            // or when the scheduler closes.
+            if (!found_message) {
+                condition_.wait(lock, [&] {
+                    return closed_ || has_messages();
+                });
+            } else {
+                condition_.wait_for(
+                    lock,
+                    std::chrono::milliseconds(2)
+                );
             }
         }
 
