@@ -9,6 +9,16 @@ import threading
 import time
 
 import zenoh
+import sys
+from pathlib import Path
+
+sys.path.insert(
+    0, str(Path(__file__).resolve().parents[1])
+)
+
+from control_event_log import ControlEventLogger
+
+event_logger = ControlEventLogger("b3")
 
 PORT = 7448
 
@@ -174,12 +184,38 @@ def make_reliable_callback(ack_publisher):
 
         data = sample.payload.to_bytes()
 
+        print(
+            f"[B3 DEBUG] Reliable callback invoked "
+            f"payload_bytes={len(data)} "
+            f"received_at_ns={time.monotonic_ns()}",
+            flush=True,
+        )
+
         if len(data) != COMMAND_FORMAT.size:
             print("[B3] Invalid reliable payload", flush=True)
             return
 
         command_id, opcode, created_ns = (
             COMMAND_FORMAT.unpack(data)
+        )
+
+        opcode_name = (
+            "ESTOP" if opcode == E_STOP
+            else "RESET" if opcode == RESET
+            else f"UNKNOWN_{opcode}"
+        )
+
+        event_logger.log(
+            event="COMMAND_RECEIVED",
+            command_id=command_id,
+            opcode=opcode_name,
+            created_ns=created_ns,
+        )
+
+        print(
+            f"[B3 DEBUG] command_id={command_id} "
+            f"opcode={opcode}",
+            flush=True,
         )
 
         with lock:
@@ -251,6 +287,37 @@ def make_reliable_callback(ack_publisher):
                 command_id, status, effect_ns
             )
 
+        status_names = {
+            ACK_APPLIED: "APPLIED",
+            ACK_DUPLICATE: "DUPLICATE",
+            ACK_OLD: "OLD_COMMAND",
+            ACK_REJECTED: "REJECTED",
+        }
+
+        result_status = status_names.get(
+            status, str(status)
+        )
+
+        event_logger.log(
+            event=(
+                "APPLIED"
+                if status == ACK_APPLIED
+                else "DUPLICATE"
+                if status == ACK_DUPLICATE
+                else "NOT_APPLIED"
+            ),
+            command_id=command_id,
+            opcode=opcode_name,
+            status=result_status,
+            created_ns=created_ns,
+            effect_ns=effect_ns,
+            event_ns=(
+                effect_ns
+                if status == ACK_APPLIED
+                else time.monotonic_ns()
+            ),
+        )
+
         # Fault injection: simulate losing the first ACK
         # after the command has already been committed.
         if (
@@ -265,10 +332,32 @@ def make_reliable_callback(ack_publisher):
                 f"for id={command_id}",
                 flush=True,
             )
+
+            # Record the deliberately dropped ACK.
+            event_logger.log(
+                event="ACK_SUPPRESSED",
+                command_id=command_id,
+                opcode=opcode_name,
+                status=result_status,
+                created_ns=created_ns,
+                effect_ns=effect_ns,
+                event_ns=effect_ns,
+            )
             return
 
         # Send normal ACK, including for duplicate commands.
         ack_publisher.put(ack)
+
+        # Record successful publication.
+        event_logger.log(
+            event="APPLIED",
+            command_id=command_id,
+            opcode=opcode_name,
+            status=result_status,
+            created_ns=created_ns,
+            effect_ns=effect_ns,
+            event_ns=effect_ns,
+        )
 
         print(
             f"[B3] ACK id={command_id} status={status}",
