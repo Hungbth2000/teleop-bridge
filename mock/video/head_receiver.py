@@ -8,6 +8,8 @@ import time
 
 import zenoh
 
+from frame_csv import VideoFrameCsv
+
 from frame_protocol import (
     HEAD,
     FrameReassembler,
@@ -44,6 +46,8 @@ def main():
     corrupt_frames = 0
     last_latency_ms = 0.0
     last_frame_id = -1
+
+    csv_log = VideoFrameCsv("rx")
 
     def on_video(sample):
         nonlocal valid_frames
@@ -83,41 +87,74 @@ def main():
             last_latency_ms = result.latency_ms
             last_frame_id = frame_id
 
+            # Log the received frame.
+            run_prefix = frame_id >> 32
+            frame_number = frame_id & 0xFFFFFFFF
+
+            csv_log.log(
+                run_id=f"{run_prefix:08x}",
+                stream_id=result.stream_id,
+                frame_id=frame_id,
+                frame_number=frame_number,
+                capture_ns=result.capture_ns,
+                event_ns=result.completed_ns,
+                frame_bytes=len(result.data),
+                fragments=(
+                    len(result.data) + 999
+                ) // 1000,
+                latency_ms=round(
+                    result.latency_ms, 6
+                ),
+            )
+
     print(
         "[HEAD RX] Waiting for video fragments...",
         flush=True,
     )
 
-    with connect() as session:
-        subscriber = session.declare_subscriber(
-            VIDEO_TOPIC,
-            on_video,
+    try:
+        with connect() as session:
+            subscriber = session.declare_subscriber(
+                VIDEO_TOPIC,
+                on_video,
+            )
+
+            try:
+                while True:
+                    time.sleep(1)
+
+                    with lock:
+                        reassembler.expire()
+
+                        print(
+                            f"[HEAD RX] "
+                            f"complete={valid_frames} "
+                            f"expired={reassembler.expired} "
+                            f"invalid={reassembler.invalid} "
+                            f"corrupt={corrupt_frames} "
+                            f"last_id={last_frame_id} "
+                            f"last_latency="
+                            f"{last_latency_ms:.2f}ms",
+                            flush=True,
+                        )
+
+            except KeyboardInterrupt:
+                print(
+                    "\n[HEAD RX] Stopped",
+                    flush=True,
+                )
+
+    finally:
+        # The zenoh session has exited.
+        # No more subscriber callbacks should arrive.
+        csv_log.close()
+
+        print(
+            "[HEAD RX] Frame CSV saved",
+            flush=True,
         )
 
-        try:
-            while True:
-                time.sleep(1)
 
-                with lock:
-                    reassembler.expire()
-
-                    print(
-                        f"[HEAD RX] "
-                        f"complete={valid_frames} "
-                        f"expired={reassembler.expired} "
-                        f"invalid={reassembler.invalid} "
-                        f"corrupt={corrupt_frames} "
-                        f"last_id={last_frame_id} "
-                        f"last_latency="
-                        f"{last_latency_ms:.2f}ms",
-                        flush=True,
-                    )
-
-        except KeyboardInterrupt:
-            print(
-                "\n[HEAD RX] Stopped",
-                flush=True,
-            )
 
 
 if __name__ == "__main__":
