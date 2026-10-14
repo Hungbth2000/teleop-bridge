@@ -26,7 +26,19 @@ MOTION_TOPIC = "teleop/commands/motion"
 RELIABLE_TOPIC = "teleop/commands/reliable"
 ACK_TOPIC = "teleop/commands/reliable_ack"
 
+STATE_TOPIC = "teleop/robot/state"
+QUERY_TOPIC = "teleop/robot/config"
+
+STATE_HZ = 50
+STATE_PERIOD_NS = 1_000_000_000 // STATE_HZ
+
+STATE_FORMAT = struct.Struct("!QQqffBB")
+
 MOTION_FORMAT = struct.Struct("!QQ84s")
+# Velocity + A1 sender session ID + reserved bytes.
+MOTION_DATA_FORMAT = struct.Struct("!fQ72s")
+
+assert MOTION_DATA_FORMAT.size == 84
 COMMAND_FORMAT = struct.Struct("!QBQ")
 ACK_FORMAT = struct.Struct("!QBQ")
 
@@ -39,11 +51,16 @@ ACK_OLD = 3
 ACK_REJECTED = 4
 
 MAX_COMMAND_AGE_NS = 150_000_000
-WATCHDOG_NS = 300_000_000
+# Trigger before the 300 ms safety deadline to allow
+# margin for the 5 ms polling loop and OS scheduling.
+WATCHDOG_NS = 280_000_000
 
 lock = threading.RLock()
 
 last_sequence = -1
+active_motion_session = None
+retired_motion_sessions = set()
+last_applied_motion_sequence = -1
 last_fresh_time_ns = None
 
 robot_moving = False
@@ -112,6 +129,34 @@ def connect():
         zenoh.Config.from_json5(json.dumps(config))
     )
 
+def on_config_query(query):
+    """Answer A3's robot configuration queries."""
+
+    # Test-only delay to simulate a slow queryable.
+    delay_ms = int(os.environ.get("B3_QUERY_DELAY_MS", "0"))
+
+    if delay_ms > 0:
+        time.sleep(delay_ms / 1000.0)
+
+    configuration = {
+        "node": "B3",
+        "motion_frequency_hz": 100,
+        "state_frequency_hz": 50,
+        "max_command_age_ms": 150,
+        "watchdog_ms": 300,
+    }
+
+    payload = json.dumps(configuration).encode("utf-8")
+
+    query.reply(
+        QUERY_TOPIC,
+        payload,
+    )
+
+    print(
+        "[B3] Replied to configuration query",
+        flush=True,
+    )
 
 def percentile(values, p):
     if not values:
@@ -135,6 +180,11 @@ def on_motion(sample):
     global rejected_stale, rejected_sequence
     global blocked_by_estop
 
+    global active_motion_session
+    global retired_motion_sessions
+
+    global last_applied_motion_sequence
+
     data = sample.payload.to_bytes()
 
     if len(data) != MOTION_FORMAT.size:
@@ -145,16 +195,74 @@ def on_motion(sample):
         MOTION_FORMAT.unpack(data)
     )
 
+    velocity, session_id, _reserved = (
+        MOTION_DATA_FORMAT.unpack(motion_data)
+    )
+
     now_ns = time.monotonic_ns()
     age_ns = now_ns - created_ns
 
     with lock:
         if age_ns < 0 or age_ns > MAX_COMMAND_AGE_NS:
             rejected_stale += 1
+
+            if rejected_stale <= 5:
+                print(
+                    f"[B3 DEBUG] Stale motion: "
+                    f"sequence={sequence}, "
+                    f"age_ms={age_ns / 1e6:.2f}",
+                    flush=True,
+                )
             return
 
+        # Reject commands from sessions that have already
+        # relinquished control.
+        if session_id in retired_motion_sessions:
+            rejected_sequence += 1
+            return
+
+        if active_motion_session is None:
+            # First sender since B3 started.
+            active_motion_session = session_id
+            last_sequence = -1
+
+            print(
+                f"[B3 SESSION] Initial session={session_id}",
+                flush=True,
+            )
+
+        elif session_id != active_motion_session:
+            # Do not replace a sender while the robot is moving.
+            if robot_moving or estop_latched:
+                rejected_sequence += 1
+                return
+
+            # Retire the previous sender so delayed messages
+            # from that session can never regain control.
+            retired_motion_sessions.add(active_motion_session)
+
+            print(
+                f"[B3 SESSION] Handover "
+                f"old={active_motion_session} "
+                f"new={session_id}",
+                flush=True,
+            )
+
+            active_motion_session = session_id
+            last_sequence = -1
+
+        # Sequence numbers must increase within a sender session.
         if sequence <= last_sequence:
             rejected_sequence += 1
+
+            if rejected_sequence <= 5:
+                print(
+                    f"[B3 DEBUG] Rejected motion sequence: "
+                    f"received={sequence}, "
+                    f"last={last_sequence}",
+                    flush=True,
+                )
+
             return
 
         # Remember the newest valid sequence even during E-stop.
@@ -164,14 +272,37 @@ def on_motion(sample):
             blocked_by_estop += 1
             return
 
-        velocity = struct.unpack(
-            "!f", motion_data[:4]
-        )[0]
+        # Detect the first accepted command after an interruption.
+        gap_ms = (
+            (now_ns - last_fresh_time_ns) / 1e6
+            if last_fresh_time_ns is not None
+            else None
+        )
 
         last_fresh_time_ns = now_ns
         command_ages_ms.append(age_ns / 1e6)
         accepted += 1
+        last_applied_motion_sequence = sequence
         robot_moving = abs(velocity) > 0.0001
+
+        if gap_ms is None or gap_ms > 50:
+            print(
+                f"[B3 MOTION RECOVERY] "
+                f"accepted={accepted} "
+                f"sequence={sequence} "
+                f"accepted_ns={now_ns} "
+                f"previous_gap_ms={gap_ms}",
+                flush=True,
+            )
+
+        # Keep the existing periodic diagnostic timestamps.
+        if accepted % 100 == 0:
+            print(
+                f"[B3 MOTION] accepted={accepted} "
+                f"sequence={sequence} "
+                f"accepted_ns={now_ns}",
+                flush=True,
+            )
 
 
 
@@ -370,8 +501,18 @@ def main():
     global robot_moving, watchdog_events
 
     with connect() as session:
+
+        config_queryable = session.declare_queryable(
+            QUERY_TOPIC,
+            on_config_query,
+        )
+
         ack_publisher = session.declare_publisher(
             ACK_TOPIC
+        )
+
+        state_publisher = session.declare_publisher(
+            STATE_TOPIC
         )
 
         motion_sub = session.declare_subscriber(
@@ -388,9 +529,42 @@ def main():
 
         last_report = time.monotonic_ns()
 
+        state_sequence = 0
+        next_state_ns = time.monotonic_ns()
+
         try:
             while True:
                 now_ns = time.monotonic_ns()
+
+                if now_ns >= next_state_ns:
+                    with lock:
+                        applied_sequence = last_applied_motion_sequence
+                        moving = robot_moving
+                        estop = estop_latched
+
+                    # Deterministic simulated joint positions.
+                    joint_1 = float(state_sequence % 360) / 100.0
+                    joint_2 = float((state_sequence * 2) % 360) / 100.0
+
+                    state_payload = STATE_FORMAT.pack(
+                        state_sequence,
+                        now_ns,
+                        applied_sequence,
+                        joint_1,
+                        joint_2,
+                        int(moving),
+                        int(estop),
+                    )
+
+                    state_publisher.put(state_payload)
+
+                    state_sequence += 1
+
+                    # Skip missed publish slots instead of bursting.
+                    next_state_ns = max(
+                        next_state_ns + STATE_PERIOD_NS,
+                        time.monotonic_ns(),
+                    )
 
                 with lock:
                     if (
@@ -401,8 +575,17 @@ def main():
                     ):
                         robot_moving = False
                         watchdog_events += 1
+                        elapsed_ms = (
+                            now_ns - last_fresh_time_ns
+                        ) / 1e6
+
                         print(
-                            "[B3] WATCHDOG -> STOP",
+                            f"[B3 WATCHDOG] "
+                            f"last_motion_ns={last_fresh_time_ns} "
+                            f"stop_ns={now_ns} "
+                            f"elapsed_ms={elapsed_ms:.3f} "
+                            f"threshold_ms={WATCHDOG_NS / 1e6:.0f} "
+                            f"moving={robot_moving}",
                             flush=True,
                         )
 
@@ -417,22 +600,25 @@ def main():
                             command_ages_ms, 99
                         )
 
-                    if last_fresh_time_ns is None:
-                        command_status = "WAITING"
-                    else:
-                        silence_ms = (
-                            now_ns - last_fresh_time_ns
-                        ) / 1e6
+                        if last_fresh_time_ns is None:
+                            command_status = "WAITING"
+                        else:
+                            silence_ms = (
+                                now_ns - last_fresh_time_ns
+                            ) / 1e6
 
-                        command_status = (
-                            "ACTIVE"
-                            if silence_ms < 300
-                            else "TIMEOUT"
-                        )                   
+                            command_status = (
+                                "ACTIVE"
+                                if silence_ms < WATCHDOG_NS / 1e6
+                                else "TIMEOUT"
+                            )
 
                         print(
                             f"[B3] status={command_status} "
                             f"accepted={accepted} "
+                            f"rejected_stale={rejected_stale} "
+                            f"rejected_sequence={rejected_sequence} "
+                            f"blocked_by_estop={blocked_by_estop} "
                             f"estop={estop_latched} "
                             f"moving={robot_moving} "
                             f"age_ms p50={p50:.2f} "

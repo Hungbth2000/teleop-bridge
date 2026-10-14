@@ -21,8 +21,6 @@
 #include <vector>
 
 #include "message.hpp"
-#include <arpa/inet.h>
-#include <sys/socket.h>
 #include <unistd.h>
 
 #include <cerrno>
@@ -34,7 +32,11 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <cstdlib>
 #include <condition_variable>
+
+#include <unordered_map>
+#include <optional>
 
 #include "zenoh.hxx"
 
@@ -55,6 +57,12 @@ constexpr const char* RELIABLE_TOPIC =
 
 constexpr const char* RELIABLE_ACK_TOPIC =
     "teleop/commands/reliable_ack";
+
+constexpr const char* ROBOT_STATE_TOPIC =
+    "teleop/robot/state";
+
+constexpr const char* CONFIG_QUERY_TOPIC =
+    "teleop/robot/config";
 
 constexpr const char* VIDEO_LOAD_TOPIC =
     "teleop/test/video_load";
@@ -272,6 +280,7 @@ teleop::TrafficKind classify_received_message(
 
         case MessageType::Reply:
             return TrafficKind::Reply;
+
     }
 
     return TrafficKind::Test;
@@ -477,12 +486,80 @@ void run_connected(
     teleop::CsvTelemetry csv_telemetry(role, "tcp");
 
     std::atomic<std::uint64_t> next_sequence{1};
-    
+
+    // Native Zenoh queries awaiting replies from B3.
+    //
+    // Query::clone() allows us to retain the original
+    // A3 query after its queryable callback returns.
+    std::mutex pending_queries_mutex;
+
+    struct PendingQuery {
+        zenoh::Query query;
+        Clock::time_point deadline;
+    };
+
+    std::unordered_map<
+        std::uint64_t,
+        PendingQuery
+    > pending_queries;
+
+    // A query expires after three seconds.
+    constexpr auto QUERY_TIMEOUT =
+        std::chrono::milliseconds(3000);
+
+    std::atomic<bool> timeout_running{true};
+
+    std::thread timeout_worker([&] {
+        using namespace std::chrono_literals;
+
+        while (timeout_running.load()) {
+            std::this_thread::sleep_for(100ms);
+
+            std::vector<zenoh::Query> expired;
+            std::vector<std::uint64_t> expired_ids;
+
+            {
+                std::lock_guard<std::mutex> guard(
+                    pending_queries_mutex
+                );
+
+                const auto now = Clock::now();
+
+                for (auto it = pending_queries.begin();
+                    it != pending_queries.end();) {
+
+                    if (now >= it->second.deadline) {
+                        expired_ids.push_back(it->first);
+
+                        expired.push_back(
+                            std::move(it->second.query)
+                        );
+
+                        it = pending_queries.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+            }
+
+            // Release cloned Zenoh queries outside the mutex.
+            // This completes unanswered queries without
+            // manufacturing a successful response.
+            expired.clear();
+
+            for (const auto id : expired_ids) {
+                std::cerr
+                    << "[operator] CONFIG QUERY EXPIRED"
+                    << " id=" << id
+                    << '\n';
+            }
+        }
+    });
+
     std::mutex reporter_mutex;
     std::condition_variable reporter_cv;
     bool reporter_running = true;
 
-    
     std::mutex bandwidth_mutex;
     std::condition_variable bandwidth_cv;
     bool bandwidth_running = true;
@@ -597,7 +674,7 @@ void run_connected(
                         current_time
                     )
                     : 0.0;
-       
+
             if (role == "robot") {
                 const auto budget_bps =
                     static_cast<std::uint64_t>(
@@ -875,6 +952,20 @@ void run_connected(
             zenoh::closures::none
         );
 
+        auto robot_state_sub = session.declare_subscriber(
+            zenoh::KeyExpr(ROBOT_STATE_TOPIC),
+            [&](const zenoh::Sample& sample) {
+                if (role == "robot") {
+                    forward(
+                        sample,
+                        MessageType::RobotState,
+                        5
+                    );
+                }
+            },
+            zenoh::closures::none
+        );
+
         auto video_load_sub = session.declare_subscriber(
             zenoh::KeyExpr(VIDEO_LOAD_TOPIC),
             [&](const zenoh::Sample& sample) {
@@ -934,11 +1025,116 @@ void run_connected(
                 []() {}
             );
 
+        std::optional<zenoh::Queryable<void>> config_queryable;
+
+        // A3 sends a native Zenoh query to this proxy.
+        // Only the operator bridge should forward it.
+        if (role == "operator") {
+            config_queryable.emplace(
+                session.declare_queryable(
+                    zenoh::KeyExpr(CONFIG_QUERY_TOPIC),
+
+                    [&](zenoh::Query& query) {
+
+                        const std::uint64_t request_id =
+                            next_sequence.fetch_add(1);
+
+                        // Retain the query beyond this callback.
+                        {
+                            std::lock_guard<std::mutex> guard(
+                                pending_queries_mutex
+                            );
+
+                            pending_queries.emplace(
+                                request_id,
+                                PendingQuery{
+                                    query.clone(),
+                                    Clock::now() + QUERY_TIMEOUT
+                                }
+                            );
+                        }
+
+                        // Build a bridge message for the robot side.
+                        Message msg{};
+                        msg.type = MessageType::Query;
+                        msg.stream_id = 6;
+                        msg.sequence = request_id;
+                        msg.timestamp_ns = now_ns();
+
+                        // This first implementation supports only
+                        // the fixed teleop/robot/config query.
+                        msg.payload = {};
+
+                        try {
+                            const auto result = scheduler.enqueue(
+                                serialize(msg),
+                                MessageType::Query,
+                                DeliveryMode::ReliableOrdered,
+                                TrafficKind::Query
+                            );
+
+                            if (result == EnqueueResult::Rejected) {
+                                {
+                                    std::lock_guard<std::mutex> guard(
+                                        pending_queries_mutex
+                                    );
+
+                                    pending_queries.erase(request_id);
+                                }
+
+                                std::cerr
+                                    << "[operator] CONFIG QUERY REJECTED"
+                                    << " id=" << request_id
+                                    << '\n';
+
+                                return;
+                            }
+
+                            std::cout
+                                << "[operator] CONFIG QUERY QUEUED"
+                                << " id=" << request_id
+                                << '\n';
+
+                        } catch (const std::exception& e) {
+                            {
+                                std::lock_guard<std::mutex> guard(
+                                    pending_queries_mutex
+                                );
+
+                                pending_queries.erase(request_id);
+                            }
+
+                            std::cerr
+                                << "[operator] Query enqueue error: "
+                                << e.what() << '\n';
+                        }
+                    },
+
+                    zenoh::closures::none
+                )
+            );
+        }
+
         std::cout
             << "[" << role
             << "] Scheduler active; sender thread started\n";
 
         ByteBuffer encoded;
+
+        // Keep query workers alive until this TCP session ends.
+        struct QueryWorker {
+            std::thread thread;
+            std::shared_ptr<std::atomic<bool>> finished;
+        };
+
+        std::vector<QueryWorker> query_workers;
+
+        // Maximum number of queries being processed concurrently.
+        constexpr unsigned MAX_ACTIVE_QUERIES = 8;
+
+        std::atomic<unsigned> active_queries{0};
+
+        query_workers.reserve(MAX_ACTIVE_QUERIES);
 
         // Receive on the main connection thread.
         while (transport->receive(encoded)) {
@@ -986,8 +1182,8 @@ void run_connected(
                 const bool is_head_video =
                     role == "operator" &&
                     msg.type == MessageType::Video &&
-                    msg.stream_id == 1;     
-                
+                    msg.stream_id == 1;
+
                 const bool is_left_wrist_video =
                     role == "operator" &&
                     msg.type == MessageType::Video &&
@@ -997,6 +1193,330 @@ void run_connected(
                     role == "operator" &&
                     msg.type == MessageType::Video &&
                     msg.stream_id == 3;
+
+                const bool is_robot_state =
+                    role == "operator" &&
+                    msg.type == MessageType::RobotState &&
+                    msg.stream_id == 5;
+
+                const bool is_config_query =
+                    role == "robot" &&
+                    msg.type == MessageType::Query &&
+                    msg.stream_id == 6;
+
+                const bool is_config_reply =
+                    role == "operator" &&
+                    msg.type == MessageType::Reply &&
+                    msg.stream_id == 6;
+
+                if (is_config_query) {
+                    receive_stats.record_received(
+                        classify_received_message(msg),
+                        encoded.size()
+                    );
+
+                    const std::uint64_t request_id = msg.sequence;
+
+                    // Reclaim workers that completed earlier.
+                    // Only the TCP receive thread modifies this vector.
+                    query_workers.erase(
+                        std::remove_if(
+                            query_workers.begin(),
+                            query_workers.end(),
+                            [](QueryWorker& worker) {
+                                if (!worker.finished->load()) {
+                                    return false;
+                                }
+
+                                if (worker.thread.joinable()) {
+                                    worker.thread.join();
+                                }
+
+                                return true;
+                            }
+                        ),
+                        query_workers.end()
+                    );
+
+                    const unsigned previous =
+                        active_queries.fetch_add(1);
+
+                    if (previous >= MAX_ACTIVE_QUERIES) {
+                        active_queries.fetch_sub(1);
+
+                        std::cerr
+                            << "[robot] CONFIG QUERY OVERLOAD"
+                            << " id=" << request_id
+                            << " active=" << previous
+                            << '\n';
+
+                        // No successful reply is manufactured.
+                        // A3 will observe query failure/timeout.
+                        continue;
+                    }
+
+                    std::cout
+                        << "[robot] TCP CONFIG QUERY RECEIVED"
+                        << " id=" << request_id
+                        << '\n';
+
+                    bool worker_slot_added = false;
+
+                    try {
+                        // Create a flag shared between the worker
+                        // and the TCP receive thread.
+                        auto finished =
+                            std::make_shared<std::atomic<bool>>(false);
+
+                        // Create the worker thread.
+                        // Store an empty thread before starting it.
+                        query_workers.push_back(
+                            QueryWorker{
+                                std::thread{},
+                                finished
+                            }
+                        );
+
+                        worker_slot_added = true;
+
+                        // Start the thread in its already-owned slot.
+                        query_workers.back().thread =
+                            std::thread([&, request_id, finished] {
+
+                                // Set the flag when this worker exits.
+                                struct FinishedGuard {
+                                    std::shared_ptr<std::atomic<bool>> flag;
+
+                                    ~FinishedGuard() {
+                                        flag->store(true);
+                                    }
+                                };
+
+                                FinishedGuard finished_guard{finished};
+
+                                // Automatically release the active-query slot,
+                                // including when a query times out or throws.
+                                struct ActiveQueryGuard {
+                                    std::atomic<unsigned>& counter;
+
+                                    ~ActiveQueryGuard() {
+                                        counter.fetch_sub(1);
+                                    }
+                                };
+
+                                ActiveQueryGuard active_guard{active_queries};
+
+                                // Test-only delay to verify the concurrency limit.
+                                if (const char* value =
+                                        std::getenv("TELEOP_QUERY_DELAY_MS")) {
+
+                                    try {
+                                        const int delay_ms = std::stoi(value);
+
+                                        if (delay_ms > 0 && delay_ms <= 2000) {
+                                            std::this_thread::sleep_for(
+                                                std::chrono::milliseconds(delay_ms)
+                                            );
+                                        }
+
+                                    } catch (const std::exception&) {
+                                        std::cerr
+                                            << "[robot] Invalid TELEOP_QUERY_DELAY_MS\n";
+                                    }
+                                }
+
+                                struct QueryState {
+                                    std::mutex mutex;
+                                    std::condition_variable cv;
+                                    bool complete = false;
+                                    std::optional<std::vector<std::uint8_t>> payload;
+                                };
+
+                                auto state = std::make_shared<QueryState>();
+
+                                try {
+                                    auto options =
+                                        zenoh::Session::GetOptions::create_default();
+
+                                    options.timeout_ms = 3000;
+
+                                    session.get(
+                                        zenoh::KeyExpr(CONFIG_QUERY_TOPIC),
+                                        "",
+
+                                        [state](zenoh::Reply& reply) {
+                                            if (!reply.is_ok()) {
+                                                return;
+                                            }
+
+                                            auto data =
+                                                reply.get_ok().get_payload().as_vector();
+
+                                            std::lock_guard<std::mutex> guard(
+                                                state->mutex
+                                            );
+
+                                            // Accept the first successful reply only.
+                                            if (!state->payload.has_value()) {
+                                                state->payload = std::move(data);
+                                            }
+                                        },
+
+                                        [state]() {
+                                            {
+                                                std::lock_guard<std::mutex> guard(
+                                                    state->mutex
+                                                );
+
+                                                state->complete = true;
+                                            }
+
+                                            state->cv.notify_one();
+                                        },
+
+                                        std::move(options)
+                                    );
+
+                                    std::optional<std::vector<std::uint8_t>> payload;
+
+                                    {
+                                        std::unique_lock<std::mutex> lock(
+                                            state->mutex
+                                        );
+
+                                        // Give Zenoh slightly longer than its own
+                                        // 3000 ms timeout to finish the query.
+                                        const bool completed = state->cv.wait_for(
+                                            lock,
+                                            std::chrono::milliseconds(3500),
+                                            [&] { return state->complete; }
+                                        );
+
+                                        if (completed && state->payload.has_value()) {
+                                            payload = std::move(state->payload);
+                                        }
+                                    }
+
+                                    if (!payload.has_value()) {
+                                        std::cerr
+                                            << "[robot] CONFIG QUERY TIMEOUT/NO REPLY"
+                                            << " id=" << request_id
+                                            << '\n';
+
+                                        return;
+                                    }
+
+                                    Message response{};
+                                    response.type = MessageType::Reply;
+                                    response.stream_id = 6;
+                                    response.sequence = request_id;
+                                    response.timestamp_ns = now_ns();
+                                    response.payload = std::move(*payload);
+
+                                    const auto result = scheduler.enqueue(
+                                        serialize(response),
+                                        MessageType::Reply,
+                                        DeliveryMode::ReliableOrdered,
+                                        TrafficKind::Reply
+                                    );
+
+                                    if (result == EnqueueResult::Rejected) {
+                                        std::cerr
+                                            << "[robot] CONFIG REPLY QUEUE REJECTED"
+                                            << " id=" << request_id
+                                            << '\n';
+
+                                        return;
+                                    }
+
+                                    std::cout
+                                        << "[robot] CONFIG REPLY QUEUED"
+                                        << " id=" << request_id
+                                        << '\n';
+
+                                } catch (const std::exception& e) {
+                                    std::cerr
+                                        << "[robot] CONFIG QUERY ERROR"
+                                        << " id=" << request_id
+                                        << " error=" << e.what()
+                                        << '\n';
+                                }
+                        });
+
+                    } catch (const std::exception& e) {
+                        // No thread started successfully.
+                        // Remove its empty slot if one was added.
+                        if (worker_slot_added) {
+                            query_workers.pop_back();
+                        }
+
+                        active_queries.fetch_sub(1);
+
+                        std::cerr
+                            << "[robot] Failed to start query worker"
+                            << " id=" << request_id
+                            << " error=" << e.what()
+                            << '\n';
+                    }
+
+                    continue;
+                }
+
+                if (is_config_reply) {
+                    receive_stats.record_received(
+                        classify_received_message(msg),
+                        encoded.size()
+                    );
+
+                    std::optional<zenoh::Query> pending;
+
+                    {
+                        std::lock_guard<std::mutex> guard(
+                            pending_queries_mutex
+                        );
+
+                        auto it = pending_queries.find(msg.sequence);
+
+                        if (it != pending_queries.end()) {
+                            if (Clock::now() < it->second.deadline) {
+                                pending.emplace(std::move(it->second.query));
+                            }
+
+                            pending_queries.erase(it);
+                        }
+                    }
+
+                    if (!pending.has_value()) {
+                        std::cerr
+                            << "[operator] UNKNOWN/DUPLICATE CONFIG REPLY"
+                            << " id=" << msg.sequence
+                            << '\n';
+
+                        continue;
+                    }
+
+                    try {
+                        pending->reply(
+                            zenoh::KeyExpr(CONFIG_QUERY_TOPIC),
+                            zenoh::Bytes(msg.payload)
+                        );
+
+                        std::cout
+                            << "[operator] NATIVE CONFIG REPLY SENT"
+                            << " id=" << msg.sequence
+                            << " bytes=" << msg.payload.size()
+                            << '\n';
+
+                    } catch (const std::exception& e) {
+                        std::cerr
+                            << "[operator] CONFIG REPLY ERROR"
+                            << " id=" << msg.sequence
+                            << " error=" << e.what()
+                            << '\n';
+                    }
+
+                    continue;
+                }
 
                 const char* destination = nullptr;
 
@@ -1014,6 +1534,8 @@ void run_connected(
                     destination = WRIST_LEFT_VIDEO_RX_TOPIC;
                 } else if (is_right_wrist_video) {
                     destination = WRIST_RIGHT_VIDEO_RX_TOPIC;
+                } else if (is_robot_state) {
+                    destination = ROBOT_STATE_TOPIC;
                 } else if (valid_test) {
                     destination = test_inbound;
                 } else {
@@ -1047,10 +1569,34 @@ void run_connected(
                     << e.what() << '\n';
                 break;
             }
+
         }
+
+        // Wait for any remaining query workers to finish.
+        for (auto& worker : query_workers) {
+            if (worker.thread.joinable()) {
+                worker.thread.join();
+            }
+        }
+
+        query_workers.clear();
 
         // Stop accepting new outbound messages by allowing
         // the subscriber objects to leave this scope.
+    }
+
+    timeout_running.store(false);
+
+    if (timeout_worker.joinable()) {
+        timeout_worker.join();
+    }
+
+    {
+        std::lock_guard<std::mutex> guard(
+            pending_queries_mutex
+        );
+
+        pending_queries.clear();
     }
 
     // Stop the TCP transport and scheduler.

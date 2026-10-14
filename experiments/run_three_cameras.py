@@ -34,54 +34,41 @@ def main():
     python = sys.executable
  
     receivers = {
-        "head_rx": [
+        "a2_viewer": [
             python,
-            "mock/video/head_receiver.py",
-            "--format",
-            "h264",
+            "mock/operator/a2_viewer.py",
             "--save-h264",
-            "results/final_validation/head_received.h264",
         ],
-        "left_rx": [
+        "a3_state": [
             python,
-            "mock/video/wrist_receiver.py",
-            "--camera",
-            "left",
-            "--save-h264",
-            "results/final_validation/wrist_left_received.h264",
-        ],
-        "right_rx": [
-            python,
-            "mock/video/wrist_receiver.py",
-            "--camera",
-            "right",
-            "--save-h264",
-            "results/final_validation/wrist_right_received.h264",
+            "mock/operator/a3_state.py",
+            "--duration",
+            str(args.duration + 2),
         ],
     }
 
     senders = {
         "head_tx": [
             python,
-            "mock/video/head_adaptive_sender.py",
+            "mock/robot/b1_head_camera.py",
             "--duration",
             str(args.duration),
         ],
-        "left_tx": [
+        "wrists_tx": [
             python,
-            "mock/video/wrist_adaptive_sender.py",
-            "--camera",
-            "left",
+            "mock/robot/b2_wrist_cameras.py",
             "--duration",
             str(args.duration),
         ],
-        "right_tx": [
+        "a3_queries": [
             python,
-            "mock/video/wrist_adaptive_sender.py",
-            "--camera",
-            "right",
+            "experiments/query_workload.py",
             "--duration",
             str(args.duration),
+            "--interval",
+            "1",
+            "--output",
+            "results/query_workload.csv",
         ],
     }
 
@@ -151,6 +138,16 @@ def main():
         # Give Zenoh subscriptions time to initialize.
         time.sleep(2)
 
+        print("[RUNNER] Starting A1 motion commands...")
+
+        start_process(
+            "a1_motion",
+            [
+                python,
+                "mock/operator/a1_commands.py",
+            ],
+        )
+
         print("[RUNNER] Starting senders...")
 
         for name, command in senders.items():
@@ -166,6 +163,10 @@ def main():
                 f"exit={return_code}",
                 flush=True,
             )
+
+        # Stop continuous A1 motion after the finite workloads.
+        print("[RUNNER] Stopping A1 motion...")
+        stop_process("a1_motion")
 
         # Allow in-flight fragments to arrive.
         time.sleep(2)

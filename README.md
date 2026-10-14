@@ -186,6 +186,139 @@ The archived integrated run contains **eight** control records: two E-stops and 
 
 These are **observed software effects in a local test harness**, not measurements of mechanical emergency-stop performance. Four E-stop trials are too few to characterize tail reliability, and phase labeling is performed at batch start.
 
+
+### 4.5 Integrated 75-second workload
+
+A later local experiment ran all six mock nodes concurrently:
+
+- A1: 100 Hz motion commands.
+- A2: three H.264 video receivers.
+- A3: 50 Hz robot-state receiver and periodic native Zenoh configuration queries.
+- B1: 720p/30 fps head camera.
+- B2: two 360p/30 fps wrist cameras.
+- B3: motion controller, state publisher and configuration queryable.
+
+The experiment produced the following results:
+
+| Measurement | Observed result |
+|---|---:|
+| Head video delivered within 200 ms | 2,246 / 2,250 (99.82%) |
+| Left wrist delivered within 200 ms | 2,248 / 2,250 (99.91%) |
+| Right wrist delivered within 200 ms | 2,248 / 2,250 (99.91%) |
+| Robot-state updates received | 3,850 |
+| Robot-state sequence gaps | 0 |
+| Robot-state age p50 / p95 / p99 | 1.056 / 1.592 / 1.960 ms |
+| Configuration queries successful | 75 / 75 |
+| Configuration query latency p50 / p95 / p99 | 2.749 / 4.098 / 4.931 ms |
+
+Completed-frame latency was measured from the frame capture timestamp to complete-frame reception:
+
+| Camera | p50 | p95 | p99 | Maximum |
+|---|---:|---:|---:|---:|
+| Head | 5.929 ms | 40.597 ms | 123.658 ms | 196.544 ms |
+| Left wrist | 1.173 ms | 26.482 ms | 115.627 ms | 191.834 ms |
+| Right wrist | 1.094 ms | 27.595 ms | 113.940 ms | 194.350 ms |
+
+Missing frames are counted as not delivered on time. These are application-level measurements in the local WSL2 test environment, not measured glass-to-glass or WAN latency.
+
+The configuration-query workload returned exactly one reply for each of its 75 successful requests. Separate concurrency and timeout experiments were performed, but their results should not be inferred from this 75-second run.
+
+### 4.6 Head video during normal and degraded bandwidth
+
+The 75-second experiment overlapped both the configured 8 Mbit/s normal budget and the 2 Mbit/s degraded budget.
+
+For the latest head-camera run, frame records were matched by `run_id`, and transmitted frame numbers were joined to completed receiver records. The sender's monotonic capture timestamps were approximately aligned with the robot bridge's five-second telemetry reports.
+
+| Approximate phase | Expected head frames | Within 200 ms | Missing | On-time fraction |
+|---|---:|---:|---:|---:|
+| Normal, 8 Mbit/s | 1,461 | 1,461 | 0 | 100.00% |
+| Degraded, 2 Mbit/s | 789 | 785 | 4 | 99.49% |
+| Combined | 2,250 | 2,246 | 4 | 99.82% |
+
+All completed head frames in the classified degraded phase arrived within 200 ms. The maximum observed completed-frame latency in that phase was 196.544 ms.
+
+The approximate degraded-phase result exceeds the assignment's 80% deadline-delivery target in this local experiment.
+
+**Classification limitation:** Bandwidth phases were assigned using the nearest five-second telemetry report and an estimated wall-clock-to-monotonic-clock offset. Frames around phase transitions could be assigned to the wrong phase. The phase-specific result is preliminary; precise transition-aligned instrumentation is still needed.
+
+The configured budgets apply to the bridge's application-level outbound limiter. Five-second throughput samples do not prove instantaneous physical-link compliance, including TCP/IP overhead or permitted token-bucket bursts.
+
+### 4.7 Automatic bridge restart recovery
+
+Automated experiments restarted either the robot-side or the operator-side bridge while motion, all three cameras, state updates and configuration queries were active.
+
+The existing experiment controller was invoked with:
+
+```bash
+python experiments/test_bridge_restart.py --restart robot
+python experiments/test_bridge_restart.py --restart operator
+```
+
+Each test terminated and relaunched the selected bridge process while leaving the other bridge, both Zenoh routers, and the robot controller running. Recovery was measured relative to the replacement process launch using monotonic timestamps.
+
+| Recovery metric | Robot bridge restart | Operator bridge restart |
+|---|---:|---:|
+| Fresh head video | 24.539 ms | 539.135 ms |
+| Fresh left-wrist video | 40.729 ms | 541.663 ms |
+| Fresh right-wrist video | 38.237 ms | 554.335 ms |
+| Accepted motion command | At most 91.472 ms | 537.580 ms |
+
+For video, the first recovered frames were verified to have capture timestamps later than the replacement bridge's launch. For robot-side restart, the motion timing is an upper bound based on periodic acceptance logging; for operator-side restart, a recovery event recorded the first accepted motion after the interruption.
+
+Both restart directions met the one-second fresh-motion and fresh-video recovery target in these automated localhost tests.
+
+During the operator-side restart, B3 also entered its watchdog-stopped state before accepting fresh motion again. The longer operator-side recovery is consistent with the robot bridge's 500 ms TCP reconnection retry delay.
+
+These measurements exclude time spent waiting to initiate a restart and do not establish a one-second guarantee under arbitrary process startup, host overload, or network failure. A separate manual restart test produced a much longer video interruption because it included manual process downtime.
+
+### 4.8 Watchdog and motion sender restart
+
+B3 validates motion command age and sequence number before applying simulated movement. It runs a local watchdog that stops movement when fresh commands cease.
+
+The externally required stop deadline is **300 ms**. An initial implementation using a 300 ms trigger stopped at 302.576 ms, exceeding that deadline in one test.
+
+The internal trigger was therefore reduced to **280 ms** to leave margin for the controller's approximately 5 ms polling interval and operating-system scheduling.
+
+Subsequent local watchdog measurements included:
+
+| Test | Measured stop time |
+|---|---:|
+| Short integrated workload | 280.195 ms |
+| First sender-session experiment | 281.092 ms |
+| Second sender-session experiment | 284.303 ms |
+
+All three were below the external 300 ms deadline. This is empirical validation under the tested conditions, not a hard real-time guarantee.
+
+To support restarting A1 without restarting B3, the 100-byte motion message now includes an eight-byte sender session ID in its existing payload. B3 tracks increasing sequence numbers within each session and remembers retired sessions.
+
+A two-run experiment demonstrated that:
+
+- A1 restarted with a new sender session ID and sequence number zero.
+- B3 accepted the new session while stopped, without restarting.
+- Motion acceptance resumed immediately.
+- No stale or sequence rejections occurred during those two runs.
+- The watchdog continued stopping movement after commands ceased.
+
+The prototype handover rule permits a previously unseen session to take control when the robot is stopped and E-stop is not latched. This is **not authenticated controller ownership**. Production use requires authorization, bounded session state, and a controlled handover or lease protocol.
+
+### 4.9 Regression checks
+
+The latest validation included:
+
+```bash
+python -m py_compile \
+    mock/operator/a1_commands.py \
+    mock/robot/b3_controller.py \
+    experiments/test_bridge_restart.py
+
+cmake --build build
+ctest --test-dir build --output-on-failure
+git diff --check
+```
+
+The Python syntax checks passed, Ninja reported no rebuild necessary, all four registered C++ tests passed (`test_message`, `test_rate_limiter`, `test_receive_stats`, and `test_scheduler`), and `git diff --check` reported no errors.
+
+
 ## 5. Safety, deployment and design assumptions
 
 The system design distinguishes **remote command delivery** from **local robot safety**. During a full network blackout, no remote transport can guarantee that a newly sent E-stop reaches the robot within 200 ms. A real deployment needs independent local stopping behavior and appropriate safety validation.
@@ -193,10 +326,10 @@ The system design distinguishes **remote command delivery** from **local robot s
 Original scenario assumptions and proposed policies:
 
 - Warehouse ingress is restricted; an outbound-initiated relay or VPN would be needed for production reachability.
-- Fast commands should reject non-increasing sequence numbers and age above 150 ms; a robot-side watchdog should stop motion after 300 ms without fresh commands. These policies require end-to-end robot integration and explicit tests.
-- Robot state is nominally 50 Hz and operator motion 100 Hz. The demonstrated experiments focus on the three camera feeds and reliable control.
+- Fast motion commands are rejected when older than 150 ms or when their sequence numbers are non-increasing within the active sender session. B3's software watchdog uses a 280 ms internal trigger to meet the 300 ms external stop deadline in measured local tests.
+- The prototype publishes operator motion at 100 Hz and robot state at 50 Hz. Both were exercised during integrated local experiments. No physical actuators were connected.
 - Wi-Fi roaming and an independently available cellular backup are **design candidates**, not part of the local prototype.
-- The original bridge-restart target is recovery within one second when network connectivity exists; no conclusive restart test is included in the reported evidence.
+- Automated local tests demonstrated recovery of fresh motion and video within one second following both robot-side and operator-side bridge process restarts. These results do not establish equivalent performance over a real WAN or guarantee recovery under arbitrary failures.
 
 ### Proposed production evolution (not implemented)
 
@@ -212,9 +345,9 @@ The initial proposal would suspend wrist feeds at 2 Mbit/s and lower head video 
 - **Security:** No demonstrated production-grade cross-site TLS, mutual authentication, relay authorization or end-to-end encryption.
 - **Network:** No measured real Wi-Fi interference, roaming, cellular failover, NAT traversal, relay outage or intercity RTT; the 8/2 Mbit/s schedule is an application-level limiter, not a simulated full network stack.
 - **Video:** Prerecorded H.264 test sources, not camera capture or live hardware encoding; fixed 30 fps and representation switching at GOP boundaries. The offline recorder buffers full test sequences in memory.
-- **Control:** Local software execution ACKs do not establish real actuator safety. Broader tests are still needed for stale motion inputs, watchdog behavior, query timeouts, concurrent failure/restart conditions and clock synchronization.
-- **Statistics:** Limited trials, sampled throughput, and no claims of worst-case latency or guaranteed frame delivery.
-- **Testing tooling:** The last recorded C++ build succeeded, but the Python test runner was unavailable (`No module named pytest`) and CTest reported no registered tests. Test-suite passing status remains **unverified** until dependencies are installed and tests are executed.
+- **Control:** Motion age and sequence validation, sender-session handover, a 280 ms internal watchdog, native configuration queries, and reliable E-stop/reset handling were exercised locally. Controller-session changes are not authenticated; E-stop ACKs represent simulated software effects, not physical actuator safety. Additional fault-injection, authorization, overload, and long-duration testing remain necessary.
+- **Timing and restart:** Both bridge restart directions met the one-second recovery target in automated localhost tests. The robot bridge uses a 500 ms reconnect retry interval. Measured watchdog stop times were below 300 ms, but ordinary Linux/WSL2 scheduling does not provide a hard real-time guarantee.
+- **Testing tooling:** The latest C++ build completed successfully and all four registered CTest tests passed. Python syntax checks also passed for the modified sender, controller, and restart experiment scripts. This is not a claim of complete automated test coverage.
 
 ## 7. Repository layout
 
