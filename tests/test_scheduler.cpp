@@ -62,19 +62,19 @@ int main() {
     assert(scheduler.pop(item));
     assert(item.bytes == data(31));
     assert(item.kind == TrafficKind::Reset);
-    scheduler.record_sent(item.kind);
+    scheduler.record_sent(item.kind, item.bytes.size());
 
     // Then the newest movement command.
     assert(scheduler.pop(item));
     assert(item.bytes == data(21));
     assert(item.kind == TrafficKind::Motion);
-    scheduler.record_sent(item.kind);
+    scheduler.record_sent(item.kind, item.bytes.size());
 
     // Robot state is lower priority.
     assert(scheduler.pop(item));
     assert(item.bytes == data(10));
     assert(item.kind == TrafficKind::RobotState);
-    scheduler.record_sent(item.kind);
+    scheduler.record_sent(item.kind, item.bytes.size());
 
     const auto stats = scheduler.stats();
 

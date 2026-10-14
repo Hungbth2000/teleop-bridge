@@ -27,3 +27,37 @@ target_compile_options(teleop_bridge PRIVATE
 target_include_directories(teleop_bridge PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/bridge/include
 )
+
+# --------------------------------------------------
+# Unit tests
+# --------------------------------------------------
+
+include(CTest)
+
+if(BUILD_TESTING)
+    foreach(test_name IN ITEMS
+        test_message
+        test_rate_limiter
+        test_receive_stats
+        test_scheduler
+    )
+        add_executable(${test_name}
+            tests/${test_name}.cpp
+        )
+
+        target_include_directories(${test_name} PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/bridge/include
+        )
+
+        target_compile_options(${test_name} PRIVATE
+            -Wall
+            -Wextra
+            -Wpedantic
+        )
+
+        add_test(
+            NAME ${test_name}
+            COMMAND ${test_name}
+        )
+    endforeach()
+endif()
