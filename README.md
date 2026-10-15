@@ -188,14 +188,17 @@ The pipeline writes B3's combined standard output/error to the terminal and `res
 .venv/bin/python -u mock/operator/a1_commands.py
 ```
 
-| Mock node | Namespace | Function | Startup status |
+After starting both Zenoh routers and C++ bridges, launch the mock applications in separate terminals.
+
+| Mock node | Namespace | Function | Startup command |
 |---|---|---|---|
-| A1 commands | Operator | 100 Hz motion commands | Command shown above |
-| A2 viewer | Operator | Receive/decode camera streams | Direct command not yet confirmed |
-| A3 state/queries | Operator | Receive state and issue queries | Direct command not yet confirmed |
-| B1 head camera | Robot | H.264 1280×720 at 30 fps | Direct command not yet confirmed |
-| B2 wrist cameras | Robot | Two H.264 640×360 at 30 fps | Direct commands not yet confirmed |
-| B3 robot controller | Robot | Validate/apply motion, E-stop, watchdog, state | Command shown above |
+| A1 Commands | Operator | Generate 100 Hz motion commands | `.venv/bin/python -u mock/operator/a1_commands.py` |
+| A1 Reliable | Operator | Send reliable E-stop/Reset commands | `.venv/bin/python -u mock/operator/a1_reliable.py` |
+| A2 Viewer | Operator | Receive/decode camera streams | `.venv/bin/python -u mock/operator/a2_viewer.py` |
+| A3 State/Queries | Operator | Receive robot state and issue configuration queries | `.venv/bin/python -u mock/operator/a3_state.py` |
+| B1 Head Camera | Robot | H.264 1280×720 at 30 fps | `sudo ip netns exec teleop-robot .venv/bin/python -u mock/robot/b1_head_camera.py` |
+| B2 Wrist Cameras | Robot | Two H.264 640×360 streams at 30 fps | `sudo ip netns exec teleop-robot .venv/bin/python -u mock/robot/b2_wrist_cameras.py` |
+| B3 Robot Controller | Robot | Validate motion/E-stop, enforce watchdog, publish state | `sudo ip netns exec teleop-robot .venv/bin/python -u mock/robot/b3_controller.py` |
 
 The integrated runner in the next section handles the multi-camera experiment; avoid independently starting duplicate mock publishers if the runner already launches them. Consult `experiments/run_three_cameras.py` before running it alongside manually started nodes.
 
