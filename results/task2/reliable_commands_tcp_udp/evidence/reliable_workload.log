@@ -1,0 +1,244 @@
+
+[WORKLOAD] 1/22 command=estop
+[A1] Sending estop id=1792090767639131028 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090767639131028
+  status=APPLIED
+  effect_ns=40432817290896
+  received_at_ns=40432828531482[A1] ACK: APPLIED
+
+[A1] Original command-to-effect: 2.195 ms
+[A1] Command-to-confirmation: 13.435 ms
+
+[WORKLOAD] 2/22 command=reset
+[A1] Sending reset id=1792090770668348965 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090770668348965
+  status=APPLIED
+  effect_ns=40435849037413
+  received_at_ns=40435860892437[A1] ACK: APPLIED
+[A1] Original command-to-effect: 3.189 ms
+
+[A1] Command-to-confirmation: 15.044 ms
+
+[WORKLOAD] 3/22 command=estop
+[A1] Sending estop id=1792090773236909453 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090773236909453
+  status=APPLIED
+  effect_ns=40438822220408
+  received_at_ns=40438850681040[A1] ACK: APPLIED
+
+[A1] Original command-to-effect: 4.952 ms
+[A1] Command-to-confirmation: 33.413 ms
+
+[WORKLOAD] 4/22 command=reset
+[A1] Sending reset id=1792090776273611193 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090776273611193
+  status=APPLIED
+  effect_ns=40441857453501
+  received_at_ns=40441869019236[A1] ACK: APPLIED
+
+[A1] Original command-to-effect: 2.481 ms
+[A1] Command-to-confirmation: 14.047 ms
+
+[WORKLOAD] 5/22 command=estop
+[A1] Sending estop id=1792090779235429452 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090779235429452
+  status=APPLIED
+  effect_ns=40444818691671
+  received_at_ns=40444848541743
+[A1] ACK: APPLIED
+[A1] Original command-to-effect: 5.456 ms
+[A1] Command-to-confirmation: 35.306 ms
+
+[WORKLOAD] 6/22 command=reset
+[A1] Sending reset id=1792090782235152309 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090782235152309
+  status=APPLIED
+  effect_ns=40447821290676
+  received_at_ns=40447846706054[A1] ACK: APPLIED
+
+[A1] Original command-to-effect: 6.383 ms
+[A1] Command-to-confirmation: 31.799 ms
+
+[WORKLOAD] 7/22 command=estop
+[A1] Sending estop id=1792090785259756333 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090785259756333
+  status=APPLIED
+  effect_ns=40450843935054
+  received_at_ns=40450858835084[A1] ACK: APPLIED
+[A1] Original command-to-effect: 3.665 ms
+
+[A1] Command-to-confirmation: 18.566 ms
+
+[WORKLOAD] 8/22 command=reset
+[A1] Sending reset id=1792090788237840545 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090788237840545
+  status=APPLIED
+  effect_ns=40453822949942
+  received_at_ns=40453843885495
+[A1] ACK: APPLIED
+[A1] Original command-to-effect: 6.505 ms
+[A1] Command-to-confirmation: 27.440 ms
+
+[WORKLOAD] 9/22 command=estop
+[A1] Sending estop id=1792090791233655498 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090791233655498
+  status=APPLIED
+  effect_ns=40456813547136
+  received_at_ns=40456835900360
+[A1] ACK: APPLIED
+[A1] Original command-to-effect: 2.625 ms
+[A1] Command-to-confirmation: 24.978 ms
+
+[WORKLOAD] 10/22 command=reset
+[A1] Sending reset id=1792090794243825443 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090794243825443
+  status=APPLIED
+  effect_ns=40459827199670
+  received_at_ns=40459856232490[A1] ACK: APPLIED
+
+[A1] Original command-to-effect: 5.910 ms
+[A1] Command-to-confirmation: 34.943 ms
+
+[WORKLOAD] 11/22 command=estop
+[A1] Sending estop id=1792090797265013410 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090797265013410
+  status=APPLIED
+  effect_ns=40462847896982
+  received_at_ns=40462869289959
+[A1] ACK: APPLIED
+[A1] Original command-to-effect: 2.704 ms
+[A1] Command-to-confirmation: 24.097 ms
+
+[WORKLOAD] 12/22 command=reset
+[A1] Sending reset id=1792090800275658659 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090800275658659
+  status=APPLIED
+  effect_ns=40465858556039
+  received_at_ns=40465873249155[A1] ACK: APPLIED
+
+[A1] Original command-to-effect: 2.840 ms
+[A1] Command-to-confirmation: 17.533 ms
+
+[WORKLOAD] 13/22 command=estop
+[A1] Sending estop id=1792090803264317935 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090803264317935
+  status=APPLIED
+  effect_ns=40468849084682
+  received_at_ns=40468878529636
+[A1] ACK: APPLIED
+[A1] Original command-to-effect: 6.431 ms
+[A1] Command-to-confirmation: 35.876 ms
+
+[WORKLOAD] 14/22 command=reset
+[A1] Sending reset id=1792090806254326622 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090806254326622
+  status=APPLIED
+  effect_ns=40471835117070
+  received_at_ns=40471859391392[A1] ACK: APPLIED
+
+[A1] Original command-to-effect: 3.570 ms
+[A1] Command-to-confirmation: 27.845 ms
+
+[WORKLOAD] 15/22 command=estop
+[A1] Sending estop id=1792090809252530557 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090809252530557
+  status=APPLIED
+  effect_ns=40474835232055
+  received_at_ns=40474853604196
+[A1] ACK: APPLIED
+[A1] Original command-to-effect: 5.651 ms
+[A1] Command-to-confirmation: 24.024 ms
+
+[WORKLOAD] 16/22 command=reset
+[A1] Sending reset id=1792090812232547120 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090812232547120
+  status=APPLIED
+  effect_ns=40477815481162
+  received_at_ns=40477843489427[A1] ACK: APPLIED
+
+[A1] Original command-to-effect: 5.521 ms
+[A1] Command-to-confirmation: 33.529 ms
+
+[WORKLOAD] 17/22 command=estop
+[A1] Sending estop id=1792090815244082995 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090815244082995
+  status=APPLIED
+  effect_ns=40480825815665
+  received_at_ns=40480850073798
+[A1] ACK: APPLIED
+[A1] Original command-to-effect: 3.978 ms
+[A1] Command-to-confirmation: 28.236 ms
+
+[WORKLOAD] 18/22 command=reset
+[A1] Sending reset id=1792090818233939404 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090818233939404
+  status=APPLIED
+  effect_ns=40483814082924
+  received_at_ns=40483830635004
+[A1] ACK: APPLIED
+[A1] Original command-to-effect: 3.201 ms
+[A1] Command-to-confirmation: 19.753 ms
+
+[WORKLOAD] 19/22 command=estop
+[A1] Sending estop id=1792090821257091325 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090821257091325
+  status=APPLIED
+  effect_ns=40486837407366
+  received_at_ns=40486857965649[A1] ACK: APPLIED
+[A1] Original command-to-effect: 2.828 ms
+
+[A1] Command-to-confirmation: 23.386 ms
+
+[WORKLOAD] 20/22 command=reset
+[A1] Sending reset id=1792090824231375094 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090824231375094
+  status=APPLIED
+  effect_ns=40489810468469
+  received_at_ns=40489830065995[A1] ACK: APPLIED
+
+[A1] Original command-to-effect: 1.809 ms
+[A1] Command-to-confirmation: 21.407 ms
+
+[WORKLOAD] 21/22 command=estop
+[A1] Sending estop id=1792090827243965338 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090827243965338
+  status=APPLIED
+  effect_ns=40492826204018
+  received_at_ns=40492851777026[A1] ACK: APPLIED
+
+[A1] Original command-to-effect: 4.360 ms
+[A1] Command-to-confirmation: 29.933 ms
+
+[WORKLOAD] 22/22 command=reset
+[A1] Sending reset id=1792090830257450041 attempt=1
+[A1] FIRST ACK:
+  command_id=1792090830257450041
+  status=APPLIED
+  effect_ns=40495837661169
+  received_at_ns=40495875483034
+[A1] ACK: APPLIED
+[A1] Original command-to-effect: 2.696 ms
+[A1] Command-to-confirmation: 40.518 ms
+
+[WORKLOAD] Finished. Commands attempted=22, process_errors=0

@@ -1,0 +1,9 @@
+{
+  "duplicate_ack_status": "DUPLICATE",
+  "older_reset_ack_status": "OLD_COMMAND",
+  "duplicate_id_total_applications": 1,
+  "duplicate_detections": 2,
+  "older_reset_applications": 0,
+  "older_reset_rejected": true,
+  "passed": true
+}

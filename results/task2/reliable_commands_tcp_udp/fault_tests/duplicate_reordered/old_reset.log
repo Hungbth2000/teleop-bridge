@@ -1,0 +1,8 @@
+[A1] Sending reset id=1792091088427354725 attempt=1
+[A1] FIRST ACK:
+  command_id=1792091088427354725
+  status=OLD_COMMAND
+  effect_ns=40865093972944
+  received_at_ns=40865099334716
+[A1] ACK: OLD_COMMAND
+[A1] Command-to-confirmation: 11.991 ms

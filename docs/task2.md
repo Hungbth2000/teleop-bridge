@@ -443,3 +443,147 @@ All Task 2.2 measurement files are organized under:
 - [Task 2.2 report](../results/task2/fast_commands_tcp_udp/report/report.md).
 
 These files provide the raw measurements and recorded controller decisions supporting the results in this section.
+
+### 2.3 Reliable Commands: E-stop Delivery and Exactly-Once Execution
+
+**Objective**
+
+Evaluate whether reliable control commands can be delivered and applied exactly once and in order, even when all three camera streams are active.
+
+The primary safety requirement is that every E-stop takes effect within 200 ms. The system must also report zero lost, duplicated, or reordered reliable-command applications.
+
+#### Test Setup
+
+The experiment used the same WSL2 network namespace configuration and hybrid TCP/UDP bridge as Sections 2.1 and 2.2.
+
+Reliable commands travel over TCP between the two C++ bridges. A1 publishes commands to its local Zenoh router, and B3 receives them through the robot-side router.
+
+Two command types were tested:
+
+- **E-stop:** Latches the emergency-stop state and stops simulated motion.
+- **Reset:** Clears the emergency-stop latch while keeping the robot stopped.
+
+Each reliable command contains a unique command ID, opcode, and creation timestamp. A1 waits for an acknowledgment and retransmits the same command if the acknowledgment does not arrive within the configured timeout.
+
+B3 stores the last applied reliable-command ID and E-stop state in SQLite. It rejects older commands and recognizes repeated command IDs without applying them again.
+
+#### Measurement Method
+
+The normal workload ran for 75 seconds with simultaneous head-camera and wrist-camera streaming, motion commands, state updates, and query traffic.
+
+A1 sent 22 reliable commands at approximately three-second intervals, alternating between E-stop and Reset.
+
+Both A1 and B3 recorded command events in CSV files. Records were matched using their unique command IDs.
+
+The E-stop effect latency was calculated as:
+
+`effect_latency_ms = (effect_ns - created_ns) / 1,000,000`
+
+The analysis verified that:
+
+1. Every unique command sent by A1 had exactly one application event at B3.
+2. Every command was confirmed at A1.
+3. Application order matched transmission order.
+4. Every E-stop effect latency was within 200 ms.
+5. No duplicate applications occurred.
+
+#### Results — Normal Workload
+
+| Metric | Measured result |
+|---|---:|
+| Test duration | 75 seconds |
+| Reliable commands sent | 22 |
+| E-stop commands | 11 |
+| Reset commands | 11 |
+| Commands applied at B3 | 22 |
+| Commands confirmed at A1 | 22 |
+| Lost commands | **0** |
+| Duplicate applications | **0** |
+| Reordered applications | **0** |
+| E-stops exceeding 200 ms | **0** |
+| Maximum E-stop effect latency | **6.431 ms** |
+
+All 22 commands were applied exactly once and in the correct order during the recorded workload.
+
+All 11 E-stops met the 200 ms effect-latency requirement. The maximum measured effect latency was 6.431 ms.
+
+**Evidence:**
+
+- [A1 reliable-command events](../results/task2/reliable_commands_tcp_udp/evidence/a1_reliable_events.csv)
+- [B3 reliable-command events](../results/task2/reliable_commands_tcp_udp/evidence/b3_reliable_events.csv)
+- [Per-command effect latency](../results/task2/reliable_commands_tcp_udp/report/command_results.csv)
+- [Normal-workload summary](../results/task2/reliable_commands_tcp_udp/report/summary.json)
+
+#### Fault Injection — Lost Acknowledgment
+
+A separate test simulated the loss of the first acknowledgment after B3 had applied an E-stop.
+
+The first command was committed successfully, but B3 deliberately suppressed its acknowledgment. After a 300 ms timeout, A1 retransmitted the same command ID.
+
+B3 recognized the retransmission as a duplicate and returned the original effect timestamp without executing the command again.
+
+| Measurement | Result |
+|---|---:|
+| A1 transmission attempts | 2 |
+| A1 acknowledgment timeouts | 1 |
+| B3 command receptions | 2 |
+| B3 applications | **1** |
+| Duplicate detections | 1 |
+| Suppressed acknowledgments | 1 |
+| Final confirmations | 1 |
+| Original effect timestamp preserved | Yes |
+| Test result | **PASS** |
+
+This demonstrates that a lost acknowledgment does not cause the E-stop to be applied twice in the tested retry scenario.
+
+**Evidence:**
+
+- [A1 retry events](../results/task2/reliable_commands_tcp_udp/fault_tests/dropped_ack/a1_events.csv)
+- [B3 application and duplicate events](../results/task2/reliable_commands_tcp_udp/fault_tests/dropped_ack/b3_events.csv)
+- [A1 test output](../results/task2/reliable_commands_tcp_udp/fault_tests/dropped_ack/a1_reliable.log)
+
+#### Fault Injection — Duplicate and Older Commands
+
+The final fault-injection test verified that a repeated command ID and an older Reset command could not cause an unintended state change.
+
+The test reused an already applied E-stop command ID, `1792091088427354726`, followed by a Reset command with the lower ID `1792091088427354725`.
+
+| Test | Expected behavior | Observed result |
+|---|---|---|
+| Duplicate E-stop | Recognize previously applied command | `DUPLICATE` |
+| Older Reset | Reject outdated command | `OLD_COMMAND` |
+| Additional duplicate E-stop applications | 0 | 0 |
+| Older Reset applications | 0 | 0 |
+
+B3 recognized the duplicate E-stop and rejected the older Reset without recording another application.
+
+The duplicate acknowledgment returned the timestamp of the original E-stop execution. Because this timestamp predates the new duplicate-test transmission, its difference from the new creation timestamp must not be interpreted as command latency.
+
+**Evidence:**
+
+- [Duplicate E-stop output](../results/task2/reliable_commands_tcp_udp/fault_tests/duplicate_reordered/duplicate_estop.log)
+- [Older Reset output](../results/task2/reliable_commands_tcp_udp/fault_tests/duplicate_reordered/old_reset.log)
+- [B3 decision records](../results/task2/reliable_commands_tcp_udp/fault_tests/duplicate_reordered/b3_events.csv)
+- [Fault-test summary](../results/task2/reliable_commands_tcp_udp/fault_tests/duplicate_reordered/summary.json)
+
+#### Observations and Limitations
+
+The reliable-command path maintained low E-stop effect latency during simultaneous camera streaming. All transmitted commands in the normal-workload test were applied once and acknowledged, with no observed ordering violations.
+
+The fault-injection tests also confirmed that B3 correctly handles a missing acknowledgment, a duplicate command ID, and an older command ID.
+
+The event timestamps use the same WSL2 monotonic clock. The reported B3 effect timestamp is captured before SQLite commit completion, so it is an approximation of the completed simulated state transition rather than a post-commit measurement. The test also does not measure physical actuator stopping time.
+
+The results support exactly-once application and ordering for the recorded workload and tested failure scenarios, rather than a universal guarantee under every possible failure.
+
+#### Acceptance Result
+
+**PASS — Reliable commands and E-stop safety in the tested scenarios**
+
+- All 22 reliable commands were applied and confirmed.
+- All 11 E-stops had measured effect latencies below 200 ms.
+- No lost, duplicated, or reordered applications were observed.
+- Retransmission after a lost acknowledgment did not produce a second application.
+- Duplicate and older command IDs were correctly rejected or recognized.
+
+The raw logs and per-command report are stored in `results/task2/reliable_commands_tcp_udp/`.

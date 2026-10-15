@@ -1,0 +1,18 @@
+[HEAD RX] Waiting for video fragments...
+[HEAD RX] complete=0 expired=0 invalid=0 corrupt=0 last_id=-1 last_latency=0.00ms
+[HEAD RX] complete=0 expired=0 invalid=0 corrupt=0 last_id=-1 last_latency=0.00ms
+[HEAD RX] complete=12 expired=0 invalid=0 corrupt=0 last_id=15275163574633234443 last_latency=5.68ms
+[HEAD RX] complete=42 expired=0 invalid=0 corrupt=0 last_id=15275163574633234473 last_latency=6.71ms
+[HEAD RX] complete=72 expired=0 invalid=0 corrupt=0 last_id=15275163574633234503 last_latency=6.60ms
+[HEAD RX] complete=102 expired=0 invalid=0 corrupt=0 last_id=15275163574633234533 last_latency=5.95ms
+[HEAD RX] complete=132 expired=0 invalid=0 corrupt=0 last_id=15275163574633234563 last_latency=6.69ms
+[HEAD RX] complete=150 expired=0 invalid=0 corrupt=0 last_id=15275163574633234581 last_latency=7.81ms
+[HEAD RX] complete=150 expired=0 invalid=0 corrupt=0 last_id=15275163574633234581 last_latency=7.81ms
+
+[HEAD RX] Stopped
+[H264 REC] Saved: results/final_validation/head_received.h264
+[H264 REC] Frames written: 150
+[H264 REC] Missing frames: 0
+[H264 REC] Duplicates: 0
+[H264 REC] Other-run frames: 0
+[HEAD RX] Frame CSV saved

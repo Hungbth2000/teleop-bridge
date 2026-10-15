@@ -1,0 +1,14 @@
+[A3] Connected to operator router
+[A3] Monitoring state for 77.0s
+
+[A3] FINAL STATE REPORT
+  Received: 3850
+  Missing: 0
+  Out-of-order/duplicate: 0
+  Invalid: 0
+  Last applied motion sequence: 7494
+  Moving: True
+  E-stop latched: False
+  State age p50: 1.931 ms
+  State age p95: 4.239 ms
+  State age p99: 4.861 ms

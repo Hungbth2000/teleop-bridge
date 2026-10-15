@@ -1,0 +1,14 @@
+{
+  "unique_commands_sent": 22,
+  "applications": 22,
+  "confirmed": 22,
+  "lost_command_ids": [],
+  "unconfirmed_command_ids": [],
+  "duplicate_application_counts": {},
+  "application_order_matches_send_order": true,
+  "alternating_estop_reset": true,
+  "estops_applied": 11,
+  "estops_over_200ms": [],
+  "max_estop_effect_latency_ms": 6.431111,
+  "normal_workload_pass": true
+}

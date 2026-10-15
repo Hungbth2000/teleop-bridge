@@ -1,0 +1,11 @@
+[A1] Sending estop id=1792091088427354726 attempt=1
+[A1] ACK timeout after 300 ms
+[A1] Sending estop id=1792091088427354726 attempt=2
+[A1] FIRST ACK:
+  command_id=1792091088427354726
+  status=DUPLICATE
+  effect_ns=40757421782184
+  received_at_ns=40757723906052
+[A1] ACK: DUPLICATE
+[A1] Original command-to-effect: 2.944 ms
+[A1] Command-to-confirmation: 305.068 ms

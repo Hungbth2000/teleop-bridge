@@ -1,0 +1,175 @@
+[B2] Started left wrist camera pid=23084
+[B2] Started right wrist camera pid=23087
+[WRIST ADAPT] Loading left representations...
+[WRIST ADAPT] Loading right representations...
+[WRIST ADAPT] camera=right run_id=516b6352 frames=2250
+[WRIST ADAPT] Waiting for bridge status...
+[WRIST ADAPT] camera=left run_id=a0cf3674 frames=2250
+[WRIST ADAPT] Waiting for bridge status...
+[WRIST ADAPT] SWITCH camera=right frame=0 mode=high reason=normal budget
+[WRIST ADAPT] SWITCH camera=left frame=0 mode=high reason=normal budget
+[WRIST ADAPT] camera=right frames=30 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=30 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=60 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=60 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=90 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=90 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=120 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=120 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=150 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=150 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=180 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=180 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=210 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=210 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=240 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=240 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=270 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=270 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=300 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=300 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=330 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=330 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=360 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=360 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=390 active=high requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=390 active=high requested=low reason=degraded budget
+[WRIST ADAPT] SWITCH camera=right frame=390 mode=low reason=degraded budget
+[WRIST ADAPT] SWITCH camera=left frame=390 mode=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=420 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=420 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=450 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=450 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=480 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=480 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=510 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=510 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=540 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=540 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=570 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=570 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=600 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=600 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=630 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=630 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=660 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=660 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=690 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=690 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=720 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=720 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=750 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=750 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=780 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=780 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=810 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=810 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=840 active=low requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=840 active=low requested=high reason=normal budget
+[WRIST ADAPT] SWITCH camera=right frame=840 mode=high reason=normal budget
+[WRIST ADAPT] SWITCH camera=left frame=840 mode=high reason=normal budget
+[WRIST ADAPT] camera=right frames=870 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=870 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=900 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=900 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=930 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=930 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=960 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=960 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=990 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=990 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1020 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1020 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1050 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1050 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1080 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1080 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1110 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1110 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1140 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1140 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1170 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1170 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1200 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1200 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1230 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1230 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1260 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1260 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1290 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1290 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1320 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1320 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1350 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1350 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1380 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1380 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1410 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1410 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1440 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1440 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1470 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1470 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1500 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1500 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1530 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1530 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1560 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1560 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1590 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1590 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1620 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1620 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1650 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1650 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1680 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1680 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1710 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1710 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1740 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1740 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1770 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1770 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1800 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1800 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1830 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1830 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1860 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1860 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1890 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1890 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1920 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1920 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1950 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1950 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=1980 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=1980 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=2010 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=2010 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=2040 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=2040 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=2070 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=2070 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=2100 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=2100 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=2130 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=2130 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=2160 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=left frames=2160 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=2190 active=high requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=2190 active=high requested=low reason=degraded budget
+[WRIST ADAPT] SWITCH camera=right frame=2190 mode=low reason=degraded budget
+[WRIST ADAPT] SWITCH camera=left frame=2190 mode=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=2220 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=left frames=2220 active=low requested=low reason=degraded budget
+[WRIST ADAPT] camera=right frames=2250 active=low requested=low reason=degraded budget
+[WRIST ADAPT] DONE camera=right run_id=516b6352 frames=2250 fragments=2326 fragment_bytes=422284 switches=4
+[WRIST ADAPT] High frames: 1740
+[WRIST ADAPT] Low frames: 510
+[WRIST ADAPT] CSV saved: /home/hung/projects/teleop-bridge/results/video_frames_tx_wrist_right.csv
+[WRIST ADAPT] camera=left frames=2250 active=low requested=low reason=degraded budget
+[WRIST ADAPT] DONE camera=left run_id=a0cf3674 frames=2250 fragments=4528 fragment_bytes=3585769 switches=4
+[WRIST ADAPT] High frames: 1740
+[WRIST ADAPT] Low frames: 510
+[WRIST ADAPT] CSV saved: /home/hung/projects/teleop-bridge/results/video_frames_tx_wrist_left.csv
+[B2] Both wrist cameras completed.

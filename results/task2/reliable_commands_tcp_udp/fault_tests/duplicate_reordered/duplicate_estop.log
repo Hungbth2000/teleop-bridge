@@ -1,0 +1,9 @@
+[A1] Sending estop id=1792091088427354726 attempt=1
+[A1] FIRST ACK:
+  command_id=1792091088427354726
+  status=DUPLICATE
+  effect_ns=40757421782184
+  received_at_ns=40848591060927
+[A1] ACK: DUPLICATE
+[A1] Original command-to-effect: -91163.826 ms
+[A1] Command-to-confirmation: 5.452 ms
