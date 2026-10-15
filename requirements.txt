@@ -1,0 +1,9 @@
+# Teleoperation prototype — Python dependencies identified from project documentation.
+# This is a baseline, not a verified exhaustive dependency lockfile.
+# Pin versions after checking imports and the working project environment.
+
+# Python Zenoh client for mock nodes / pub-sub and query-reply.
+eclipse-zenoh
+
+# H.264 encode/decode verification in the camera experiments (import av).
+av
