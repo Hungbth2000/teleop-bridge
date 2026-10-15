@@ -36,7 +36,7 @@ This section describes the **single-host Linux/WSL2 testbed**, not the proposed 
 
 ### 1. Dependencies
 
-**Platform:** Ubuntu/Linux (WSL2 is the tested environment), `sudo`, Python 3 with virtual-environment support, a C++17-capable compiler and build system, Zenoh router (`zenohd`), and Linux networking utilities (`iproute2`, `tc`/`netem`, `ping`). The camera decoder in Task 2 uses PyAV. Exact compiler, Zenoh, Python and library versions are **not documented in the supplied material** and should be pinned once confirmed from the repository.
+**Platform:** Ubuntu/Linux (WSL2 is the tested environment), `sudo`, Python 3 with virtual-environment support, a C++20-capable compiler and CMake 3.20 or newer, Zenoh router (`zenohd`), and Linux networking utilities (`iproute2`, `tc`/`netem`, `ping`). The camera decoder in Task 2 uses PyAV. Exact compiler, Zenoh, Python and library versions are **not documented in the supplied material** and should be pinned once confirmed from the repository.
 
 Install commonly required system tools on Ubuntu:
 
@@ -46,7 +46,7 @@ sudo apt install -y build-essential cmake pkg-config git \
   python3 python3-venv python3-pip iproute2 iputils-ping
 ```
 
-`tc` comes from `iproute2`. **Install `zenohd` using the version documented by your repository** and verify it is on `PATH` (`zenohd --help`). C++ dependencies (including Zenoh client libraries, if linked directly) must be installed according to the project's build configuration; the full dependency list is not available in the supplied README.
+`tc` comes from `iproute2`. **Install `zenohd` using the version documented by your repository** and verify it is on `PATH` (`zenohd --help`). The C++ bridge additionally depends on native `zenohc`, `zenohcxx`, and MsQuic (`libmsquic.so.2`); the KCP source is included in `third_party/kcp/`. Install compatible native releases before building. These are **not** installed by `requirements.txt`.
 
 Prepare Python from the repository root:
 
@@ -58,15 +58,46 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-The `requirements.txt` command applies **only if that file exists**; ensure PyAV and any Zenoh Python binding needed by the mock applications are included. To compile the bridges, inspect the project root for `CMakeLists.txt`, a `Makefile`, or build instructions. For a CMake-based project, the standard sequence is:
+The `requirements.txt` file covers Python dependencies only; it does not install the native C/C++ libraries needed by the bridge.
+
+### Build the C++ bridge
+
+From the repository root, configure and build the executable with CMake:
 
 ```bash
-# Run only if the repository has CMakeLists.txt and all dependencies are installed
-cmake -S . -B build
-cmake --build build -j
+cd ~/projects/teleop-bridge
+
+# Confirm compiler and build tool versions
+cmake --version
+g++ --version
+
+# Configure the CMake project (requires installed native dependencies)
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+# Compile the C/C++ sources, including vendored KCP where configured
+cmake --build build --parallel "$(nproc)"
+
+# Verify that the operator/robot bridge executable was created
+test -x build/teleop_bridge && echo "Bridge build successful"
 ```
 
-The bridge executable is `./build/teleop_bridge`; verify that this file exists after building (`test -x ./build/teleop_bridge`).
+The project requires **CMake ≥ 3.20** and **C++20**. Native dependencies are **Zenoh C (`zenohc`)**, **Zenoh C++ (`zenohcxx`)**, and **MsQuic (`libmsquic.so.2`)**; KCP's C source is vendored under `third_party/kcp/`. Build the *CMake target*, rather than compiling a single `.c` or `.cpp` file with `gcc`/`g++`, because the bridge links multiple sources and libraries. Install the native dependencies separately before running CMake.
+
+After changing C/C++ source code, rebuild with:
+
+```bash
+cmake --build build --parallel "$(nproc)"
+```
+
+If you need a clean build, delete only the generated build directory and reconfigure:
+
+```bash
+rm -rf build
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel "$(nproc)"
+```
+
+If configuration fails with *package not found* or linking fails with *library not found*, check that the native Zenoh and MsQuic development libraries are installed and discoverable by CMake. These commands build the bridge binary; the next sections start the network namespace, Zenoh routers, bridges, and mock nodes.
 
 ### 2. Set up the network namespace
 
