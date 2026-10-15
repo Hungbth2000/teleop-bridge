@@ -111,3 +111,21 @@ The experiment supports the use of hybrid TCP/UDP for this prototype, while iden
 The experiment used Linux network emulation rather than physical Wi-Fi hardware. Warehouse background burst loss was configured but not measured separately from blackout-related loss. Office and inter-city archived application trials have limited configuration provenance. E-stop and watchdog behavior during warehouse blackouts was not independently demonstrated.
 
 Raw and derived evidence is retained under `results/task3/real_network/`, including the clean warehouse retest, network probe, blackout controller logs, filtered B3 records, and recovery summaries.
+
+### Reproducible Video Evidence
+
+The office LAN, inter-city, and warehouse video datasets originally contained accumulated records from multiple experiments. To avoid mixing runs, the selected TX and RX frames were extracted by their exact run IDs and preserved under `results/task3/real_network/selected_video_runs/`.
+
+Each camera has separate `tx.csv` and `rx.csv` files. The accompanying `manifest.json` records the run ID, original source paths, frame counts, and SHA-256 checksums.
+
+To reproduce the video comparison after cloning the repository:
+
+```bash
+python experiments/analyze_task3_video.py
+```
+
+The analyzer verifies evidence checksums and matches transmitted and received frames by stream ID and frame ID. A frame is counted as good only if its measured capture-to-reception latency is between 0 and 200 ms.
+
+The packaging script `experiments/package_task3_video.py` documents how the selected evidence was extracted from the original cumulative logs. Re-running the packaging script requires those original source files; reproducing the reported metrics does not.
+
+The archived office and inter-city runs have matching TX/RX evidence, but their exact active network-profile and bridge-transport configurations were not independently recorded. The warehouse results come from the clean 75-second retest and are supported by separate impairment and blackout evidence.

@@ -2,79 +2,106 @@
   "office_lan": {
     "head": {
       "run_id": "8160d096",
-      "generated_frames": 2250,
-      "received_frames": 2250,
-      "good_frames": 2250,
-      "good_frame_percentage": 100.0,
+      "generated": 2250,
+      "received": 2250,
+      "good": 2250,
+      "missing": 0,
+      "late": 0,
+      "invalid": 0,
+      "good_percentage": 100.0,
       "good_latency_p95_ms": 23.211
     },
     "left": {
       "run_id": "8f592fe7",
-      "generated_frames": 2250,
-      "received_frames": 2191,
-      "good_frames": 2191,
-      "good_frame_percentage": 97.378,
+      "generated": 2250,
+      "received": 2191,
+      "good": 2191,
+      "missing": 59,
+      "late": 0,
+      "invalid": 0,
+      "good_percentage": 97.378,
       "good_latency_p95_ms": 13.711
     },
     "right": {
       "run_id": "4e449511",
-      "generated_frames": 2250,
-      "received_frames": 2190,
-      "good_frames": 2190,
-      "good_frame_percentage": 97.333,
+      "generated": 2250,
+      "received": 2190,
+      "good": 2190,
+      "missing": 60,
+      "late": 0,
+      "invalid": 0,
+      "good_percentage": 97.333,
       "good_latency_p95_ms": 18.516
     }
   },
   "inter_city": {
     "head": {
       "run_id": "b2232fba",
-      "generated_frames": 2250,
-      "received_frames": 2232,
-      "good_frames": 2232,
-      "good_frame_percentage": 99.2,
+      "generated": 2250,
+      "received": 2232,
+      "good": 2232,
+      "missing": 18,
+      "late": 0,
+      "invalid": 0,
+      "good_percentage": 99.2,
       "good_latency_p95_ms": 52.061
     },
     "left": {
       "run_id": "2d282ab5",
-      "generated_frames": 2250,
-      "received_frames": 2243,
-      "good_frames": 2243,
-      "good_frame_percentage": 99.689,
+      "generated": 2250,
+      "received": 2243,
+      "good": 2243,
+      "missing": 7,
+      "late": 0,
+      "invalid": 0,
+      "good_percentage": 99.689,
       "good_latency_p95_ms": 38.601
     },
     "right": {
       "run_id": "1b5165ef",
-      "generated_frames": 2250,
-      "received_frames": 2245,
-      "good_frames": 2245,
-      "good_frame_percentage": 99.778,
+      "generated": 2250,
+      "received": 2245,
+      "good": 2245,
+      "missing": 5,
+      "late": 0,
+      "invalid": 0,
+      "good_percentage": 99.778,
       "good_latency_p95_ms": 39.313
     }
   },
   "warehouse_wifi": {
     "head": {
-      "run_id": "1e5f95aa",
-      "generated_frames": 2250,
-      "received_frames": 656,
-      "good_frames": 656,
-      "good_frame_percentage": 29.156,
-      "good_latency_p95_ms": 173.176
+      "run_id": "bc0912d0",
+      "generated": 2250,
+      "received": 2165,
+      "good": 2165,
+      "missing": 85,
+      "late": 0,
+      "invalid": 0,
+      "good_percentage": 96.222,
+      "good_latency_p95_ms": 82.016
     },
     "left": {
-      "run_id": "20becd4f",
-      "generated_frames": 2250,
-      "received_frames": 664,
-      "good_frames": 664,
-      "good_frame_percentage": 29.511,
-      "good_latency_p95_ms": 166.163
+      "run_id": "33b58e23",
+      "generated": 2250,
+      "received": 2184,
+      "good": 2184,
+      "missing": 66,
+      "late": 0,
+      "invalid": 0,
+      "good_percentage": 97.067,
+      "good_latency_p95_ms": 72.498
     },
     "right": {
-      "run_id": "f1f0deba",
-      "generated_frames": 2250,
-      "received_frames": 668,
-      "good_frames": 668,
-      "good_frame_percentage": 29.689,
-      "good_latency_p95_ms": 168.809
+      "run_id": "fccdda22",
+      "generated": 2250,
+      "received": 2189,
+      "good": 2189,
+      "missing": 61,
+      "late": 0,
+      "invalid": 0,
+      "good_percentage": 97.289,
+      "good_latency_p95_ms": 71.7
     }
   }
 }

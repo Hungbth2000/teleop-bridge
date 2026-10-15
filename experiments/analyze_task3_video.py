@@ -1,52 +1,23 @@
 #!/usr/bin/env python3
+"""Reproduce Task 3 good-frame metrics from packaged evidence."""
 
 import csv
+import hashlib
 import json
 from pathlib import Path
 
 BASE = Path("results/task3/real_network")
-OUTPUT = BASE / "report"
-OUTPUT.mkdir(parents=True, exist_ok=True)
+EVIDENCE = BASE / "selected_video_runs"
+REPORT = BASE / "report"
+REPORT.mkdir(parents=True, exist_ok=True)
 
-SCENARIOS = {
-    "office_lan": {
-        "directory": Path("results/final_validation/tcp_udp_office"),
-        "runs": {
-            "head": "8160d096",
-            "left": "8f592fe7",
-            "right": "4e449511",
-        },
-    },
-    "inter_city": {
-        "directory": Path("results/hybrid_intercity"),
-        "runs": {
-            "head": "b2232fba",
-            "left": "2d282ab5",
-            "right": "1b5165ef",
-        },
-    },
-    "warehouse_wifi": {
-    "directory": Path("results/warehouse_wifi"),
-    "tx_directory": Path("results/quic_warehouse"),
-    "runs": {
-        "head": "1e5f95aa",
-        "left": "20becd4f",
-        "right": "f1f0deba",
-    },
-},
-}
+DEADLINE_MS = 200.0
 
-STREAMS = {
-    "head": ("video_frames_tx.csv", "video_frames_rx.csv"),
-    "left": (
-        "video_frames_tx_wrist_left.csv",
-        "video_frames_rx_wrist_left.csv",
-    ),
-    "right": (
-        "video_frames_tx_wrist_right.csv",
-        "video_frames_rx_wrist_right.csv",
-    ),
-}
+
+def read_csv(path):
+    with path.open(newline="") as f:
+        return list(csv.DictReader(f))
+
 
 def percentile(values, p):
     if not values:
@@ -55,62 +26,88 @@ def percentile(values, p):
     pos = (len(values) - 1) * p / 100
     lo = int(pos)
     hi = min(lo + 1, len(values) - 1)
-    return round(values[lo] * (hi - pos) + values[hi] * (pos - lo), 3) if hi != lo else round(values[lo], 3)
+    frac = pos - lo
+    return round(
+        values[lo] * (1 - frac) + values[hi] * frac, 3
+    )
 
-def read_run(path, run_id):
-    with path.open(newline="") as f:
-        return [
-            row for row in csv.DictReader(f)
-            if row["run_id"] == run_id
-        ]
 
-results = {}
+def frame_key(row):
+    return row["stream_id"], row["frame_id"]
 
-for scenario, config in SCENARIOS.items():
-    results[scenario] = {}
 
-    for stream, run_id in config["runs"].items():
-        tx_file, rx_file = STREAMS[stream]
-        directory = config["directory"]
+def verify_hash(path, expected):
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    if actual != expected:
+        raise RuntimeError(f"Evidence checksum mismatch: {path}")
 
-        tx_directory = config.get("tx_directory", directory)
 
-        tx = read_run(tx_directory / tx_file, run_id)
-        rx = read_run(directory / rx_file, run_id)
+manifest = json.loads((EVIDENCE / "manifest.json").read_text())
+summary = {}
 
-        generated = {
-            (r["stream_id"], r["frame_id"]): r
-            for r in tx
-        }
+for scenario, cameras in manifest["scenarios"].items():
+    summary[scenario] = {}
 
-        received = {
-            (r["stream_id"], r["frame_id"]): r
-            for r in rx
-        }
+    for camera, entry in cameras.items():
+        tx_file = EVIDENCE / entry["tx_file"]
+        rx_file = EVIDENCE / entry["rx_file"]
+
+        verify_hash(tx_file, entry["tx_sha256"])
+        verify_hash(rx_file, entry["rx_sha256"])
+
+        tx = read_csv(tx_file)
+        rx = read_csv(rx_file)
+
+        if any(r["run_id"] != entry["run_id"] for r in tx + rx):
+            raise RuntimeError(f"Unexpected run ID: {scenario}/{camera}")
+
+        tx_keys = [frame_key(r) for r in tx]
+        rx_keys = [frame_key(r) for r in rx]
+
+        if len(tx_keys) != len(set(tx_keys)):
+            raise RuntimeError("Duplicate TX frame keys")
+        if len(rx_keys) != len(set(rx_keys)):
+            raise RuntimeError("Duplicate RX frame keys")
+
+        generated = {frame_key(r): r for r in tx}
+        received = {frame_key(r): r for r in rx}
+
+        if not set(received).issubset(set(generated)):
+            raise RuntimeError("RX contains frames absent from TX")
 
         good_latencies = []
+        late = 0
+        invalid = 0
 
-        for key, tx_row in generated.items():
-            rx_row = received.get(key)
-            if rx_row is None:
+        for key, sent in generated.items():
+            arrived = received.get(key)
+            if arrived is None:
                 continue
 
-            latency_ms = (
-                int(rx_row["event_ns"])
-                - int(tx_row["capture_ns"])
+            latency = (
+                int(arrived["event_ns"]) -
+                int(sent["capture_ns"])
             ) / 1e6
 
-            if 0 <= latency_ms <= 200:
-                good_latencies.append(latency_ms)
+            if latency < 0:
+                invalid += 1
+            elif latency <= DEADLINE_MS:
+                good_latencies.append(latency)
+            else:
+                late += 1
 
         total = len(generated)
+        missing = total - len(received)
 
         result = {
-            "run_id": run_id,
-            "generated_frames": total,
-            "received_frames": len(received),
-            "good_frames": len(good_latencies),
-            "good_frame_percentage": round(
+            "run_id": entry["run_id"],
+            "generated": total,
+            "received": len(received),
+            "good": len(good_latencies),
+            "missing": missing,
+            "late": late,
+            "invalid": invalid,
+            "good_percentage": round(
                 100 * len(good_latencies) / total, 3
             ) if total else None,
             "good_latency_p95_ms": percentile(
@@ -118,17 +115,16 @@ for scenario, config in SCENARIOS.items():
             ),
         }
 
-        results[scenario][stream] = result
+        summary[scenario][camera] = result
 
         print(
-            f"{scenario:12} {stream:5} "
-            f"good={result['good_frames']}/{total} "
-            f"({result['good_frame_percentage']}%) "
+            f"{scenario:15} {camera:5} "
+            f"good={result['good']}/{total} "
+            f"({result['good_percentage']}%) "
             f"p95={result['good_latency_p95_ms']} ms"
         )
 
-(OUTPUT / "video_summary.json").write_text(
-    json.dumps(results, indent=2) + "\n"
-)
+output = REPORT / "video_summary.json"
+output.write_text(json.dumps(summary, indent=2) + "\n")
 
-print("\nSaved:", OUTPUT / "video_summary.json")
+print("\nSaved:", output)

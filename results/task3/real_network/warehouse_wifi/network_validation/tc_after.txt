@@ -1,0 +1,9 @@
+2026-10-15T22:33:00+02:00
+=== OPERATOR ===
+qdisc netem 802b: root refcnt 13 limit 1000 delay 45ms  25ms loss gemodel p 0.2% r 20% 1-h 100% 1-k 0%
+ Sent 146566 bytes 1499 pkt (dropped 3, overlimits 0 requeues 0) 
+ backlog 0b 0p requeues 0
+=== ROBOT ===
+qdisc netem 802c: root refcnt 13 limit 1000 delay 45ms  25ms loss gemodel p 0.2% r 20% 1-h 100% 1-k 0%
+ Sent 654274 bytes 6475 pkt (dropped 58, overlimits 0 requeues 0) 
+ backlog 306b 3p requeues 0

@@ -101,3 +101,45 @@
 [NETWORK] Blackout END monotonic=46884.608316
 [NETWORK] Blackout START monotonic=46914.120180
 [NETWORK] Blackout END monotonic=46914.630287
+[NETWORK] Latency spike START monotonic=46929.101468
+[NETWORK] Normal Wi-Fi delay and bursty loss applied
+[NETWORK] Latency spike END monotonic=46929.314381
+[NETWORK] Blackout START monotonic=46944.146178
+[NETWORK] Blackout END monotonic=46944.664448
+[NETWORK] Blackout START monotonic=46974.107477
+[NETWORK] Blackout END monotonic=46974.613618
+[NETWORK] Latency spike START monotonic=46989.068250
+[NETWORK] Normal Wi-Fi delay and bursty loss applied
+[NETWORK] Latency spike END monotonic=46989.287003
+[NETWORK] Blackout START monotonic=47004.076523
+[NETWORK] Blackout END monotonic=47004.582745
+[NETWORK] Blackout START monotonic=47034.088793
+[NETWORK] Blackout END monotonic=47034.595993
+[NETWORK] Latency spike START monotonic=47049.064893
+[NETWORK] Normal Wi-Fi delay and bursty loss applied
+[NETWORK] Latency spike END monotonic=47049.273716
+[NETWORK] Blackout START monotonic=47064.083605
+[NETWORK] Blackout END monotonic=47064.590957
+[NETWORK] Blackout START monotonic=47094.102982
+[NETWORK] Blackout END monotonic=47094.613444
+[NETWORK] Latency spike START monotonic=47109.110696
+[NETWORK] Normal Wi-Fi delay and bursty loss applied
+[NETWORK] Latency spike END monotonic=47109.323203
+[NETWORK] Blackout START monotonic=47124.081415
+[NETWORK] Blackout END monotonic=47124.592651
+[NETWORK] Blackout START monotonic=47154.114002
+[NETWORK] Blackout END monotonic=47154.632490
+[NETWORK] Latency spike START monotonic=47169.097914
+[NETWORK] Normal Wi-Fi delay and bursty loss applied
+[NETWORK] Latency spike END monotonic=47169.304323
+[NETWORK] Blackout START monotonic=47184.107631
+[NETWORK] Blackout END monotonic=47184.624601
+[NETWORK] Blackout START monotonic=47214.128328
+[NETWORK] Blackout END monotonic=47214.634891
+[NETWORK] Latency spike START monotonic=47229.104159
+[NETWORK] Normal Wi-Fi delay and bursty loss applied
+[NETWORK] Latency spike END monotonic=47229.322003
+[NETWORK] Blackout START monotonic=47244.107083
+[NETWORK] Blackout END monotonic=47244.617348
+[NETWORK] Blackout START monotonic=47274.092880
+[NETWORK] Blackout END monotonic=47274.603004

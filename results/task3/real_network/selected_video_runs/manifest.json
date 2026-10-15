@@ -1,0 +1,109 @@
+{
+  "scenarios": {
+    "office_lan": {
+      "head": {
+        "run_id": "8160d096",
+        "source_tx": "results/final_validation/tcp_udp_office/video_frames_tx.csv",
+        "source_rx": "results/final_validation/tcp_udp_office/video_frames_rx.csv",
+        "tx_file": "office_lan/head/tx.csv",
+        "rx_file": "office_lan/head/rx.csv",
+        "generated_frames": 2250,
+        "received_frames": 2250,
+        "tx_sha256": "8bfb6a3be5b009f0cf8badd49229a81ad4690f03e17ee2b9d5938525bf0855e3",
+        "rx_sha256": "563e22e35866a81eaf5c1daf2dc4ea08309b42dc9d7800adb1f97256be59e631"
+      },
+      "left": {
+        "run_id": "8f592fe7",
+        "source_tx": "results/final_validation/tcp_udp_office/video_frames_tx_wrist_left.csv",
+        "source_rx": "results/final_validation/tcp_udp_office/video_frames_rx_wrist_left.csv",
+        "tx_file": "office_lan/left/tx.csv",
+        "rx_file": "office_lan/left/rx.csv",
+        "generated_frames": 2250,
+        "received_frames": 2191,
+        "tx_sha256": "edd3c8c0bff8f5999f518621a225007b0ae18cc787de10f55d6cd55e54c70436",
+        "rx_sha256": "23c1e04b0065055fc0c15e7272a26d83f1cfbe9c5f8398d91d3a3e067286f642"
+      },
+      "right": {
+        "run_id": "4e449511",
+        "source_tx": "results/final_validation/tcp_udp_office/video_frames_tx_wrist_right.csv",
+        "source_rx": "results/final_validation/tcp_udp_office/video_frames_rx_wrist_right.csv",
+        "tx_file": "office_lan/right/tx.csv",
+        "rx_file": "office_lan/right/rx.csv",
+        "generated_frames": 2250,
+        "received_frames": 2190,
+        "tx_sha256": "b07a21b6a63fde1c030b0fba53b86036d7ae4b066add3e594aeac885e375e259",
+        "rx_sha256": "3406a02fb2814de61eb0a99589836744b134d2725b3677b5a8fa972066e288b5"
+      }
+    },
+    "inter_city": {
+      "head": {
+        "run_id": "b2232fba",
+        "source_tx": "results/hybrid_intercity/video_frames_tx.csv",
+        "source_rx": "results/hybrid_intercity/video_frames_rx.csv",
+        "tx_file": "inter_city/head/tx.csv",
+        "rx_file": "inter_city/head/rx.csv",
+        "generated_frames": 2250,
+        "received_frames": 2232,
+        "tx_sha256": "f886214343a1d2a9850825286bcf01637994886b9eb3ea53124871488330d5d4",
+        "rx_sha256": "cf92699b0dedc53091552dd641e8b75645c2e4431ecf150cb4970316f1db4fff"
+      },
+      "left": {
+        "run_id": "2d282ab5",
+        "source_tx": "results/hybrid_intercity/video_frames_tx_wrist_left.csv",
+        "source_rx": "results/hybrid_intercity/video_frames_rx_wrist_left.csv",
+        "tx_file": "inter_city/left/tx.csv",
+        "rx_file": "inter_city/left/rx.csv",
+        "generated_frames": 2250,
+        "received_frames": 2243,
+        "tx_sha256": "298d8dfbeab4b5c4769fb1c972938ad1b3f3dacf10cbe3fcbbb9352ebd0b91ca",
+        "rx_sha256": "a3fc8bc71ba4337dcb78774387fccad429ce1dfc6cd42da33c19590cc79135b4"
+      },
+      "right": {
+        "run_id": "1b5165ef",
+        "source_tx": "results/hybrid_intercity/video_frames_tx_wrist_right.csv",
+        "source_rx": "results/hybrid_intercity/video_frames_rx_wrist_right.csv",
+        "tx_file": "inter_city/right/tx.csv",
+        "rx_file": "inter_city/right/rx.csv",
+        "generated_frames": 2250,
+        "received_frames": 2245,
+        "tx_sha256": "aa597188e92f6a3b56a3d4ad6c68598fd5668c13b7d1a1be6961a0f5e8ab0d69",
+        "rx_sha256": "59f319cb460335d8f30fe219cfb58a6836d0dca7ad6ebf57da8e912c5e7e1afc"
+      }
+    },
+    "warehouse_wifi": {
+      "head": {
+        "run_id": "bc0912d0",
+        "source_tx": "results/task3/real_network/warehouse_wifi/retest_02/application/video_frames_tx.csv",
+        "source_rx": "results/task3/real_network/warehouse_wifi/retest_02/application/video_frames_rx.csv",
+        "tx_file": "warehouse_wifi/head/tx.csv",
+        "rx_file": "warehouse_wifi/head/rx.csv",
+        "generated_frames": 2250,
+        "received_frames": 2165,
+        "tx_sha256": "6ddbe2c3d8f7b026899e7465fdc431204dc799b523a56f941c256c258330f329",
+        "rx_sha256": "0f514a042f0ba9158a005ea110230c8bbafe92b29aa1fe3bae97ab007cd9808d"
+      },
+      "left": {
+        "run_id": "33b58e23",
+        "source_tx": "results/task3/real_network/warehouse_wifi/retest_02/application/video_frames_tx_wrist_left.csv",
+        "source_rx": "results/task3/real_network/warehouse_wifi/retest_02/application/video_frames_rx_wrist_left.csv",
+        "tx_file": "warehouse_wifi/left/tx.csv",
+        "rx_file": "warehouse_wifi/left/rx.csv",
+        "generated_frames": 2250,
+        "received_frames": 2184,
+        "tx_sha256": "8d84dbddc5df194390436a50071125cd4c6ae4d00937568e44c39d8bd1dc061e",
+        "rx_sha256": "5ae31a2591b170e9e451ae0ac86c13605facd4b2ea4b17bc56e9de16bdcf0214"
+      },
+      "right": {
+        "run_id": "fccdda22",
+        "source_tx": "results/task3/real_network/warehouse_wifi/retest_02/application/video_frames_tx_wrist_right.csv",
+        "source_rx": "results/task3/real_network/warehouse_wifi/retest_02/application/video_frames_rx_wrist_right.csv",
+        "tx_file": "warehouse_wifi/right/tx.csv",
+        "rx_file": "warehouse_wifi/right/rx.csv",
+        "generated_frames": 2250,
+        "received_frames": 2189,
+        "tx_sha256": "adaec60956a56ec521f5599c1a2ab25e360d749ae086a007dae291bfe41715c7",
+        "rx_sha256": "074205aa565848177b95ffd1682306469c8e5eb4d14648c4f0275a5b62372437"
+      }
+    }
+  }
+}
