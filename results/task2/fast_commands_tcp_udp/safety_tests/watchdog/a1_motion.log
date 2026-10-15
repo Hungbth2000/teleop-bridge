@@ -1,0 +1,8 @@
+[A1] Connected to operator router
+[A1] Session ID: 2529209363538509422
+[A1] Publishing movement commands at 100 Hz
+[A1] session=2529209363538509422 seq=0 velocity=0.000 size=100 bytes
+[A1] session=2529209363538509422 seq=100 velocity=0.841 size=100 bytes
+[A1] session=2529209363538509422 seq=200 velocity=0.909 size=100 bytes
+[A1] session=2529209363538509422 seq=300 velocity=0.141 size=100 bytes
+[A1] session=2529209363538509422 seq=400 velocity=-0.757 size=100 bytes

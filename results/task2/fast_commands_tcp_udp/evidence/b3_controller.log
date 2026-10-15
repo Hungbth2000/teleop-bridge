@@ -1,0 +1,1182 @@
+[B3] Restored state: last_id=1792075167679287817 estop=False
+[B3] Connected to robot router
+[B3] Motion and E-stop handlers active
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3 SESSION] Initial session=10893518513142540501
+[B3 MOTION RECOVERY] accepted=1 sequence=0 accepted_ns=38173883276754 previous_gap_ms=None
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=47 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.36 p95=3.20 p99=3.33
+[B3 MOTION] accepted=100 sequence=99 accepted_ns=38174873203926
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=148 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.36 p95=3.04 p99=4.09
+[B3 MOTION] accepted=200 sequence=199 accepted_ns=38175873778397
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=248 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.45 p95=2.45 p99=3.73
+[B3 MOTION] accepted=300 sequence=299 accepted_ns=38176873404603
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=348 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.52 p95=2.40 p99=3.87
+[B3 MOTION] accepted=400 sequence=399 accepted_ns=38177874455650
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=448 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.57 p95=3.90 p99=4.36
+[B3 MOTION] accepted=500 sequence=499 accepted_ns=38178874719059
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=548 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.71 p95=4.07 p99=4.39
+[B3 MOTION] accepted=600 sequence=599 accepted_ns=38179874768247
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=649 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.89 p95=4.01 p99=4.38
+[B3 MOTION] accepted=700 sequence=699 accepted_ns=38180873890269
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=749 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.92 p95=3.90 p99=4.36
+[B3 MOTION] accepted=800 sequence=799 accepted_ns=38181874060161
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=849 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.97 p95=3.62 p99=4.34
+[B3 MOTION] accepted=900 sequence=899 accepted_ns=38182876439219
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=950 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=2.04 p95=4.14 p99=4.53
+[B3 MOTION] accepted=1000 sequence=999 accepted_ns=38183873194862
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=1050 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=2.00 p95=4.15 p99=4.52
+[B3 MOTION] accepted=1100 sequence=1099 accepted_ns=38184873707979
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=1150 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.96 p95=4.24 p99=4.63
+[B3 MOTION] accepted=1200 sequence=1199 accepted_ns=38185873218311
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=1250 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.94 p95=4.20 p99=4.61
+[B3 MOTION] accepted=1300 sequence=1299 accepted_ns=38186873314377
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=1350 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.94 p95=4.20 p99=4.63
+[B3 MOTION] accepted=1400 sequence=1399 accepted_ns=38187874035383
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=1451 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.95 p95=4.20 p99=4.63
+[B3 MOTION] accepted=1500 sequence=1499 accepted_ns=38188873010191
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=1551 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.96 p95=4.18 p99=4.61
+[B3 MOTION] accepted=1600 sequence=1599 accepted_ns=38189873438753
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=1651 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.93 p95=4.18 p99=4.60
+[B3 MOTION] accepted=1700 sequence=1699 accepted_ns=38190874144591
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=1752 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.97 p95=4.26 p99=4.65
+[B3 MOTION] accepted=1800 sequence=1799 accepted_ns=38191873408344
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=1852 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.93 p95=4.26 p99=4.65
+[B3 MOTION] accepted=1900 sequence=1899 accepted_ns=38192874148374
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=1952 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.95 p95=4.29 p99=4.70
+[B3 MOTION] accepted=2000 sequence=1999 accepted_ns=38193873701803
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=2053 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.94 p95=4.26 p99=4.69
+[B3 MOTION] accepted=2100 sequence=2099 accepted_ns=38194876451544
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=2153 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.96 p95=4.31 p99=4.71
+[B3 MOTION] accepted=2200 sequence=2199 accepted_ns=38195873618297
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=2253 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.93 p95=4.30 p99=4.70
+[B3 MOTION] accepted=2300 sequence=2299 accepted_ns=38196873201003
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=2353 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.91 p95=4.28 p99=4.69
+[B3 MOTION] accepted=2400 sequence=2399 accepted_ns=38197873182335
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=2454 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.90 p95=4.26 p99=4.68
+[B3 MOTION] accepted=2500 sequence=2499 accepted_ns=38198873240994
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=2554 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.88 p95=4.26 p99=4.68
+[B3 MOTION] accepted=2600 sequence=2599 accepted_ns=38199874977421
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=2655 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.86 p95=4.24 p99=4.67
+[B3 MOTION] accepted=2700 sequence=2699 accepted_ns=38200874159356
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=2755 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.86 p95=4.23 p99=4.67
+[B3 MOTION] accepted=2800 sequence=2799 accepted_ns=38201877233878
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=2856 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.85 p95=4.25 p99=4.70
+[B3 MOTION] accepted=2900 sequence=2899 accepted_ns=38202874836782
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=2956 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.86 p95=4.25 p99=4.70
+[B3 MOTION] accepted=3000 sequence=2999 accepted_ns=38203873281062
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=3056 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.86 p95=4.24 p99=4.69
+[B3 MOTION] accepted=3100 sequence=3099 accepted_ns=38204874080774
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=3156 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.88 p95=4.23 p99=4.68
+[B3 MOTION] accepted=3200 sequence=3199 accepted_ns=38205874569950
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=3256 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.91 p95=4.23 p99=4.68
+[B3 MOTION] accepted=3300 sequence=3299 accepted_ns=38206874980931
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=3356 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.93 p95=4.26 p99=4.71
+[B3 MOTION] accepted=3400 sequence=3399 accepted_ns=38207874886180
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=3457 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.95 p95=4.26 p99=4.72
+[B3 MOTION] accepted=3500 sequence=3499 accepted_ns=38208873357268
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=3557 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.94 p95=4.26 p99=4.72
+[B3 MOTION] accepted=3600 sequence=3599 accepted_ns=38209873216773
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=3658 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.92 p95=4.26 p99=4.71
+[B3 MOTION] accepted=3700 sequence=3699 accepted_ns=38210874706930
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=3758 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.93 p95=4.24 p99=4.71
+[B3 MOTION] accepted=3800 sequence=3799 accepted_ns=38211874111507
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=3858 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.95 p95=4.24 p99=4.71
+[B3 MOTION] accepted=3900 sequence=3899 accepted_ns=38212874843726
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=3958 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.97 p95=4.23 p99=4.71
+[B3 MOTION] accepted=4000 sequence=3999 accepted_ns=38213873901792
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=4059 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.98 p95=4.22 p99=4.71
+[B3 MOTION] accepted=4100 sequence=4099 accepted_ns=38214873901636
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=4159 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.99 p95=4.21 p99=4.71
+[B3 MOTION] accepted=4200 sequence=4199 accepted_ns=38215873935672
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=4259 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.99 p95=4.20 p99=4.70
+[B3 MOTION] accepted=4300 sequence=4299 accepted_ns=38216874075206
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=4359 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=2.00 p95=4.20 p99=4.70
+[B3 MOTION] accepted=4400 sequence=4399 accepted_ns=38217874127446
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=4460 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=2.00 p95=4.19 p99=4.70
+[B3 MOTION] accepted=4500 sequence=4499 accepted_ns=38218873249918
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=4560 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.99 p95=4.18 p99=4.70
+[B3 MOTION] accepted=4600 sequence=4599 accepted_ns=38219874001384
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=4660 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.98 p95=4.17 p99=4.69
+[B3 MOTION] accepted=4700 sequence=4699 accepted_ns=38220873962052
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=4760 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.98 p95=4.18 p99=4.70
+[B3 MOTION] accepted=4800 sequence=4799 accepted_ns=38221873305498
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=4860 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.97 p95=4.19 p99=4.70
+[B3 MOTION] accepted=4900 sequence=4899 accepted_ns=38222874534783
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=4961 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.97 p95=4.18 p99=4.69
+[B3 MOTION] accepted=5000 sequence=4999 accepted_ns=38223873207987
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=5061 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.96 p95=4.18 p99=4.68
+[B3 MOTION] accepted=5100 sequence=5099 accepted_ns=38224873310022
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=5161 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.95 p95=4.16 p99=4.68
+[B3 MOTION] accepted=5200 sequence=5199 accepted_ns=38225873242150
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=5261 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.94 p95=4.16 p99=4.68
+[B3 MOTION] accepted=5300 sequence=5299 accepted_ns=38226873273371
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=5362 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.92 p95=4.14 p99=4.67
+[B3 MOTION] accepted=5400 sequence=5399 accepted_ns=38227873496272
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=5462 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.93 p95=4.15 p99=4.68
+[B3 MOTION] accepted=5500 sequence=5499 accepted_ns=38228873328471
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=5562 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.93 p95=4.13 p99=4.68
+[B3 MOTION] accepted=5600 sequence=5599 accepted_ns=38229873873227
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=5662 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.93 p95=4.13 p99=4.68
+[B3 MOTION] accepted=5700 sequence=5699 accepted_ns=38230876477124
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=5763 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.94 p95=4.17 p99=4.69
+[B3 MOTION] accepted=5800 sequence=5799 accepted_ns=38231874091911
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=5863 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.95 p95=4.16 p99=4.69
+[B3 MOTION] accepted=5900 sequence=5899 accepted_ns=38232875618048
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=5963 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.95 p95=4.18 p99=4.70
+[B3 MOTION] accepted=6000 sequence=5999 accepted_ns=38233875246117
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=6063 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.95 p95=4.16 p99=4.70
+[B3 MOTION] accepted=6100 sequence=6099 accepted_ns=38234876858044
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=6164 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.96 p95=4.23 p99=4.74
+[B3 MOTION] accepted=6200 sequence=6199 accepted_ns=38235873707345
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=6264 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.96 p95=4.22 p99=4.73
+[B3 MOTION] accepted=6300 sequence=6299 accepted_ns=38236874021814
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=6365 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.96 p95=4.24 p99=4.75
+[B3 MOTION] accepted=6400 sequence=6399 accepted_ns=38237874102804
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=6465 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.96 p95=4.23 p99=4.75
+[B3 MOTION] accepted=6500 sequence=6499 accepted_ns=38238874832387
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=6566 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.96 p95=4.26 p99=4.75
+[B3 MOTION] accepted=6600 sequence=6599 accepted_ns=38239873866188
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=6666 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.96 p95=4.28 p99=4.76
+[B3 MOTION] accepted=6700 sequence=6699 accepted_ns=38240873451475
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=6766 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.97 p95=4.30 p99=4.78
+[B3 MOTION] accepted=6800 sequence=6799 accepted_ns=38241875129304
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=6866 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.97 p95=4.29 p99=4.78
+[B3 MOTION] accepted=6900 sequence=6899 accepted_ns=38242873946330
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=6967 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.97 p95=4.29 p99=4.78
+[B3 MOTION] accepted=7000 sequence=6999 accepted_ns=38243874799748
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=7067 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.97 p95=4.31 p99=4.79
+[B3 MOTION] accepted=7100 sequence=7099 accepted_ns=38244874847544
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=7167 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.98 p95=4.32 p99=4.78
+[B3 MOTION] accepted=7200 sequence=7199 accepted_ns=38245873605679
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=7267 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.98 p95=4.31 p99=4.78
+[B3 MOTION] accepted=7300 sequence=7299 accepted_ns=38246874510574
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=7368 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.99 p95=4.31 p99=4.78
+[B3 MOTION] accepted=7400 sequence=7399 accepted_ns=38247874017883
+[B3] Replied to configuration query
+[B3] status=ACTIVE accepted=7468 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=1.99 p95=4.30 p99=4.78
+[B3 MOTION] accepted=7500 sequence=7499 accepted_ns=38248875081840
+[B3] status=ACTIVE accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=True age_ms p50=2.00 p95=4.30 p99=4.78
+[B3 WATCHDOG] last_motion_ns=38249483365299 stop_ns=38249766978319 elapsed_ms=283.613 threshold_ms=280 moving=False
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3 DEBUG] Stale motion: sequence=0, age_ms=201.33
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7561 rejected_stale=1 rejected_sequence=0 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3 SESSION] Handover old=10893518513142540501 new=2050063582242567840
+[B3 MOTION RECOVERY] accepted=7562 sequence=100 accepted_ns=38550485380292 previous_gap_ms=301002.014993
+[B3 DEBUG] Rejected motion sequence: received=100, last=100
+[B3 DEBUG] Rejected motion sequence: received=99, last=100
+[B3 WATCHDOG] last_motion_ns=38550485380292 stop_ns=38550769291295 elapsed_ms=283.911 threshold_ms=280 moving=False
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3] status=TIMEOUT accepted=7562 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.00 p95=4.30 p99=4.78
+[B3 SESSION] Handover old=2050063582242567840 new=2529209363538509422
+[B3 MOTION RECOVERY] accepted=7563 sequence=0 accepted_ns=38644946114877 previous_gap_ms=94460.734585
+[B3 MOTION] accepted=7600 sequence=37 accepted_ns=38645316810512
+[B3] status=ACTIVE accepted=7629 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=True age_ms p50=2.00 p95=4.30 p99=4.78
+[B3 MOTION] accepted=7700 sequence=137 accepted_ns=38646316141653
+[B3] status=ACTIVE accepted=7730 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=True age_ms p50=2.00 p95=4.32 p99=4.80
+[B3 MOTION] accepted=7800 sequence=237 accepted_ns=38647318305372
+[B3] status=ACTIVE accepted=7830 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=True age_ms p50=2.00 p95=4.32 p99=4.80
+[B3 MOTION] accepted=7900 sequence=337 accepted_ns=38648316608762
+[B3] status=ACTIVE accepted=7931 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=True age_ms p50=2.01 p95=4.32 p99=4.81
+[B3 MOTION] accepted=8000 sequence=437 accepted_ns=38649316667549
+[B3] status=ACTIVE accepted=8031 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=True age_ms p50=2.01 p95=4.31 p99=4.80
+[B3 WATCHDOG] last_motion_ns=38649919284819 stop_ns=38650201716225 elapsed_ms=282.431 threshold_ms=280 moving=False
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80
+[B3] status=TIMEOUT accepted=8060 rejected_stale=1 rejected_sequence=2 blocked_by_estop=0 estop=False moving=False age_ms p50=2.01 p95=4.31 p99=4.80

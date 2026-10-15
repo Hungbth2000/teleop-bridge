@@ -14,6 +14,9 @@ from pathlib import Path
 from frame_csv import VideoFrameCsv
 from h264_recorder import H264Recorder
 
+from frame_decoder import FrameDecoder
+from decoded_frame_csv import DecodedFrameCsv
+
 from frame_protocol import (
     HEAD,
     FrameReassembler,
@@ -69,6 +72,9 @@ def main():
         )
 
     reassembler = FrameReassembler()
+
+    decoder = FrameDecoder(1280, 720)
+    decode_csv = DecodedFrameCsv("head")
 
     lock = threading.Lock()
 
@@ -138,6 +144,11 @@ def main():
             last_latency_ms = result.latency_ms
             last_frame_id = frame_id
 
+            decoded = decoder.decode(result)
+
+            if decoded is not None:
+                decode_csv.log(result, decoded)
+
             # Save the validated encoded access unit.
             if recorder is not None:
                 recorder.add_frame(
@@ -203,13 +214,16 @@ def main():
                 )
 
     finally:
-        # Close only after the zenoh session exits.
         try:
             csv_log.close()
         finally:
-            if recorder is not None:
-                with lock:
-                    recorder.close()
+            try:
+                decode_csv.close()
+            finally:
+                if recorder is not None:
+                    with lock:
+                        recorder.close()
+
 
         print(
             "[HEAD RX] Frame CSV saved",

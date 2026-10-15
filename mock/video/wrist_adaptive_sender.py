@@ -54,6 +54,9 @@ CSV_FIELDS = [
     "frame_bytes",
     "fragments",
     "latency_ms",
+    "budget_bps",
+    "bridge_monotonic_ns",
+    "cycle_start_ns",
 ]
 
 
@@ -261,6 +264,8 @@ def main():
                     fragments_sent += 1
                     bytes_sent += len(fragment)
 
+                bandwidth = status.snapshot()
+
                 writer.writerow({
                     "run_id": run_id,
                     "stream_id": camera["id"],
@@ -271,6 +276,9 @@ def main():
                     "frame_bytes": len(frame),
                     "fragments": len(fragments),
                     "latency_ms": "",
+                    "budget_bps": bandwidth["budget_bps"],
+                    "bridge_monotonic_ns": bandwidth["bridge_monotonic_ns"],
+                    "cycle_start_ns": bandwidth["cycle_start_ns"],
                 })
 
                 generated += 1

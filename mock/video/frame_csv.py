@@ -17,6 +17,9 @@ FIELDS = [
     "frame_bytes",
     "fragments",
     "latency_ms",
+    "budget_bps",
+    "bridge_monotonic_ns",
+    "cycle_start_ns",
 ]
 
 

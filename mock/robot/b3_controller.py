@@ -83,6 +83,8 @@ if MOTION_RX_PATH.stat().st_size == 0:
         "received_ns",
         "latency_ms",
         "stale_at_reception",
+        "decision",
+        "applied_ns",
     ])
 
 command_ages_ms = []
@@ -193,6 +195,25 @@ def percentile(values, p):
         + values[high] * fraction
     )
 
+def log_motion_decision(
+    session_id,
+    sequence,
+    created_ns,
+    received_ns,
+    age_ns,
+    decision,
+    applied_ns=None,
+):
+    motion_rx_writer.writerow([
+        session_id,
+        sequence,
+        created_ns,
+        received_ns,
+        round(age_ns / 1e6, 6),
+        int(age_ns < 0 or age_ns > MAX_COMMAND_AGE_NS),
+        decision,
+        applied_ns if applied_ns is not None else "",
+    ])
 
 def on_motion(sample):
     global last_sequence, last_fresh_time_ns
@@ -225,17 +246,18 @@ def on_motion(sample):
     with lock:
         # Measurement only: record every valid motion packet,
         # including commands rejected by E-stop or freshness rules.
-        motion_rx_writer.writerow([
-            session_id,
-            sequence,
-            created_ns,
-            now_ns,
-            round(age_ns / 1e6, 6),
-            int(age_ns < 0 or age_ns > MAX_COMMAND_AGE_NS),
-        ])
 
         if age_ns < 0 or age_ns > MAX_COMMAND_AGE_NS:
             rejected_stale += 1
+
+            log_motion_decision(
+                session_id,
+                sequence,
+                created_ns,
+                now_ns,
+                age_ns,
+                "rejected_stale",
+            )
 
             if rejected_stale <= 5:
                 print(
@@ -286,6 +308,15 @@ def on_motion(sample):
         if sequence <= last_sequence:
             rejected_sequence += 1
 
+            log_motion_decision(
+                session_id,
+                sequence,
+                created_ns,
+                now_ns,
+                age_ns,
+                "rejected_sequence",
+            )
+
             if rejected_sequence <= 5:
                 print(
                     f"[B3 DEBUG] Rejected motion sequence: "
@@ -301,6 +332,15 @@ def on_motion(sample):
 
         if estop_latched:
             blocked_by_estop += 1
+
+            log_motion_decision(
+            session_id,
+            sequence,
+            created_ns,
+            now_ns,
+            age_ns,
+            "blocked_estop",
+            )
             return
 
         # Detect the first accepted command after an interruption.
@@ -315,6 +355,18 @@ def on_motion(sample):
         accepted += 1
         last_applied_motion_sequence = sequence
         robot_moving = abs(velocity) > 0.0001
+
+        applied_ns = time.monotonic_ns()
+
+        log_motion_decision(
+            session_id,
+            sequence,
+            created_ns,
+            now_ns,
+            age_ns,
+            "applied",
+            applied_ns,
+        )
 
         if gap_ms is None or gap_ms > 50:
             print(

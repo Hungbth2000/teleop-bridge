@@ -1,0 +1,20 @@
+[WRIST RX] camera=right waiting for H264 frames...
+[WRIST RX] CSV: /home/hung/projects/teleop-bridge/results/video_frames_rx_wrist_right.csv
+[WRIST RX] camera=right complete=0 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=-1 last_latency=0.00ms
+[WRIST RX] camera=right complete=0 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=-1 last_latency=0.00ms
+[WRIST RX] camera=right complete=14 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=13 last_latency=1.44ms
+[WRIST RX] camera=right complete=44 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=43 last_latency=1.27ms
+[WRIST RX] camera=right complete=74 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=73 last_latency=1.34ms
+[WRIST RX] camera=right complete=104 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=103 last_latency=1.39ms
+[WRIST RX] camera=right complete=134 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=133 last_latency=1.15ms
+[WRIST RX] camera=right complete=150 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=149 last_latency=1.20ms
+[WRIST RX] camera=right complete=150 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=149 last_latency=1.20ms
+
+[WRIST RX] Stopped camera=right
+[H264 REC] Saved: results/final_validation/wrist_right_received.h264
+[H264 REC] Frames written: 150
+[H264 REC] Missing frames: 0
+[H264 REC] Duplicates: 0
+[H264 REC] Other-run frames: 0
+[WRIST RX] FINAL camera=right complete=150 expired=0 invalid=0 corrupt=0 duplicates=0
+[WRIST RX] CSV saved: /home/hung/projects/teleop-bridge/results/video_frames_rx_wrist_right.csv

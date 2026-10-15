@@ -1,0 +1,276 @@
+[A2] Started head receiver pid=22185
+[A2] Started left receiver pid=22186
+[A2] Started right receiver pid=22187
+[WRIST RX] camera=left waiting for H264 frames...
+[WRIST RX] camera=right waiting for H264 frames...
+[WRIST RX] CSV: /home/hung/projects/teleop-bridge/results/video_frames_rx_wrist_left.csv
+[WRIST RX] CSV: /home/hung/projects/teleop-bridge/results/video_frames_rx_wrist_right.csv
+[HEAD RX] Waiting for video fragments...
+[WRIST RX] camera=right complete=0 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=-1 last_latency=0.00ms
+[WRIST RX] camera=left complete=0 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=-1 last_latency=0.00ms
+[HEAD RX] complete=0 expired=0 invalid=0 corrupt=0 last_id=-1 last_latency=0.00ms
+[WRIST RX] camera=right complete=0 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=-1 last_latency=0.00ms
+[WRIST RX] camera=left complete=0 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=-1 last_latency=0.00ms
+[HEAD RX] complete=0 expired=0 invalid=0 corrupt=0 last_id=-1 last_latency=0.00ms
+[WRIST RX] camera=right complete=14 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=13 last_latency=3.93ms
+[WRIST RX] camera=left complete=13 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=12 last_latency=4.42ms
+[HEAD RX] complete=12 expired=0 invalid=0 corrupt=0 last_id=2500276887373217803 last_latency=8.89ms
+[WRIST RX] camera=right complete=44 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=43 last_latency=4.66ms
+[WRIST RX] camera=left complete=43 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=42 last_latency=5.15ms
+[HEAD RX] complete=42 expired=0 invalid=0 corrupt=0 last_id=2500276887373217833 last_latency=9.77ms
+[WRIST RX] camera=right complete=72 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=73 last_latency=7.27ms
+[WRIST RX] camera=left complete=72 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=72 last_latency=3.05ms
+[HEAD RX] complete=72 expired=0 invalid=0 corrupt=0 last_id=2500276887373217863 last_latency=13.46ms
+[WRIST RX] camera=right complete=101 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=103 last_latency=2.20ms
+[WRIST RX] camera=left complete=101 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=102 last_latency=2.17ms
+[HEAD RX] complete=102 expired=0 invalid=0 corrupt=0 last_id=2500276887373217893 last_latency=7.18ms
+[WRIST RX] camera=right complete=131 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=133 last_latency=4.62ms
+[WRIST RX] camera=left complete=131 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=132 last_latency=2.18ms
+[HEAD RX] complete=132 expired=0 invalid=0 corrupt=0 last_id=2500276887373217923 last_latency=8.67ms
+[WRIST RX] camera=right complete=161 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=163 last_latency=4.64ms
+[WRIST RX] camera=left complete=161 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=162 last_latency=5.02ms
+[HEAD RX] complete=162 expired=0 invalid=0 corrupt=0 last_id=2500276887373217953 last_latency=6.95ms
+[WRIST RX] camera=right complete=191 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=193 last_latency=2.68ms
+[WRIST RX] camera=left complete=191 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=192 last_latency=2.83ms
+[HEAD RX] complete=192 expired=0 invalid=0 corrupt=0 last_id=2500276887373217983 last_latency=7.76ms
+[WRIST RX] camera=right complete=221 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=223 last_latency=4.48ms
+[WRIST RX] camera=left complete=221 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=222 last_latency=4.88ms
+[HEAD RX] complete=222 expired=0 invalid=0 corrupt=0 last_id=2500276887373218013 last_latency=7.18ms
+[WRIST RX] camera=right complete=251 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=253 last_latency=2.31ms
+[WRIST RX] camera=left complete=252 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=253 last_latency=2.28ms
+[HEAD RX] complete=252 expired=0 invalid=0 corrupt=0 last_id=2500276887373218043 last_latency=2.30ms
+[WRIST RX] camera=right complete=281 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=283 last_latency=2.89ms
+[WRIST RX] camera=left complete=282 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=283 last_latency=3.08ms
+[HEAD RX] complete=282 expired=0 invalid=0 corrupt=0 last_id=2500276887373218073 last_latency=8.11ms
+[WRIST RX] camera=right complete=311 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=313 last_latency=2.58ms
+[WRIST RX] camera=left complete=312 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=313 last_latency=2.96ms
+[HEAD RX] complete=312 expired=0 invalid=0 corrupt=0 last_id=2500276887373218103 last_latency=5.70ms
+[WRIST RX] camera=right complete=341 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=343 last_latency=2.95ms
+[WRIST RX] camera=left complete=342 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=343 last_latency=3.22ms
+[HEAD RX] complete=342 expired=0 invalid=0 corrupt=0 last_id=2500276887373218133 last_latency=5.45ms
+[WRIST RX] camera=right complete=371 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=373 last_latency=3.10ms
+[WRIST RX] camera=left complete=372 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=373 last_latency=3.65ms
+[HEAD RX] complete=372 expired=0 invalid=0 corrupt=0 last_id=2500276887373218163 last_latency=8.04ms
+[WRIST RX] camera=right complete=401 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=403 last_latency=4.92ms
+[WRIST RX] camera=left complete=402 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=403 last_latency=5.14ms
+[HEAD RX] complete=402 expired=0 invalid=0 corrupt=0 last_id=2500276887373218193 last_latency=10.55ms
+[WRIST RX] camera=right complete=431 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=433 last_latency=2.39ms
+[WRIST RX] camera=left complete=432 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=433 last_latency=1.57ms
+[HEAD RX] complete=432 expired=0 invalid=0 corrupt=0 last_id=2500276887373218223 last_latency=7.40ms
+[WRIST RX] camera=right complete=461 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=463 last_latency=2.75ms
+[WRIST RX] camera=left complete=462 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=463 last_latency=2.95ms
+[HEAD RX] complete=462 expired=0 invalid=0 corrupt=0 last_id=2500276887373218253 last_latency=7.80ms
+[WRIST RX] camera=right complete=491 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=493 last_latency=2.64ms
+[WRIST RX] camera=left complete=492 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=493 last_latency=2.96ms
+[HEAD RX] complete=492 expired=0 invalid=0 corrupt=0 last_id=2500276887373218283 last_latency=7.78ms
+[WRIST RX] camera=right complete=521 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=523 last_latency=4.23ms
+[WRIST RX] camera=left complete=522 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=523 last_latency=5.11ms
+[HEAD RX] complete=522 expired=0 invalid=0 corrupt=0 last_id=2500276887373218313 last_latency=9.99ms
+[WRIST RX] camera=right complete=551 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=553 last_latency=2.15ms
+[WRIST RX] camera=left complete=552 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=553 last_latency=2.32ms
+[HEAD RX] complete=552 expired=0 invalid=0 corrupt=0 last_id=2500276887373218343 last_latency=7.36ms
+[WRIST RX] camera=right complete=581 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=583 last_latency=2.65ms
+[WRIST RX] camera=left complete=582 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=583 last_latency=3.02ms
+[HEAD RX] complete=582 expired=0 invalid=0 corrupt=0 last_id=2500276887373218373 last_latency=7.78ms
+[WRIST RX] camera=right complete=611 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=613 last_latency=3.64ms
+[WRIST RX] camera=left complete=612 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=613 last_latency=3.53ms
+[HEAD RX] complete=612 expired=0 invalid=0 corrupt=0 last_id=2500276887373218403 last_latency=9.61ms
+[WRIST RX] camera=right complete=641 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=643 last_latency=2.06ms
+[WRIST RX] camera=left complete=642 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=643 last_latency=2.27ms
+[HEAD RX] complete=642 expired=0 invalid=0 corrupt=0 last_id=2500276887373218433 last_latency=7.29ms
+[WRIST RX] camera=right complete=671 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=673 last_latency=1.27ms
+[WRIST RX] camera=left complete=672 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=673 last_latency=1.34ms
+[HEAD RX] complete=672 expired=0 invalid=0 corrupt=0 last_id=2500276887373218463 last_latency=5.70ms
+[WRIST RX] camera=right complete=701 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=703 last_latency=1.83ms
+[WRIST RX] camera=left complete=702 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=703 last_latency=2.10ms
+[HEAD RX] complete=702 expired=0 invalid=0 corrupt=0 last_id=2500276887373218493 last_latency=6.60ms
+[WRIST RX] camera=right complete=731 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=733 last_latency=1.25ms
+[WRIST RX] camera=left complete=732 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=733 last_latency=1.17ms
+[HEAD RX] complete=732 expired=0 invalid=0 corrupt=0 last_id=2500276887373218523 last_latency=5.91ms
+[WRIST RX] camera=right complete=761 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=763 last_latency=1.22ms
+[WRIST RX] camera=left complete=762 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=763 last_latency=1.17ms
+[HEAD RX] complete=762 expired=0 invalid=0 corrupt=0 last_id=2500276887373218553 last_latency=7.31ms
+[WRIST RX] camera=right complete=791 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=793 last_latency=1.08ms
+[WRIST RX] camera=left complete=792 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=793 last_latency=1.23ms
+[HEAD RX] complete=793 expired=0 invalid=0 corrupt=0 last_id=2500276887373218584 last_latency=5.64ms
+[WRIST RX] camera=right complete=821 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=823 last_latency=1.13ms
+[WRIST RX] camera=left complete=822 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=823 last_latency=1.17ms
+[HEAD RX] complete=823 expired=0 invalid=0 corrupt=0 last_id=2500276887373218614 last_latency=5.61ms
+[WRIST RX] camera=right complete=851 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=853 last_latency=1.20ms
+[WRIST RX] camera=left complete=852 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=853 last_latency=1.13ms
+[HEAD RX] complete=853 expired=0 invalid=0 corrupt=0 last_id=2500276887373218644 last_latency=5.62ms
+[WRIST RX] camera=right complete=881 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=883 last_latency=1.17ms
+[WRIST RX] camera=left complete=882 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=883 last_latency=1.26ms
+[HEAD RX] complete=883 expired=0 invalid=0 corrupt=0 last_id=2500276887373218674 last_latency=5.52ms
+[WRIST RX] camera=right complete=911 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=913 last_latency=1.24ms
+[WRIST RX] camera=left complete=912 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=913 last_latency=1.46ms
+[HEAD RX] complete=913 expired=0 invalid=0 corrupt=0 last_id=2500276887373218704 last_latency=5.79ms
+[WRIST RX] camera=right complete=941 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=943 last_latency=1.97ms
+[WRIST RX] camera=left complete=942 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=943 last_latency=2.33ms
+[HEAD RX] complete=943 expired=0 invalid=0 corrupt=0 last_id=2500276887373218734 last_latency=7.28ms
+[WRIST RX] camera=right complete=971 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=973 last_latency=1.41ms
+[WRIST RX] camera=left complete=972 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=973 last_latency=1.17ms
+[HEAD RX] complete=973 expired=0 invalid=0 corrupt=0 last_id=2500276887373218764 last_latency=8.16ms
+[WRIST RX] camera=right complete=1001 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1003 last_latency=1.23ms
+[WRIST RX] camera=left complete=1002 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1003 last_latency=1.25ms
+[HEAD RX] complete=1003 expired=0 invalid=0 corrupt=0 last_id=2500276887373218794 last_latency=5.67ms
+[WRIST RX] camera=right complete=1031 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1033 last_latency=1.16ms
+[WRIST RX] camera=left complete=1032 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1033 last_latency=1.11ms
+[HEAD RX] complete=1033 expired=0 invalid=0 corrupt=0 last_id=2500276887373218824 last_latency=5.54ms
+[WRIST RX] camera=right complete=1061 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1063 last_latency=1.13ms
+[WRIST RX] camera=left complete=1062 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1063 last_latency=1.14ms
+[HEAD RX] complete=1063 expired=0 invalid=0 corrupt=0 last_id=2500276887373218854 last_latency=5.55ms
+[WRIST RX] camera=right complete=1091 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1093 last_latency=1.33ms
+[WRIST RX] camera=left complete=1092 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1093 last_latency=1.12ms
+[HEAD RX] complete=1093 expired=0 invalid=0 corrupt=0 last_id=2500276887373218884 last_latency=7.30ms
+[WRIST RX] camera=right complete=1121 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1123 last_latency=1.28ms
+[WRIST RX] camera=left complete=1122 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1123 last_latency=4.54ms
+[HEAD RX] complete=1123 expired=0 invalid=0 corrupt=0 last_id=2500276887373218914 last_latency=9.86ms
+[WRIST RX] camera=right complete=1151 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1153 last_latency=2.11ms
+[WRIST RX] camera=left complete=1152 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1153 last_latency=2.20ms
+[HEAD RX] complete=1153 expired=0 invalid=0 corrupt=0 last_id=2500276887373218944 last_latency=7.29ms
+[WRIST RX] camera=right complete=1181 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1183 last_latency=2.17ms
+[WRIST RX] camera=left complete=1182 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1183 last_latency=2.08ms
+[HEAD RX] complete=1183 expired=0 invalid=0 corrupt=0 last_id=2500276887373218974 last_latency=7.35ms
+[WRIST RX] camera=right complete=1211 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1213 last_latency=1.29ms
+[WRIST RX] camera=left complete=1212 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1213 last_latency=1.35ms
+[HEAD RX] complete=1213 expired=0 invalid=0 corrupt=0 last_id=2500276887373219004 last_latency=5.93ms
+[WRIST RX] camera=right complete=1241 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1243 last_latency=1.32ms
+[WRIST RX] camera=left complete=1242 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1243 last_latency=1.24ms
+[HEAD RX] complete=1243 expired=0 invalid=0 corrupt=0 last_id=2500276887373219034 last_latency=8.69ms
+[WRIST RX] camera=right complete=1271 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1273 last_latency=1.41ms
+[WRIST RX] camera=left complete=1272 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1273 last_latency=1.54ms
+[HEAD RX] complete=1273 expired=0 invalid=0 corrupt=0 last_id=2500276887373219064 last_latency=6.43ms
+[WRIST RX] camera=right complete=1301 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1303 last_latency=1.15ms
+[WRIST RX] camera=left complete=1302 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1303 last_latency=1.14ms
+[HEAD RX] complete=1303 expired=0 invalid=0 corrupt=0 last_id=2500276887373219094 last_latency=5.55ms
+[WRIST RX] camera=right complete=1331 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1333 last_latency=1.89ms
+[WRIST RX] camera=left complete=1332 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1333 last_latency=1.99ms
+[HEAD RX] complete=1333 expired=0 invalid=0 corrupt=0 last_id=2500276887373219124 last_latency=7.17ms
+[WRIST RX] camera=right complete=1361 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1363 last_latency=2.56ms
+[WRIST RX] camera=left complete=1362 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1363 last_latency=3.10ms
+[HEAD RX] complete=1363 expired=0 invalid=0 corrupt=0 last_id=2500276887373219154 last_latency=8.17ms
+[WRIST RX] camera=right complete=1391 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1393 last_latency=2.18ms
+[WRIST RX] camera=left complete=1392 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1393 last_latency=1.96ms
+[HEAD RX] complete=1393 expired=0 invalid=0 corrupt=0 last_id=2500276887373219184 last_latency=9.67ms
+[WRIST RX] camera=right complete=1421 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1423 last_latency=2.87ms
+[WRIST RX] camera=left complete=1422 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1423 last_latency=3.21ms
+[HEAD RX] complete=1423 expired=0 invalid=0 corrupt=0 last_id=2500276887373219214 last_latency=7.79ms
+[WRIST RX] camera=right complete=1451 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1453 last_latency=2.37ms
+[WRIST RX] camera=left complete=1452 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1453 last_latency=2.27ms
+[HEAD RX] complete=1453 expired=0 invalid=0 corrupt=0 last_id=2500276887373219244 last_latency=7.08ms
+[WRIST RX] camera=right complete=1481 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1483 last_latency=2.34ms
+[WRIST RX] camera=left complete=1482 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1483 last_latency=2.05ms
+[HEAD RX] complete=1483 expired=0 invalid=0 corrupt=0 last_id=2500276887373219274 last_latency=7.13ms
+[WRIST RX] camera=right complete=1511 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1513 last_latency=4.28ms
+[WRIST RX] camera=left complete=1512 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1513 last_latency=5.01ms
+[HEAD RX] complete=1513 expired=0 invalid=0 corrupt=0 last_id=2500276887373219304 last_latency=10.00ms
+[WRIST RX] camera=right complete=1541 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1543 last_latency=3.22ms
+[WRIST RX] camera=left complete=1542 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1543 last_latency=3.07ms
+[HEAD RX] complete=1543 expired=0 invalid=0 corrupt=0 last_id=2500276887373219334 last_latency=8.11ms
+[WRIST RX] camera=right complete=1572 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1574 last_latency=1.30ms
+[WRIST RX] camera=left complete=1572 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1573 last_latency=1.65ms
+[HEAD RX] complete=1573 expired=0 invalid=0 corrupt=0 last_id=2500276887373219364 last_latency=6.24ms
+[WRIST RX] camera=right complete=1602 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1604 last_latency=2.01ms
+[WRIST RX] camera=left complete=1602 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1603 last_latency=2.31ms
+[HEAD RX] complete=1603 expired=0 invalid=0 corrupt=0 last_id=2500276887373219394 last_latency=7.18ms
+[WRIST RX] camera=right complete=1632 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1634 last_latency=1.73ms
+[WRIST RX] camera=left complete=1632 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1633 last_latency=1.82ms
+[HEAD RX] complete=1633 expired=0 invalid=0 corrupt=0 last_id=2500276887373219424 last_latency=6.16ms
+[WRIST RX] camera=right complete=1662 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1664 last_latency=1.26ms
+[WRIST RX] camera=left complete=1662 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1663 last_latency=1.11ms
+[HEAD RX] complete=1663 expired=0 invalid=0 corrupt=0 last_id=2500276887373219454 last_latency=5.60ms
+[WRIST RX] camera=right complete=1692 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1694 last_latency=2.70ms
+[WRIST RX] camera=left complete=1692 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1693 last_latency=3.12ms
+[HEAD RX] complete=1693 expired=0 invalid=0 corrupt=0 last_id=2500276887373219484 last_latency=7.55ms
+[WRIST RX] camera=right complete=1698 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1700 last_latency=23.16ms
+[WRIST RX] camera=left complete=1698 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=1699 last_latency=8.95ms
+[HEAD RX] complete=1722 expired=0 invalid=0 corrupt=0 last_id=2500276887373219513 last_latency=18.97ms
+[WRIST RX] camera=left complete=1729 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=1753 last_latency=1.15ms
+[WRIST RX] camera=right complete=1729 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1754 last_latency=1.25ms
+[HEAD RX] complete=1753 expired=0 invalid=0 corrupt=0 last_id=2500276887373219544 last_latency=5.56ms
+[WRIST RX] camera=right complete=1759 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1784 last_latency=1.53ms
+[WRIST RX] camera=left complete=1759 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=1783 last_latency=1.39ms
+[HEAD RX] complete=1783 expired=0 invalid=0 corrupt=0 last_id=2500276887373219574 last_latency=4.13ms
+[WRIST RX] camera=right complete=1789 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1814 last_latency=2.15ms
+[HEAD RX] complete=1813 expired=0 invalid=0 corrupt=0 last_id=2500276887373219604 last_latency=4.60ms
+[WRIST RX] camera=left complete=1789 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=1813 last_latency=2.13ms
+[HEAD RX] complete=1843 expired=0 invalid=0 corrupt=0 last_id=2500276887373219634 last_latency=6.46ms
+[WRIST RX] camera=right complete=1819 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1844 last_latency=1.93ms
+[WRIST RX] camera=left complete=1819 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=1843 last_latency=2.16ms
+[HEAD RX] complete=1873 expired=0 invalid=0 corrupt=0 last_id=2500276887373219664 last_latency=8.06ms
+[WRIST RX] camera=left complete=1849 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=1873 last_latency=3.73ms
+[WRIST RX] camera=right complete=1849 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1874 last_latency=3.42ms
+[HEAD RX] complete=1903 expired=0 invalid=0 corrupt=0 last_id=2500276887373219694 last_latency=5.93ms
+[WRIST RX] camera=left complete=1880 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=1904 last_latency=1.43ms
+[WRIST RX] camera=right complete=1879 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1904 last_latency=1.35ms
+[HEAD RX] complete=1933 expired=0 invalid=0 corrupt=0 last_id=2500276887373219724 last_latency=3.33ms
+[WRIST RX] camera=left complete=1910 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=1934 last_latency=1.90ms
+[WRIST RX] camera=right complete=1909 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1934 last_latency=1.15ms
+[HEAD RX] complete=1963 expired=0 invalid=0 corrupt=0 last_id=2500276887373219754 last_latency=5.37ms
+[WRIST RX] camera=left complete=1939 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=1963 last_latency=4.71ms
+[WRIST RX] camera=right complete=1939 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1964 last_latency=3.14ms
+[HEAD RX] complete=1993 expired=0 invalid=0 corrupt=0 last_id=2500276887373219784 last_latency=8.10ms
+[WRIST RX] camera=left complete=1969 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=1993 last_latency=3.34ms
+[WRIST RX] camera=right complete=1969 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=1994 last_latency=2.89ms
+[HEAD RX] complete=2023 expired=0 invalid=0 corrupt=0 last_id=2500276887373219814 last_latency=7.77ms
+[WRIST RX] camera=right complete=1999 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=2024 last_latency=2.52ms
+[WRIST RX] camera=left complete=1999 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=2023 last_latency=2.42ms
+[HEAD RX] complete=2053 expired=0 invalid=0 corrupt=0 last_id=2500276887373219844 last_latency=3.79ms
+[WRIST RX] camera=right complete=2029 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=2054 last_latency=1.48ms
+[WRIST RX] camera=left complete=2030 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=2054 last_latency=1.33ms
+[HEAD RX] complete=2083 expired=0 invalid=0 corrupt=0 last_id=2500276887373219874 last_latency=4.77ms
+[WRIST RX] camera=right complete=2059 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=2084 last_latency=1.89ms
+[WRIST RX] camera=left complete=2060 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=2084 last_latency=1.86ms
+[HEAD RX] complete=2113 expired=0 invalid=0 corrupt=0 last_id=2500276887373219904 last_latency=7.42ms
+[WRIST RX] camera=right complete=2089 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=2114 last_latency=2.10ms
+[WRIST RX] camera=left complete=2090 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=2114 last_latency=2.39ms
+[HEAD RX] complete=2143 expired=0 invalid=0 corrupt=0 last_id=2500276887373219934 last_latency=5.79ms
+[WRIST RX] camera=right complete=2119 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=2144 last_latency=3.22ms
+[WRIST RX] camera=left complete=2120 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=2144 last_latency=3.68ms
+[HEAD RX] complete=2173 expired=0 invalid=0 corrupt=0 last_id=2500276887373219964 last_latency=7.70ms
+[WRIST RX] camera=right complete=2149 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=2174 last_latency=2.05ms
+[WRIST RX] camera=left complete=2150 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=2174 last_latency=2.40ms
+[HEAD RX] complete=2203 expired=0 invalid=0 corrupt=0 last_id=2500276887373219994 last_latency=7.84ms
+[WRIST RX] camera=right complete=2179 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=2204 last_latency=2.96ms
+[WRIST RX] camera=left complete=2180 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=2204 last_latency=3.53ms
+[HEAD RX] complete=2233 expired=0 invalid=0 corrupt=0 last_id=2500276887373220024 last_latency=6.95ms
+[WRIST RX] camera=left complete=2210 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=2234 last_latency=2.43ms
+[WRIST RX] camera=right complete=2209 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=2234 last_latency=2.12ms
+[HEAD RX] complete=2250 expired=0 invalid=0 corrupt=0 last_id=2500276887373220041 last_latency=8.13ms
+[WRIST RX] camera=left complete=2225 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=2249 last_latency=1.90ms
+[WRIST RX] camera=right complete=2224 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=2249 last_latency=2.10ms
+[HEAD RX] complete=2250 expired=0 invalid=0 corrupt=0 last_id=2500276887373220041 last_latency=8.13ms
+[WRIST RX] camera=left complete=2225 expired=1 invalid=0 corrupt=0 duplicates=0 last_frame=2249 last_latency=1.90ms
+[WRIST RX] camera=right complete=2224 expired=0 invalid=0 corrupt=0 duplicates=0 last_frame=2249 last_latency=2.10ms
+
+[WRIST RX] Stopped camera=right
+
+[WRIST RX] Stopped camera=left
+
+[HEAD RX] Stopped
+[H264 REC] Saved: /home/hung/projects/teleop-bridge/results/final_validation/wrist_right_received.h264
+[H264 REC] Frames written: 2224
+[H264 REC] Missing frames: 26
+[H264 REC] Duplicates: 0
+[H264 REC] Other-run frames: 0
+[H264 REC] First missing frame: 62
+[WRIST RX] FINAL camera=right complete=2224 expired=0 invalid=0 corrupt=0 duplicates=0
+[WRIST RX] CSV saved: /home/hung/projects/teleop-bridge/results/video_frames_rx_wrist_right.csv
+[H264 REC] Saved: /home/hung/projects/teleop-bridge/results/final_validation/wrist_left_received.h264
+[H264 REC] Frames written: 2225
+[H264 REC] Missing frames: 25
+[H264 REC] Duplicates: 0
+[H264 REC] Other-run frames: 0
+[H264 REC] First missing frame: 62
+[WRIST RX] FINAL camera=left complete=2225 expired=1 invalid=0 corrupt=0 duplicates=0
+[WRIST RX] CSV saved: /home/hung/projects/teleop-bridge/results/video_frames_rx_wrist_left.csv
+[H264 REC] Saved: /home/hung/projects/teleop-bridge/results/final_validation/head_received.h264
+[H264 REC] Frames written: 2250
+[H264 REC] Missing frames: 0
+[H264 REC] Duplicates: 0
+[H264 REC] Other-run frames: 0
+[HEAD RX] Frame CSV saved
+
+[A2] Stopping receivers.
+[A2] Receivers stopped.

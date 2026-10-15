@@ -1,0 +1,21 @@
+[A3] Query 1: FAILED, replies=0, first_reply_ms=None
+[A3] Query 2: FAILED, replies=0, first_reply_ms=None
+[A3] Query 3: FAILED, replies=0, first_reply_ms=None
+[A3] Query 4: FAILED, replies=0, first_reply_ms=None
+[A3] Query 5: FAILED, replies=0, first_reply_ms=None
+[A3] Query 6: FAILED, replies=0, first_reply_ms=None
+[A3] Query 7: FAILED, replies=0, first_reply_ms=None
+[A3] Query 8: FAILED, replies=0, first_reply_ms=None
+[A3] Query 9: FAILED, replies=0, first_reply_ms=None
+[A3] Query 10: FAILED, replies=0, first_reply_ms=None
+[A3] Query 11: FAILED, replies=0, first_reply_ms=None
+[A3] Query 12: FAILED, replies=0, first_reply_ms=None
+[A3] Query 13: FAILED, replies=0, first_reply_ms=None
+[A3] Query 14: FAILED, replies=0, first_reply_ms=None
+[A3] Query 15: FAILED, replies=0, first_reply_ms=None
+[A3] Query 16: FAILED, replies=0, first_reply_ms=None
+[A3] Query 17: FAILED, replies=0, first_reply_ms=None
+[A3] Query 18: FAILED, replies=0, first_reply_ms=None
+[A3] Query 19: FAILED, replies=0, first_reply_ms=None
+[A3] Finished: total=19, successes=0, failures=19, extra_replies=0
+[A3] CSV: results/query_workload.csv

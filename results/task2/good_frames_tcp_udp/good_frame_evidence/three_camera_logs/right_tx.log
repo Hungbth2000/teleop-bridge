@@ -1,0 +1,13 @@
+[WRIST ADAPT] Loading right representations...
+[WRIST ADAPT] camera=right run_id=0961fabf frames=150
+[WRIST ADAPT] Waiting for bridge status...
+[WRIST ADAPT] SWITCH camera=right frame=0 mode=high reason=normal budget
+[WRIST ADAPT] camera=right frames=30 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=60 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=90 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=120 active=high requested=high reason=normal budget
+[WRIST ADAPT] camera=right frames=150 active=high requested=high reason=normal budget
+[WRIST ADAPT] DONE camera=right run_id=0961fabf frames=150 fragments=156 fragment_bytes=34080 switches=1
+[WRIST ADAPT] High frames: 150
+[WRIST ADAPT] Low frames: 0
+[WRIST ADAPT] CSV saved: /home/hung/projects/teleop-bridge/results/video_frames_tx_wrist_right.csv

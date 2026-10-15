@@ -24,6 +24,12 @@ public:
     // Future video messages must be fragmented to fit.
     static constexpr std::size_t BURST_BYTES = 4096;
 
+    std::int64_t start_monotonic_ns() const {
+        return std::chrono::duration_cast<
+            std::chrono::nanoseconds
+        >(start_.time_since_epoch()).count();
+    }
+
     explicit RateLimiter(
         TimePoint start = Clock::now()
     )

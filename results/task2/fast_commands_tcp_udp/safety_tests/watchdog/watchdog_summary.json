@@ -1,0 +1,13 @@
+{
+  "watchdog_deadline_ms": 300,
+  "events": [
+    {
+      "last_motion_ns": 38649919545792,
+      "stop_ns": 38650201716225,
+      "elapsed_ms": 282.170433,
+      "within_300ms": true
+    }
+  ],
+  "max_elapsed_ms": 282.170433,
+  "passed": true
+}

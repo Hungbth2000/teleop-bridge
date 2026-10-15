@@ -9,6 +9,9 @@ import threading
 import time
 from pathlib import Path
 
+from frame_decoder import FrameDecoder
+from decoded_frame_csv import DecodedFrameCsv
+
 import zenoh
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -109,6 +112,10 @@ def main():
     )
 
     reassembler = FrameReassembler()
+
+    decoder = FrameDecoder(640, 360)
+    decode_csv = DecodedFrameCsv(args.camera)
+
     lock = threading.Lock()
 
     completed_ids = set()
@@ -170,6 +177,11 @@ def main():
                 return
 
             completed_ids.add(result.frame_id)
+
+            decoded = decoder.decode(result)
+
+            if decoded is not None:
+                decode_csv.log(result, decoded)
 
             if recorder is not None:
                 recorder.add_frame(
@@ -258,6 +270,8 @@ def main():
             reassembler.expire()
             csv_file.flush()
             csv_file.close()
+
+            decode_csv.close()
 
             if recorder is not None:
                 recorder.close()

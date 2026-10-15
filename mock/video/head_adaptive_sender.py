@@ -98,6 +98,17 @@ class BandwidthStatus:
         self.budget_bps = None
         self.last_update = None
         self.updates = 0
+        self.bridge_monotonic_ns = None
+        self.cycle_start_ns = None
+
+    def snapshot(self):
+        with self.lock:
+            return {
+                "budget_bps": self.budget_bps,
+                "bridge_monotonic_ns": self.bridge_monotonic_ns,
+                "cycle_start_ns": self.cycle_start_ns,
+                "last_update": self.last_update,
+            }
 
     def on_sample(self, sample):
         try:
@@ -107,6 +118,10 @@ class BandwidthStatus:
                 )
             )
 
+            bridge_ns = data.get("bridge_monotonic_ns")
+
+            cycle_start_ns = data.get("cycle_start_ns")
+
             budget = int(data["budget_bps"])
 
             if budget <= 0:
@@ -115,6 +130,8 @@ class BandwidthStatus:
             with self.lock:
                 self.budget_bps = budget
                 self.last_update = time.monotonic()
+                self.bridge_monotonic_ns = bridge_ns
+                self.cycle_start_ns = cycle_start_ns
                 self.updates += 1
 
         except Exception as error:
@@ -296,6 +313,8 @@ def main():
                     publisher.put(fragment)
                     fragments_sent += 1
 
+                bandwidth = status.snapshot()
+
                 csv_log.log(
                     run_id=run_id,
                     stream_id=HEAD,
@@ -305,6 +324,9 @@ def main():
                     event_ns=time.monotonic_ns(),
                     frame_bytes=len(frame),
                     fragments=len(fragments),
+                    budget_bps=bandwidth["budget_bps"],
+                    bridge_monotonic_ns=bandwidth["bridge_monotonic_ns"],
+                    cycle_start_ns=bandwidth["cycle_start_ns"],
                 )
 
                 generated += 1

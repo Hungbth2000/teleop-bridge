@@ -1,0 +1,3 @@
+[TEST] Sent one stale motion command
+[TEST] Intended age: at least 200 ms
+[TEST] Payload size: 100

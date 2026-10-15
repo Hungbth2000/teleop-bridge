@@ -1,0 +1,2 @@
+session_id,sequence,created_ns,received_ns,latency_ms,stale_at_reception,decision,applied_ns
+17042513210475374503,0,38444781171229,38444982500597,201.329368,1,rejected_stale,

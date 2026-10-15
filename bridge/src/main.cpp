@@ -592,6 +592,14 @@ void run_connected(
                             now
                         )
                     );
+                
+                const auto bridge_monotonic_ns =
+                    std::chrono::duration_cast<
+                        std::chrono::nanoseconds
+                    >(now.time_since_epoch()).count();
+
+                const auto cycle_start_ns =
+                    outbound_limiter.start_monotonic_ns();
 
                 const std::string phase =
                     budget_bps <= 2'000'000
@@ -602,7 +610,12 @@ void run_connected(
                     "{\"budget_bps\":" +
                     std::to_string(budget_bps) +
                     ",\"phase\":\"" +
-                    phase + "\"}";
+                    phase +
+                    "\",\"bridge_monotonic_ns\":" +
+                    std::to_string(bridge_monotonic_ns) +
+                    ",\"cycle_start_ns\":" +
+                    std::to_string(cycle_start_ns) +
+                    "}";
 
                 try {
                     session.put(
@@ -706,12 +719,27 @@ void run_connected(
                         ? "degraded"
                         : "normal";
 
+                const auto bridge_monotonic_ns =
+                    std::chrono::duration_cast<
+                        std::chrono::nanoseconds
+                    >(
+                        std::chrono::steady_clock::now()
+                            .time_since_epoch()
+                    ).count();
+
+                const auto cycle_start_ns =
+                    outbound_limiter.start_monotonic_ns();
+
                 const std::string payload =
                     "{\"budget_bps\":" +
                     std::to_string(budget_bps) +
                     ",\"phase\":\"" +
-                    std::string(phase) +
-                    "\"}";
+                    phase +
+                    "\",\"bridge_monotonic_ns\":" +
+                    std::to_string(bridge_monotonic_ns) +
+                    ",\"cycle_start_ns\":" +
+                    std::to_string(cycle_start_ns) +
+                    "}";
 
                 try {
                     session.put(BANDWIDTH_TOPIC, payload);
