@@ -1,0 +1,201 @@
+[bridge] Transport mode: hybrid
+[robot] Connected to zenoh router 7448
+[robot] Connected to operator bridge
+[robot] Scheduler active; sender thread started
+[robot] TCP CONFIG QUERY RECEIVED id=2
+[robot] CONFIG REPLY QUEUED id=2
+
+[robot] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                      0         0         96         0         0          0            0
+Robot state               250       250          0         0         0          0            0
+Video                     133       133          0         0         0          0            0
+Query                       0         0          1         0         0          0            0
+Reply                       1         1          0         0         0          0            0
+Total received: 97 | Invalid: 0
+
+[robot] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                           0           12096        0.0000        0.0194
+Robot state                  15000               0        0.0240        0.0000
+Video                       121902               0        0.1950        0.0000
+Query                            0              26        0.0000        0.0000
+Reply                          141               0        0.0002        0.0000
+TOTAL                       137043           12122        0.2193        0.0194
+[robot] Configured outbound budget: 8.0000 Mbit/s
+[robot] TCP CONFIG QUERY RECEIVED id=103
+[robot] CONFIG REPLY QUEUED id=103
+[robot] TCP CONFIG QUERY RECEIVED id=204
+[robot] CONFIG REPLY QUEUED id=204
+[robot] TCP CONFIG QUERY RECEIVED id=305
+[robot] CONFIG REPLY QUEUED id=305
+[robot] TCP CONFIG QUERY RECEIVED id=406
+[robot] CONFIG REPLY QUEUED id=406
+[robot] TCP CONFIG QUERY RECEIVED id=507
+[robot] CONFIG REPLY QUEUED id=507
+
+[robot] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                      0         0        596         0         0          0            0
+Robot state               500       500          0         0         0          0            0
+Video                    2021      2021          0         0         0          0            0
+Query                       0         0          6         0         0          0            0
+Reply                       6         6          0         0         0          0            0
+Total received: 602 | Invalid: 0
+
+[robot] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                           0           75096        0.0000        0.1008
+Robot state                  30000               0        0.0240        0.0000
+Video                      1853482               0        2.7702        0.0000
+Query                            0             156        0.0000        0.0002
+Reply                          846               0        0.0011        0.0000
+TOTAL                      1884328           75252        2.7953        0.1010
+[bridge] Transport mode: hybrid
+[robot] Connected to zenoh router 7448
+[robot] Connected to operator bridge
+[robot] Scheduler active; sender thread started
+[robot] TCP CONFIG QUERY RECEIVED id=8
+[robot] CONFIG REPLY QUEUED id=8
+[robot] TCP CONFIG QUERY RECEIVED id=109
+[robot] CONFIG REPLY QUEUED id=109
+[robot] TCP CONFIG QUERY RECEIVED id=210
+[robot] CONFIG REPLY QUEUED id=210
+[robot] TCP CONFIG QUERY RECEIVED id=311
+[robot] CONFIG REPLY QUEUED id=311
+[robot] TCP CONFIG QUERY RECEIVED id=412
+[robot] CONFIG REPLY QUEUED id=412
+
+[robot] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                      0         0        500         0         0          0            0
+Robot state               250       250          0         0         0          0            0
+Video                    1744      1742          0         0         0          0            0
+Query                       0         0          5         0         0          0            0
+Reply                       5         5          0         0         0          0            0
+Total received: 505 | Invalid: 0
+
+[robot] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                           0           63000        0.0000        0.1008
+Robot state                  15000               0        0.0240        0.0000
+Video                      1570059               0        2.5120        0.0000
+Query                            0             130        0.0000        0.0002
+Reply                          705               0        0.0011        0.0000
+TOTAL                      1585764           63130        2.5371        0.1010
+[robot] Configured outbound budget: 8.0000 Mbit/s
+[robot] TCP CONFIG QUERY RECEIVED id=513
+[robot] CONFIG REPLY QUEUED id=513
+[robot] TCP CONFIG QUERY RECEIVED id=614
+[robot] CONFIG REPLY QUEUED id=614
+[robot] TCP CONFIG QUERY RECEIVED id=715
+[robot] CONFIG REPLY QUEUED id=715
+[robot] TCP CONFIG QUERY RECEIVED id=816
+[robot] CONFIG REPLY QUEUED id=816
+[robot] TCP CONFIG QUERY RECEIVED id=917
+[robot] CONFIG REPLY QUEUED id=917
+
+[robot] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                      0         0       1000         0         0          0            0
+Robot state               500       500          0         0         0          0            0
+Video                    3532      3530          0         0         0          0            0
+Query                       0         0         10         0         0          0            0
+Reply                      10        10          0         0         0          0            0
+Total received: 1010 | Invalid: 0
+
+[robot] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                           0          126000        0.0000        0.1008
+Robot state                  30000               0        0.0240        0.0000
+Video                      3178745               0        2.5735        0.0000
+Query                            0             260        0.0000        0.0002
+Reply                         1410               0        0.0011        0.0000
+TOTAL                      3210155          126260        2.5986        0.1010
+[robot] Configured outbound budget: 8.0000 Mbit/s
+[robot] TCP CONFIG QUERY RECEIVED id=1018
+[robot] CONFIG REPLY QUEUED id=1018
+[robot] TCP CONFIG QUERY RECEIVED id=1119
+[robot] CONFIG REPLY QUEUED id=1119
+[robot] TCP CONFIG QUERY RECEIVED id=1220
+[robot] CONFIG REPLY QUEUED id=1220
+[robot] TCP CONFIG QUERY RECEIVED id=1321
+[robot] CONFIG REPLY QUEUED id=1321
+[robot] TCP CONFIG QUERY RECEIVED id=1422
+[robot] CONFIG REPLY QUEUED id=1422
+
+[robot] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                      0         0       1500         0         0          0            0
+Robot state               750       750          0         0         0          0            0
+Video                    5342      5341          0         0         0          0            0
+Query                       0         0         15         0         0          0            0
+Reply                      15        15          0         0         0          0            0
+Total received: 1515 | Invalid: 0
+
+[robot] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                           0          189000        0.0000        0.1008
+Robot state                  45000               0        0.0240        0.0000
+Video                      4822818               0        2.6302        0.0000
+Query                            0             390        0.0000        0.0002
+Reply                         2115               0        0.0011        0.0000
+TOTAL                      4869933          189390        2.6554        0.1010
+[robot] Configured outbound budget: 8.0000 Mbit/s
+[robot] TCP CONFIG QUERY RECEIVED id=1523
+[robot] CONFIG REPLY QUEUED id=1523
+[robot] TCP CONFIG QUERY RECEIVED id=1624
+[robot] CONFIG REPLY QUEUED id=1624
+[robot] TCP CONFIG QUERY RECEIVED id=1725
+[robot] CONFIG REPLY QUEUED id=1725
+[robot] TCP CONFIG QUERY RECEIVED id=1826
+[robot] CONFIG REPLY QUEUED id=1826
+[robot] TCP CONFIG QUERY RECEIVED id=1927
+[robot] CONFIG REPLY QUEUED id=1927
+
+[robot] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                      0         0       2000         0         0          0            0
+Robot state              1000      1000          0         0         0          0            0
+Video                    7156      7154          0         0         0          0            0
+Query                       0         0         20         0         0          0            0
+Reply                      20        20          0         0         0          0            0
+Total received: 2020 | Invalid: 0
+
+[robot] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                           0          252000        0.0000        0.1008
+Robot state                  60000               0        0.0240        0.0000
+Video                      6457031               0        2.6145        0.0000
+Query                            0             520        0.0000        0.0002
+Reply                         2820               0        0.0011        0.0000
+TOTAL                      6519851          252520        2.6396        0.1010
+[robot] Configured outbound budget: 8.0000 Mbit/s
+[robot] TCP CONFIG QUERY RECEIVED id=2028
+[robot] CONFIG REPLY QUEUED id=2028
+[robot] TCP CONFIG QUERY RECEIVED id=2129
+[robot] CONFIG REPLY QUEUED id=2129
+[robot] TCP CONFIG QUERY RECEIVED id=2230
+[robot] CONFIG REPLY QUEUED id=2230
+[robot] TCP CONFIG QUERY RECEIVED id=2331
+[robot] CONFIG REPLY QUEUED id=2331
+[robot] TCP CONFIG QUERY RECEIVED id=2432
+[robot] CONFIG REPLY QUEUED id=2432
+
+[robot] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                      0         0       2500         0         0          0            0
+Robot state              1250      1250          0         0         0          0            0
+Video                    8956      8955          0         0         0          0            0
+Query                       0         0         25         0         0          0            0
+Reply                      25        25          0         0         0          0            0
+Total received: 2525 | Invalid: 0
+
+[robot] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                           0          315000        0.0000        0.1008
+Robot state                  75000               0        0.0240        0.0000
+Video                      8083854               0        2.6027        0.0000
+Query                            0             650        0.0000        0.0002
+Reply                         3525               0        0.0011        0.0000
+TOTAL                      8162379          315650        2.6278        0.1010

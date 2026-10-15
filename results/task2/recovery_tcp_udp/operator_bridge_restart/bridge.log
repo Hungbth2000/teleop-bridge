@@ -1,0 +1,198 @@
+[bridge] Transport mode: hybrid
+[operator] TCP listening on 10.200.1.1:9000
+[operator] Connected to zenoh router 7447
+[operator] Robot bridge connected
+[operator] Scheduler active; sender thread started
+[operator] CONFIG QUERY QUEUED id=4
+[operator] NATIVE CONFIG REPLY SENT id=4 bytes=115
+[operator] CONFIG QUERY QUEUED id=105
+[operator] NATIVE CONFIG REPLY SENT id=105 bytes=115
+
+[operator] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                    137       137          0         0         0          0            0
+Robot state                 0         0        250         0         0          0            0
+Video                       0         0        275         0         0          0            0
+Query                       2         2          0         0         0          0            0
+Reply                       0         0          2         0         0          0            0
+Total received: 527 | Invalid: 0
+
+[operator] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                       17262               0        0.0276        0.0000
+Robot state                      0           15000        0.0000        0.0240
+Video                            0          251561        0.0000        0.4025
+Query                           52               0        0.0001        0.0000
+Reply                            0             282        0.0000        0.0005
+TOTAL                        17314          266843        0.0277        0.4269
+[operator] CONFIG QUERY QUEUED id=206
+[operator] NATIVE CONFIG REPLY SENT id=206 bytes=115
+[operator] CONFIG QUERY QUEUED id=307
+[operator] NATIVE CONFIG REPLY SENT id=307 bytes=115
+[operator] CONFIG QUERY QUEUED id=408
+[operator] NATIVE CONFIG REPLY SENT id=408 bytes=115
+[operator] CONFIG QUERY QUEUED id=509
+[operator] NATIVE CONFIG REPLY SENT id=509 bytes=115
+[operator] CONFIG QUERY QUEUED id=610
+[operator] NATIVE CONFIG REPLY SENT id=610 bytes=115
+
+[operator] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                    638       637          0         0         0          0            0
+Robot state                 0         0        500         0         0          0            0
+Video                       0         0       2158         0         0          0            0
+Query                       7         7          0         0         0          0            0
+Reply                       0         0          7         0         0          0            0
+Total received: 2665 | Invalid: 0
+
+[operator] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                       80262               0        0.1008        0.0000
+Robot state                      0           30000        0.0000        0.0240
+Video                            0         1977586        0.0000        2.7613
+Query                          182               0        0.0002        0.0000
+Reply                            0             987        0.0000        0.0011
+TOTAL                        80444         2008573        0.1010        2.7864
+[bridge] Transport mode: hybrid
+[operator] TCP listening on 10.200.1.1:9000
+[operator] Connected to zenoh router 7447
+[operator] Robot bridge connected
+[operator] Scheduler active; sender thread started
+[operator] CONFIG QUERY QUEUED id=100
+[operator] NATIVE CONFIG REPLY SENT id=100 bytes=115
+[operator] CONFIG QUERY QUEUED id=201
+[operator] NATIVE CONFIG REPLY SENT id=201 bytes=115
+[operator] CONFIG QUERY QUEUED id=302
+[operator] NATIVE CONFIG REPLY SENT id=302 bytes=115
+[operator] CONFIG QUERY QUEUED id=403
+[operator] NATIVE CONFIG REPLY SENT id=403 bytes=115
+[operator] CONFIG QUERY QUEUED id=504
+[operator] NATIVE CONFIG REPLY SENT id=504 bytes=115
+
+[operator] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                    500       500          0         0         0          0            0
+Robot state                 0         0        250         0         0          0            0
+Video                       0         0       1750         0         0          0            0
+Query                       5         5          0         0         0          0            0
+Reply                       0         0          5         0         0          0            0
+Total received: 2005 | Invalid: 0
+
+[operator] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                       63000               0        0.1008        0.0000
+Robot state                      0           15000        0.0000        0.0240
+Video                            0         1579186        0.0000        2.5266
+Query                          130               0        0.0002        0.0000
+Reply                            0             705        0.0000        0.0011
+TOTAL                        63130         1594891        0.1010        2.5517
+[operator] CONFIG QUERY QUEUED id=605
+[operator] NATIVE CONFIG REPLY SENT id=605 bytes=115
+[operator] CONFIG QUERY QUEUED id=706
+[operator] NATIVE CONFIG REPLY SENT id=706 bytes=115
+[operator] CONFIG QUERY QUEUED id=807
+[operator] NATIVE CONFIG REPLY SENT id=807 bytes=115
+[operator] CONFIG QUERY QUEUED id=908
+[operator] NATIVE CONFIG REPLY SENT id=908 bytes=115
+[operator] CONFIG QUERY QUEUED id=1009
+[operator] NATIVE CONFIG REPLY SENT id=1009 bytes=115
+
+[operator] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                   1000      1000          0         0         0          0            0
+Robot state                 0         0        500         0         0          0            0
+Video                       0         0       3539         0         0          0            0
+Query                      10        10          0         0         0          0            0
+Reply                       0         0         10         0         0          0            0
+Total received: 4049 | Invalid: 0
+
+[operator] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                      126000               0        0.1008        0.0000
+Robot state                      0           30000        0.0000        0.0240
+Video                            0         3187670        0.0000        2.5734
+Query                          260               0        0.0002        0.0000
+Reply                            0            1410        0.0000        0.0011
+TOTAL                       126260         3219080        0.1010        2.5985
+[operator] CONFIG QUERY QUEUED id=1110
+[operator] NATIVE CONFIG REPLY SENT id=1110 bytes=115
+[operator] CONFIG QUERY QUEUED id=1211
+[operator] NATIVE CONFIG REPLY SENT id=1211 bytes=115
+[operator] CONFIG QUERY QUEUED id=1312
+[operator] NATIVE CONFIG REPLY SENT id=1312 bytes=115
+[operator] CONFIG QUERY QUEUED id=1413
+[operator] NATIVE CONFIG REPLY SENT id=1413 bytes=115
+[operator] CONFIG QUERY QUEUED id=1514
+[operator] NATIVE CONFIG REPLY SENT id=1514 bytes=115
+
+[operator] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                   1500      1500          0         0         0          0            0
+Robot state                 0         0        750         0         0          0            0
+Video                       0         0       5347         0         0          0            0
+Query                      15        15          0         0         0          0            0
+Reply                       0         0         15         0         0          0            0
+Total received: 6112 | Invalid: 0
+
+[operator] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                      189000               0        0.1008        0.0000
+Robot state                      0           45000        0.0000        0.0240
+Video                            0         4828825        0.0000        2.6256
+Query                          390               0        0.0002        0.0000
+Reply                            0            2115        0.0000        0.0011
+TOTAL                       189390         4875940        0.1010        2.6507
+[operator] CONFIG QUERY QUEUED id=1615
+[operator] NATIVE CONFIG REPLY SENT id=1615 bytes=115
+[operator] CONFIG QUERY QUEUED id=1716
+[operator] NATIVE CONFIG REPLY SENT id=1716 bytes=115
+[operator] CONFIG QUERY QUEUED id=1817
+[operator] NATIVE CONFIG REPLY SENT id=1817 bytes=115
+[operator] CONFIG QUERY QUEUED id=1918
+[operator] NATIVE CONFIG REPLY SENT id=1918 bytes=115
+[operator] CONFIG QUERY QUEUED id=2019
+[operator] NATIVE CONFIG REPLY SENT id=2019 bytes=115
+
+[operator] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                   2000      2000          0         0         0          0            0
+Robot state                 0         0       1000         0         0          0            0
+Video                       0         0       7162         0         0          0            0
+Query                      20        20          0         0         0          0            0
+Reply                       0         0         20         0         0          0            0
+Total received: 8182 | Invalid: 0
+
+[operator] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                      252000               0        0.1008        0.0000
+Robot state                      0           60000        0.0000        0.0240
+Video                            0         6465444        0.0000        2.6182
+Query                          520               0        0.0002        0.0000
+Reply                            0            2820        0.0000        0.0011
+TOTAL                       252520         6528264        0.1010        2.6433
+[operator] CONFIG QUERY QUEUED id=2120
+[operator] NATIVE CONFIG REPLY SENT id=2120 bytes=115
+[operator] CONFIG QUERY QUEUED id=2221
+[operator] NATIVE CONFIG REPLY SENT id=2221 bytes=115
+[operator] CONFIG QUERY QUEUED id=2322
+[operator] NATIVE CONFIG REPLY SENT id=2322 bytes=115
+[operator] CONFIG QUERY QUEUED id=2423
+[operator] NATIVE CONFIG REPLY SENT id=2423 bytes=115
+
+[operator] Live bridge statistics
+Type                 Enqueued      Sent   Received   Dropped   Expired   Rejected  Send failed
+Motion                   2500      2500          0         0         0          0            0
+Robot state                 0         0       1250         0         0          0            0
+Video                       0         0       8962         0         0          0            0
+Query                      24        24          0         0         0          0            0
+Reply                       0         0         24         0         0          0            0
+Total received: 10236 | Invalid: 0
+
+[operator] Bandwidth statistics (last 5.00 s)
+Type                TX bytes total  RX bytes total     TX Mbit/s     RX Mbit/s
+Motion                      315000               0        0.1008        0.0000
+Robot state                      0           75000        0.0000        0.0240
+Video                            0         8091747        0.0000        2.6018
+Query                          624               0        0.0002        0.0000
+Reply                            0            3384        0.0000        0.0009
+TOTAL                       315624         8170131        0.1010        2.6267

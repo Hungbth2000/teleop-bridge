@@ -1,0 +1,3 @@
+role,downtime_ms,head_ms,left_ms,right_ms,motion_ms,full_recovery_ms,all_paths_recovered
+operator,5001.528,123.661,124.156,138.945,117.282,138.945,True
+robot,5004.456,51.088,44.407,23.127,20.44,51.088,True

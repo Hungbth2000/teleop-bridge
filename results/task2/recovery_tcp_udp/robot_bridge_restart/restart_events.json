@@ -1,0 +1,8 @@
+{
+  "role": "robot",
+  "kill_ns": 42800989528454,
+  "exit_ns": 42800993720646,
+  "restart_launch_ns": 42805993984345,
+  "planned_downtime_seconds": 5,
+  "transport": "hybrid"
+}

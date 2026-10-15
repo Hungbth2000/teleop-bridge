@@ -1,0 +1,51 @@
+{
+  "role": "operator",
+  "kill_ns": 42251754181540,
+  "restart_launch_ns": 42256755943653,
+  "bridge_downtime_ms": 5001.762,
+  "video": {
+    "head": {
+      "good_frames_before_kill": 277,
+      "good_frames_after_restart": 768,
+      "first_recovered_frame_id": "13732765798445875632",
+      "first_recovered_decode_latency_ms": 7.758809,
+      "recovery_after_launch_ms": 185.984,
+      "recovery_after_kill_ms": 5187.746,
+      "last_to_first_good_frame_gap_ms": 5200.823,
+      "recovered": true
+    },
+    "left": {
+      "good_frames_before_kill": 279,
+      "good_frames_after_restart": 766,
+      "first_recovered_frame_id": "7942953822475780530",
+      "first_recovered_decode_latency_ms": 3.152207,
+      "recovery_after_launch_ms": 177.896,
+      "recovery_after_kill_ms": 5179.658,
+      "last_to_first_good_frame_gap_ms": 5201.28,
+      "recovered": true
+    },
+    "right": {
+      "good_frames_before_kill": 280,
+      "good_frames_after_restart": 765,
+      "first_recovered_frame_id": "6380143316566016435",
+      "first_recovered_decode_latency_ms": 2.646632,
+      "recovery_after_launch_ms": 187.972,
+      "recovery_after_kill_ms": 5189.734,
+      "last_to_first_good_frame_gap_ms": 5201.254,
+      "recovered": true
+    }
+  },
+  "motion": {
+    "fresh_applied_before_kill": 8558,
+    "fresh_applied_after_restart": 0,
+    "first_recovered_session_id": null,
+    "first_recovered_sequence": null,
+    "first_recovered_command_age_ms": null,
+    "recovery_after_launch_ms": null,
+    "recovery_after_kill_ms": null,
+    "last_to_first_applied_gap_ms": null,
+    "recovered": false
+  },
+  "full_recovery_after_launch_ms": null,
+  "all_paths_recovered": false
+}

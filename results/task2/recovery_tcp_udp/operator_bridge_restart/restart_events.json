@@ -1,0 +1,8 @@
+{
+  "role": "operator",
+  "kill_ns": 42627223497910,
+  "exit_ns": 42627224837268,
+  "restart_launch_ns": 42632225025937,
+  "planned_downtime_seconds": 5,
+  "transport": "hybrid"
+}

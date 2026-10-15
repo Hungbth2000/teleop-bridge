@@ -1,0 +1,17 @@
+[TEST] Operator bridge PID: 24720
+[TEST] Runner PID: 24740
+[TEST] Restarted role: operator
+[TEST] Old bridge terminated at 42627223497910
+[TEST] Old bridge exited at 42627224837268
+[TEST] New bridge started at 42632225025937
+[TEST] Termination-to-start gap: 5001.528 ms
+[TEST] Runner exit code: 0
+
+========== HEAD VIDEO RECOVERY ==========
+First recovered frame ID: 7531866533887213999
+Frame latency: 2.694 ms
+Recovery from restart: 5123.088 ms
+Recovery after bridge launch: 121.560 ms
+Recovery below 1000 ms: False
+[TEST] Bridge log: /home/hung/projects/teleop-bridge/results/restart_test/operator_bridge.log
+[TEST] Runner log: /home/hung/projects/teleop-bridge/results/restart_test/runner_operator.log

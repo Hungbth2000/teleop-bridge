@@ -1,0 +1,26 @@
+{
+  "transport": "hybrid TCP/UDP",
+  "restart_type": "SIGKILL followed by process relaunch",
+  "planned_offline_seconds": 5,
+  "operator": {
+    "role": "operator",
+    "downtime_ms": 5001.528,
+    "head_ms": 123.661,
+    "left_ms": 124.156,
+    "right_ms": 138.945,
+    "motion_ms": 117.282,
+    "full_recovery_ms": 138.945,
+    "all_paths_recovered": true
+  },
+  "robot": {
+    "role": "robot",
+    "downtime_ms": 5004.456,
+    "head_ms": 51.088,
+    "left_ms": 44.407,
+    "right_ms": 23.127,
+    "motion_ms": 20.44,
+    "full_recovery_ms": 51.088,
+    "all_paths_recovered": true
+  },
+  "both_sides_recovered": true
+}

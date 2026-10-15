@@ -1,0 +1,17 @@
+[TEST] Robot bridge PID: 24971
+[TEST] Runner PID: 24990
+[TEST] Restarted role: robot
+[TEST] Old bridge terminated at 42800989528454
+[TEST] Old bridge exited at 42800993720646
+[TEST] New bridge started at 42805993984345
+[TEST] Termination-to-start gap: 5004.456 ms
+[TEST] Runner exit code: 0
+
+========== HEAD VIDEO RECOVERY ==========
+First recovered frame ID: 16074139336932589997
+Frame latency: 4.917 ms
+Recovery from restart: 5052.183 ms
+Recovery after bridge launch: 47.727 ms
+Recovery below 1000 ms: False
+[TEST] Bridge log: /home/hung/projects/teleop-bridge/results/restart_test/robot_bridge.log
+[TEST] Runner log: /home/hung/projects/teleop-bridge/results/restart_test/runner_robot.log

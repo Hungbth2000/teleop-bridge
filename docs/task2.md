@@ -696,3 +696,79 @@ The eight-query test demonstrates behavior at that concurrency level; it does no
 - All eight simultaneous requests succeeded.
 - Delayed responses were handled without crashing the client.
 - Individual measurements and test logs were preserved under `results/task2/request_reply_tcp_udp/`.
+
+### 2.5 Recovery: Bridge Restart and Service Restoration
+
+**Objective**
+
+Measure how quickly good video frames and fresh motion commands return after the operator-side or robot-side bridge process is killed and restarted.
+
+The experiments test whether the system can restore its communication paths without restarting the camera applications, motion sender, or robot controller.
+
+#### Test Setup
+
+The experiments used the existing hybrid TCP/UDP bridge, two Zenoh routers, the WSL2 network namespace configuration, and the integrated three-camera workload.
+
+Two separate trials were performed:
+
+1. **Operator-side restart:** The operator bridge was killed and restarted while the robot bridge remained running.
+2. **Robot-side restart:** The robot bridge was killed and restarted while the operator bridge remained running.
+
+Each trial ran a 40-second integrated workload. The selected bridge was terminated using `SIGKILL` approximately 10 seconds into active traffic, kept offline for five seconds, and then relaunched.
+
+The camera senders, video receivers, A1 motion sender, and B3 controller continued running during the interruption.
+
+#### Measurement Method
+
+The restart runner recorded monotonic timestamps for bridge termination, process exit, and replacement-process launch.
+
+Recovery was measured from replacement-process launch to the first successfully recovered data.
+
+For each camera, a recovered good frame had to:
+
+- Be captured after the replacement bridge was launched.
+- Be successfully decoded at the receiver.
+- Have capture-to-decode latency no greater than 200 ms.
+
+For motion commands, the first recovered command had to:
+
+- Be created after replacement-process launch.
+- Have a valid age between 0 and 150 ms.
+- Be recorded as `applied` by B3, with a nonempty application timestamp.
+
+The full system recovery time was defined as the maximum recovery time across the three camera streams and motion-command path.
+
+#### Results — Operator Bridge Restart
+
+| Measurement | Result |
+|---|---:|
+| Kill-to-restart interval | 5,001.528 ms |
+| Head camera recovery | 123.661 ms |
+| Left wrist recovery | 124.156 ms |
+| Right wrist recovery | 138.945 ms |
+| Fresh motion recovery | 117.282 ms |
+| First recovered motion-command age | 1.299 ms |
+| **Full system recovery** | **138.945 ms** |
+| All communication paths recovered | Yes |
+
+All three cameras resumed delivering good decoded frames after the operator bridge restarted.
+
+B3 also resumed applying fresh motion commands. The first applied command after restart had an age of approximately 1.299 ms, below the 150 ms freshness threshold.
+
+**Evidence:**
+
+- [Operator restart timestamps](../results/task2/recovery_tcp_udp/operator_bridge_restart/restart_events.json)
+- [Operator recovery summary](../results/task2/recovery_tcp_udp/operator_bridge_restart/recovery_summary.json)
+- [Operator bridge log](../results/task2/recovery_tcp_udp/operator_bridge_restart/bridge.log)
+
+#### Results — Robot Bridge Restart
+
+| Measurement | Result |
+|---|---:|
+| Kill-to-restart interval | 5,004.456 ms |
+| Head camera recovery | 51.088 ms |
+| Left wrist recovery | 44.407 ms |
+| Right wrist recovery | 23.127 ms |
+| Fresh motion recovery | 20.440 ms |
+| First recovered motion-command age | 2.217
+

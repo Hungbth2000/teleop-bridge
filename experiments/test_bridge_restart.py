@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 import csv
 import shutil
+import json
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -226,17 +227,34 @@ def main():
                     f"{role.capitalize()} bridge exited before restart"
                 )
 
-            # Terminate the old bridge.
+            # Simulate an abrupt bridge crash.
             t0 = timestamp()
 
-            os.killpg(bridge.pid, signal.SIGTERM)
+            os.killpg(bridge.pid, signal.SIGKILL)
             bridge.wait(timeout=3)
 
             t_stopped = timestamp()
 
-            # Launch the replacement bridge immediately.
-            bridge = start_bridge(role, bridge_log)
+            # Keep the bridge offline for five seconds.
+            time.sleep(5)
+
+            # Start a replacement bridge.
             t1 = timestamp()
+            bridge = start_bridge(role, bridge_log)
+
+            events = {
+                "role": role,
+                "kill_ns": t0,
+                "exit_ns": t_stopped,
+                "restart_launch_ns": t1,
+                "planned_downtime_seconds": 5,
+                "transport": "hybrid",
+            }
+
+            events_path = LOG_DIR / f"{role}_restart_events.json"
+            events_path.write_text(
+                json.dumps(events, indent=2) + "\n"
+            )
 
             print(
                 f"[TEST] Restarted role: {role}",
