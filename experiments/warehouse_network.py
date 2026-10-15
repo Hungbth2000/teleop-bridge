@@ -45,19 +45,24 @@ def apply_normal_delay(namespace):
 
 
 def cleanup(namespace):
-    disable_blackout(namespace)
-
     commands = [
         [
             "tc", "qdisc", "del",
-            "dev", OPERATOR_INTERFACE,
-            "root",
+            "dev", OPERATOR_INTERFACE, "clsact",
         ],
         [
             "ip", "netns", "exec", namespace,
             "tc", "qdisc", "del",
-            "dev", ROBOT_INTERFACE,
-            "root",
+            "dev", ROBOT_INTERFACE, "clsact",
+        ],
+        [
+            "tc", "qdisc", "del",
+            "dev", OPERATOR_INTERFACE, "root",
+        ],
+        [
+            "ip", "netns", "exec", namespace,
+            "tc", "qdisc", "del",
+            "dev", ROBOT_INTERFACE, "root",
         ],
     ]
 
@@ -69,7 +74,10 @@ def cleanup(namespace):
             check=False,
         )
 
-    print("[NETWORK] Impairments removed", flush=True)
+    try:
+        print("[NETWORK] Impairments removed", flush=True)
+    except BrokenPipeError:
+        pass
 
 def interface_command(namespace, robot, *args):
     if robot:
@@ -227,7 +235,10 @@ def main():
         print("\n[NETWORK] Stopping", flush=True)
 
     finally:
-        cleanup(args.namespace)
+        try:
+            cleanup(args.namespace)
+        except BrokenPipeError:
+            pass
 
 
 if __name__ == "__main__":

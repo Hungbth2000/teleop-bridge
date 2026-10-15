@@ -6,8 +6,10 @@
 #include "transport_factory.hpp"
 #include "receive_stats.hpp"
 #include "tcp_transport.hpp"
+#include "quic_transport.hpp"
 #include "rate_limiter.hpp"
 #include "csv_telemetry.hpp"
+#include "video_frame_id.hpp"
 
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -457,6 +459,7 @@ void print_bandwidth_stats(
 }
 
 bool use_hybrid_transport();
+std::string transport_mode();
 
 void run_connected(
     zenoh::Session& session,
@@ -488,7 +491,7 @@ void run_connected(
     // Appends to the role-specific file.
     CsvTelemetry csv_telemetry(
         role,
-        use_hybrid_transport() ? "hybrid" : "tcp"
+        transport_mode()
     );
 
     std::atomic<std::uint64_t> next_sequence{1};
@@ -662,6 +665,15 @@ void run_connected(
                 role
             );
 
+            // Print QUIC transport diagnostics every five seconds.
+            if (transport_mode() == "quic") {
+                if (auto* quic = dynamic_cast<teleop::QuicTransport*>(
+                        transport.get()
+                    )) {
+                    quic->print_diagnostics();
+                }
+            }
+
             // NEW: bandwidth statistics.
             print_bandwidth_stats(
                 current_tx,
@@ -757,35 +769,79 @@ void run_connected(
                 )
                 : scheduler.pop(item)
         ) {
-            // This checks time spent in our scheduler only.
-            // B3 separately checks A1's original timestamp.
-            if (item.type == MessageType::FastCommand) {
-                const auto wait_ms =
-                    std::chrono::duration_cast<
-                        std::chrono::milliseconds
-                    >(Clock::now() - item.queued_at);
+            // Expire stale best-effort traffic before handing it to
+            // the transport. Reliable traffic must not be discarded here.
+            const auto queue_age =
+                Clock::now() - item.queued_at;
 
-                if (wait_ms >=
-                    std::chrono::milliseconds(100)) {
-                    scheduler.record_expired(item.kind);
-                    continue;
-                }
+            std::chrono::milliseconds max_queue_age{0};
+
+            switch (item.kind) {
+                case TrafficKind::Motion:
+                    max_queue_age = std::chrono::milliseconds(100);
+                    break;
+
+                case TrafficKind::RobotState:
+                    max_queue_age = std::chrono::milliseconds(100);
+                    break;
+
+                case TrafficKind::Video:
+                    max_queue_age = std::chrono::milliseconds(120);
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (item.delivery == DeliveryMode::Unreliable &&
+                max_queue_age.count() > 0 &&
+                queue_age >= max_queue_age) {
+                scheduler.record_expired(item.kind);
+                continue;
             }
 
             if (!transport->send(
-                    item.bytes,
-                    item.delivery
-                )) {
-                scheduler.record_send_failed(item.kind);
+                item.bytes,
+                item.delivery
+            )) {
+            scheduler.record_send_failed(item.kind);
 
-                std::cerr
-                    << "[" << role
-                    << "] Transport send failed\n";
+            // Avoid transmitting the remaining queued fragments
+            // of a video frame after one fragment was rejected.
+            if ((transport_mode() == "quic" ||
+                transport_mode() == "kcp") &&
+                item.kind == TrafficKind::Video) {
 
-                scheduler.close();
-                transport->shutdown();
-                break;
+                const auto failed_frame =
+                    video_frame_id(item.bytes);
+
+                if (failed_frame) {
+                    scheduler.drop_video_frame(*failed_frame);
+                }
             }
+
+            // Best-effort messages may be rejected due to
+            // temporary transport congestion.
+            //
+            // Do not tear down the entire session when this
+            // happens. The failure has already been recorded
+            // in scheduler statistics.
+            if (
+                (transport_mode() == "quic" ||
+                transport_mode() == "kcp") &&
+                item.delivery == DeliveryMode::Unreliable
+            ) {
+                continue;
+            }
+
+            std::cerr
+                << "[" << role
+                << "] Transport send failed\n";
+
+            scheduler.close();
+            transport->shutdown();
+            break;
+        }
 
             scheduler.record_sent(
                 item.kind,
@@ -1551,8 +1607,11 @@ void run_connected(
 
                     std::cerr
                         << "[" << role
-                        << "] Unexpected message type\n";
-                    continue;
+                        << "] Unexpected message type"
+                        << " type=" << static_cast<int>(msg.type)
+                        << " stream_id=" << static_cast<int>(msg.stream_id)
+                        << " sequence=" << msg.sequence
+                        << '\n';
                 }
 
                 // NEW: Count this valid, routed incoming message.
@@ -1673,34 +1732,115 @@ const char* env_address(
         : fallback;
 }
 
-bool use_hybrid_transport() {
-    const std::string mode =
-        env_address("TELEOP_TRANSPORT", "tcp");
+std::string transport_mode() {
+    const char* value = std::getenv("TELEOP_TRANSPORT");
 
-    if (mode != "tcp" && mode != "hybrid") {
+    const std::string mode =
+        value ? value : "tcp";
+
+    if (mode != "tcp" &&
+        mode != "hybrid" &&
+        mode != "hybrid_quic" &&
+        mode != "hybrid_kcp" &&
+        mode != "quic" &&
+        mode != "kcp") {
         throw std::runtime_error(
-            "TELEOP_TRANSPORT must be tcp or hybrid"
+            "TELEOP_TRANSPORT must be tcp, hybrid, hybrid_quic, hybrid_kcp, quic, or kcp"
         );
     }
 
-    return mode == "hybrid";
+    return mode;
+}
+
+bool use_hybrid_transport() {
+    return transport_mode() == "hybrid";
 }
 
 void run_operator() {
 
     std::cout
         << "[bridge] Transport mode: "
-        << (use_hybrid_transport() ? "hybrid" : "tcp")
-        << '\n';
+        << transport_mode() << '\n';
 
     auto session = open_zenoh(7447);
 
     const char* bind_address =
         env_address("TELEOP_TCP_BIND");
 
-    int server = teleop::TransportFactory::create_server(
-        9000, bind_address
-    );
+    const std::string mode = transport_mode();
+
+    int server = -1;
+
+    if (mode == "tcp" || mode == "hybrid") {
+        server = teleop::TransportFactory::create_server(
+            9000, bind_address
+        );
+
+        std::cout
+            << "[operator] TCP listening on "
+            << bind_address << ":9000\n";
+    }
+
+    std::cout
+        << "[operator] Connected to zenoh router 7447\n";
+
+    while (true) {
+        std::unique_ptr<teleop::ITransport> transport;
+
+        if (mode == "quic") {
+            transport = teleop::TransportFactory::accept_quic(
+                bind_address,
+                9002,
+                "certs/quic-server.crt",
+                "certs/quic-server.key"
+            );
+        } else if (mode == "kcp") {
+            transport = teleop::TransportFactory::accept_kcp(
+                env_address("TELEOP_UDP_LOCAL"),
+                env_address("TELEOP_UDP_PEER")
+            );
+        } else if (mode == "hybrid_quic") {
+            transport = teleop::TransportFactory::accept_hybrid_quic(
+                env_address("TELEOP_UDP_LOCAL"),
+                env_address("TELEOP_UDP_PEER"),
+                "certs/quic-server.crt",
+                "certs/quic-server.key"
+            );
+        } else if (mode == "hybrid_kcp") {
+            transport = teleop::TransportFactory::accept_hybrid_kcp(
+                env_address("TELEOP_UDP_LOCAL"),
+                env_address("TELEOP_UDP_PEER")
+            );
+        } else if (mode == "hybrid") {
+            transport = teleop::TransportFactory::accept_hybrid(
+                server,
+                env_address("TELEOP_UDP_LOCAL"),
+                env_address("TELEOP_UDP_PEER")
+            );
+        } else {
+            transport =
+                teleop::TransportFactory::accept_client(server);
+        }
+
+        if (!transport) {
+            std::cerr
+                << "[operator] Transport accept failed\n";
+
+            std::this_thread::sleep_for(
+                std::chrono::milliseconds(500)
+            );
+            continue;
+        }
+
+        std::cout
+            << "[operator] Robot bridge connected\n";
+
+        run_connected(
+            session,
+            std::move(transport),
+            "operator"
+        );
+    }
 
     std::cout
         << "[operator] Connected to zenoh router 7447\n"
@@ -1739,8 +1879,7 @@ void run_robot() {
 
     std::cout
         << "[bridge] Transport mode: "
-        << (use_hybrid_transport() ? "hybrid" : "tcp")
-        << '\n';
+        << transport_mode() << '\n';
 
     auto session = open_zenoh(7448);
 
@@ -1753,7 +1892,29 @@ void run_robot() {
     while (true) {
         std::unique_ptr<teleop::ITransport> transport;
 
-        if (use_hybrid_transport()) {
+        const std::string mode = transport_mode();
+
+        if (mode == "quic") {
+            transport = teleop::TransportFactory::connect_quic(
+                operator_address,
+                9002
+            );
+        } else if (mode == "kcp") {
+            transport = teleop::TransportFactory::connect_kcp(
+                env_address("TELEOP_UDP_LOCAL"),
+                env_address("TELEOP_UDP_PEER")
+            );
+        } else if (mode == "hybrid_quic") {
+            transport = teleop::TransportFactory::connect_hybrid_quic(
+                env_address("TELEOP_UDP_LOCAL"),
+                env_address("TELEOP_UDP_PEER")
+            );
+        } else if (mode == "hybrid_kcp") {
+            transport = teleop::TransportFactory::connect_hybrid_kcp(
+                env_address("TELEOP_UDP_LOCAL"),
+                env_address("TELEOP_UDP_PEER")
+            );
+        } else if (mode == "hybrid") {
             transport = teleop::TransportFactory::connect_hybrid(
                 operator_address,
                 9000,
@@ -1761,10 +1922,10 @@ void run_robot() {
                 env_address("TELEOP_UDP_PEER")
             );
         } else {
-            transport =
-                teleop::TransportFactory::connect_to(
-                    operator_address, 9000
-                );
+            transport = teleop::TransportFactory::connect_to(
+                operator_address,
+                9000
+            );
         }
 
         if (transport) {

@@ -4,6 +4,7 @@
 #include "message.hpp"
 #include "transport.hpp"
 #include "rate_limiter.hpp"
+#include "video_frame_id.hpp"
 
 #include <array>
 #include <chrono>
@@ -111,7 +112,7 @@ public:
             return EnqueueResult::Rejected;
         }
 
-        const auto priority = classify(type);
+        const auto priority = classify(type, bytes);
         auto& queue = queues_[priority];
 
         bool dropped_old = false;
@@ -152,6 +153,33 @@ public:
         return dropped_old
             ? EnqueueResult::ReplacedOrDroppedOld
             : EnqueueResult::Accepted;
+    }
+    
+    void drop_video_frame(const VideoFrameId& failed_frame) {
+        std::lock_guard<std::mutex> guard(mutex_);
+
+        for (auto& queue : queues_) {
+            for (auto it = queue.begin();
+                it != queue.end();) {
+
+                if (it->type != MessageType::Video) {
+                    ++it;
+                    continue;
+                }
+
+                const auto id = video_frame_id(it->bytes);
+
+                if (!id || !(*id == failed_frame)) {
+                    ++it;
+                    continue;
+                }
+
+                ++stats_.dropped;
+                ++stats_.by_kind[index(it->kind)].dropped;
+
+                it = queue.erase(it);
+            }
+        }
     }
 
     bool pop(ScheduledMessage& result) {
@@ -321,7 +349,10 @@ private:
         return TrafficKind::Test;
     }
 
-    static std::size_t classify(MessageType type) {
+    static std::size_t classify(
+        MessageType type,
+        const ByteBuffer& bytes
+    ) {
         switch (type) {
             case MessageType::ReliableCommand:
             case MessageType::ExecutionAck:
@@ -336,10 +367,30 @@ private:
                 return 2;
 
             case MessageType::Video:
-                return 3;
+                // TEL1 header:
+                // bytes 0-3 = magic "TEL1"
+                // byte 4    = message type
+                // byte 5    = stream ID
+                //
+                // Head camera uses stream ID 1.
+                // Wrist cameras use stream IDs 2 and 3.
+                if (bytes.size() >= HEADER_SIZE &&
+                    bytes[0] == 'T' &&
+                    bytes[1] == 'E' &&
+                    bytes[2] == 'L' &&
+                    bytes[3] == '1' &&
+                    bytes[4] ==
+                        static_cast<std::uint8_t>(
+                            MessageType::Video
+                        ) &&
+                    bytes[5] == 1) {
+                    return 3;
+                }
+
+                return 4;
         }
 
-        return 3;
+        return 4;
     }
 
     bool has_messages() const {
@@ -354,10 +405,14 @@ private:
     mutable std::mutex mutex_;
     std::condition_variable condition_;
 
-    std::array<std::deque<ScheduledMessage>, 4> queues_;
+    std::array<std::deque<ScheduledMessage>, 5> queues_;
 
-    const std::array<std::size_t, 4> capacities_{
-        64, 1, 16, 64
+    const std::array<std::size_t, 5> capacities_{
+        64, // Reliable control
+        1,  // Motion
+        16, // Robot state
+        64, // Head video
+        64  // Wrist and other video
     };
 
     SchedulerStats stats_;

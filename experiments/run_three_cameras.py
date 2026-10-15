@@ -7,6 +7,7 @@ import signal
 import subprocess
 import sys
 import time
+import fcntl
 from pathlib import Path
 
 
@@ -34,6 +35,20 @@ def main():
 
     if args.duration <= 0:
         parser.error("Duration must be positive")
+
+    lock_path = ROOT / "results" / ".three_camera_runner.lock"
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+
+    lock_file = lock_path.open("w")
+    try:
+        fcntl.flock(
+            lock_file.fileno(),
+            fcntl.LOCK_EX | fcntl.LOCK_NB
+        )
+    except BlockingIOError:
+        raise RuntimeError(
+            "Another three-camera experiment is already running"
+        )
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -144,33 +159,44 @@ def main():
     def stop_process(name):
         process = processes[name]
 
-        if process.poll() is not None:
-            return
+        def signal_group(sig):
+            try:
+                os.killpg(process.pid, sig)
+                return True
+            except ProcessLookupError:
+                # The process group has already exited.
+                return False
 
-        # Send Ctrl+C to the process group so that
-        # receiver finally blocks can close CSVs.
+        # Signal the entire process group, even when the
+        # original group leader has already exited.
+        signal_group(signal.SIGINT)
+
         try:
-            os.killpg(
-                process.pid,
-                signal.SIGINT,
-            )
-
             process.wait(timeout=5)
-
         except subprocess.TimeoutExpired:
-            os.killpg(
-                process.pid,
-                signal.SIGTERM,
-            )
+            signal_group(signal.SIGTERM)
 
             try:
                 process.wait(timeout=3)
             except subprocess.TimeoutExpired:
-                os.killpg(
-                    process.pid,
-                    signal.SIGKILL,
-                )
+                signal_group(signal.SIGKILL)
                 process.wait()
+
+        # The leader may have exited before its children.
+        # Give remaining members of its process group time
+        # to finish their shutdown handlers.
+        for _ in range(30):
+            try:
+                os.killpg(process.pid, 0)
+            except ProcessLookupError:
+                break
+
+            time.sleep(0.1)
+        else:
+            # Remaining descendants did not exit promptly.
+            signal_group(signal.SIGTERM)
+            time.sleep(0.2)
+            signal_group(signal.SIGKILL)
 
     try:
         print("[RUNNER] Starting receivers...")
@@ -228,6 +254,8 @@ def main():
 
         for log_file in log_files.values():
             log_file.close()
+
+        lock_file.close()
 
         print("[RUNNER] Finished.", flush=True)
 

@@ -70,7 +70,6 @@ def main():
             process = subprocess.Popen(
                 command,
                 cwd=ROOT,
-                start_new_session=True,
             )
 
             processes[camera] = process

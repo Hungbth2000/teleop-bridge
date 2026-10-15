@@ -2,6 +2,7 @@ import os
 import sqlite3
 from pathlib import Path
 
+import csv
 import json
 import statistics
 import struct
@@ -64,6 +65,25 @@ last_applied_motion_sequence = -1
 last_fresh_time_ns = None
 
 robot_moving = False
+
+MOTION_RX_PATH = Path("results/motion_rx.csv")
+MOTION_RX_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+motion_rx_file = MOTION_RX_PATH.open(
+    "a", newline="", buffering=1
+)
+
+motion_rx_writer = csv.writer(motion_rx_file)
+
+if MOTION_RX_PATH.stat().st_size == 0:
+    motion_rx_writer.writerow([
+        "session_id",
+        "sequence",
+        "created_ns",
+        "received_ns",
+        "latency_ms",
+        "stale_at_reception",
+    ])
 
 command_ages_ms = []
 accepted = 0
@@ -203,6 +223,17 @@ def on_motion(sample):
     age_ns = now_ns - created_ns
 
     with lock:
+        # Measurement only: record every valid motion packet,
+        # including commands rejected by E-stop or freshness rules.
+        motion_rx_writer.writerow([
+            session_id,
+            sequence,
+            created_ns,
+            now_ns,
+            round(age_ns / 1e6, 6),
+            int(age_ns < 0 or age_ns > MAX_COMMAND_AGE_NS),
+        ])
+
         if age_ns < 0 or age_ns > MAX_COMMAND_AGE_NS:
             rejected_stale += 1
 
