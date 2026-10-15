@@ -587,3 +587,112 @@ The results support exactly-once application and ordering for the recorded workl
 - Duplicate and older command IDs were correctly rejected or recognized.
 
 The raw logs and per-command report are stored in `results/task2/reliable_commands_tcp_udp/`.
+
+### 2.4 Request/Reply: Latency, Concurrent Queries, and Timeout Handling
+
+**Objective**
+
+Evaluate request/reply communication between A3 and B3 while the teleoperation system is active. The experiments measure query latency, successful replies, missing or duplicate replies, and client behavior when the robot-side query handler responds too slowly.
+
+#### Test Setup
+
+The existing Zenoh request/reply mechanism was used. A3 sends configuration queries to `teleop/robot/config`, and B3 responds with a JSON configuration containing its node identity and controller settings.
+
+Three tests were performed:
+
+1. A 75-second workload with all three camera streams, motion commands, state updates, and configuration queries.
+2. Eight simultaneous configuration queries.
+3. A timeout test with B3 configured to delay replies by 4,000 ms while A3 uses a 3,000 ms timeout.
+
+The normal workload records the first-reply latency, total query completion time, reply count, and query status in a CSV file.
+
+#### Results — Normal Workload
+
+The query workload issued one request per second during the 75-second three-camera experiment.
+
+| Metric | Measured result |
+|---|---:|
+| Queries sent | 75 |
+| Successful queries | **75** |
+| Failed queries | **0** |
+| Zero-reply queries | **0** |
+| Duplicate-reply queries | **0** |
+| Extra replies | **0** |
+| Success rate | **100%** |
+| Mean first-reply latency | 5.404 ms |
+| p50 first-reply latency | 5.136 ms |
+| p95 first-reply latency | 10.535 ms |
+| p99 first-reply latency | 11.059 ms |
+| Maximum first-reply latency | 11.111 ms |
+
+All 75 queries received exactly one valid response. No failed queries or duplicate replies were observed during the recorded workload.
+
+**Evidence:**
+
+- [Query workload CSV](../results/task2/request_reply_tcp_udp/evidence/query_workload.csv)
+- [Three-camera runner output](../results/task2/request_reply_tcp_udp/evidence/three_camera_runner.log)
+- [Analysis summary](../results/task2/request_reply_tcp_udp/report/summary.json)
+
+#### Results — Concurrent Queries
+
+A separate test issued eight configuration requests simultaneously using a thread pool.
+
+| Metric | Measured result |
+|---|---:|
+| Concurrent requests | 8 |
+| Successful requests | **8** |
+| Failed requests | **0** |
+| Missing replies | **0** |
+| Duplicate replies | **0** |
+| Minimum response latency | 2.83 ms |
+| Maximum response latency | 5.26 ms |
+
+Every concurrent query received exactly one reply. The test did not trigger overload or query failures.
+
+**Evidence:**
+
+- [Concurrent-query test output](../results/task2/request_reply_tcp_udp/fault_tests/concurrent/concurrent_queries.log)
+
+#### Results — Timeout Handling
+
+To simulate a slow robot-side query handler, B3 was started with `B3_QUERY_DELAY_MS=4000`. A3 retained its configured 3,000 ms request timeout.
+
+Three queries were issued over a 12-second test interval.
+
+| Query | Status | Valid replies | Completion time |
+|---|---|---:|---:|
+| 1 | FAILED | 0 | 3,043.395 ms |
+| 2 | FAILED | 0 | 3,080.824 ms |
+| 3 | FAILED | 0 | 3,019.088 ms |
+
+All three queries completed without receiving a valid reply. Their completion times were close to the configured 3,000 ms timeout.
+
+The A3 application remained operational and continued to process subsequent requests. The test completed normally and recorded all three failures.
+
+**Evidence:**
+
+- [Timeout-test CSV](../results/task2/request_reply_tcp_udp/fault_tests/timeout/query_timeout.csv)
+- [A3 timeout-test output](../results/task2/request_reply_tcp_udp/fault_tests/timeout/a3_timeout.log)
+- [Delayed B3 server output](../results/task2/request_reply_tcp_udp/fault_tests/timeout/b3_delayed.log)
+
+#### Observations and Limitations
+
+Request/reply communication remained responsive under the normal concurrent camera and control workload. The maximum first-reply latency was 11.111 ms, and all 75 requests succeeded.
+
+The eight-query concurrent test also completed without failures or duplicate replies.
+
+In the delayed-response experiment, A3 recorded zero valid replies and completed each query after approximately three seconds, consistent with the configured client timeout.
+
+The current query workload classifies requests based on the number of valid B3 replies. Therefore, a zero-valid-reply outcome does not independently distinguish timeout from other query-processing failures. The deliberate B3 delay and server-side log provide additional context for the timeout experiment.
+
+The eight-query test demonstrates behavior at that concurrency level; it does not establish the system's maximum query capacity.
+
+#### Acceptance Result
+
+**PASS — Request/reply communication in the tested scenarios**
+
+- All 75 requests succeeded during the normal 75-second workload.
+- No duplicate replies were observed.
+- All eight simultaneous requests succeeded.
+- Delayed responses were handled without crashing the client.
+- Individual measurements and test logs were preserved under `results/task2/request_reply_tcp_udp/`.

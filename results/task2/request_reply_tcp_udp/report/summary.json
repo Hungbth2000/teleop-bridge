@@ -1,0 +1,17 @@
+{
+  "queries_sent": 75,
+  "successful_queries": 75,
+  "failed_queries": 0,
+  "zero_reply_queries": 0,
+  "duplicate_reply_queries": 0,
+  "extra_replies": 0,
+  "success_rate_pct": 100.0,
+  "first_reply_latency_ms": {
+    "mean": 5.404,
+    "p50": 5.136,
+    "p95": 10.5354,
+    "p99": 11.0592,
+    "max": 11.111
+  },
+  "normal_workload_pass": true
+}

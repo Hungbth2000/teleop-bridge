@@ -1,0 +1,5 @@
+[A3] Query 1: FAILED, replies=0, first_reply_ms=None
+[A3] Query 2: FAILED, replies=0, first_reply_ms=None
+[A3] Query 3: FAILED, replies=0, first_reply_ms=None
+[A3] Finished: total=3, successes=0, failures=3, extra_replies=0
+[A3] CSV: results/task2/request_reply_tcp_udp/fault_tests/timeout/query_timeout.csv

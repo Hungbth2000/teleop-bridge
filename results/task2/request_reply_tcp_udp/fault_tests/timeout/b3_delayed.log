@@ -1,0 +1,52 @@
+[B3] Restored state: last_id=1792091088427354726 estop=True
+[B3] Connected to robot router
+[B3] Motion and E-stop handlers active
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] Replied to configuration query
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] Replied to configuration query
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] Replied to configuration query
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
+[B3] status=WAITING accepted=0 rejected_stale=0 rejected_sequence=0 blocked_by_estop=0 estop=True moving=False age_ms p50=0.00 p95=0.00 p99=0.00
