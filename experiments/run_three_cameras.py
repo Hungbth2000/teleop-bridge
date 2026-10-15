@@ -23,6 +23,13 @@ def main():
         default=75.0,
     )
 
+    parser.add_argument(
+        "--robot-netns",
+        type=str,
+        default=None,
+        help="Network namespace for robot-side camera senders",
+    )
+
     args = parser.parse_args()
 
     if args.duration <= 0:
@@ -75,6 +82,42 @@ def main():
     processes = {}
     log_files = {}
 
+    robot_processes = {"head_tx", "wrists_tx"}
+
+    def prepare_command(name, command):
+        # When started through sudo, run ordinary processes
+        # under the original user rather than root.
+        user = os.environ.get("SUDO_USER")
+
+        if args.robot_netns is not None and name in robot_processes:
+            if os.geteuid() != 0:
+                raise RuntimeError(
+                    "--robot-netns requires running the runner with sudo"
+                )
+
+            return [
+                "ip",
+                "netns",
+                "exec",
+                args.robot_netns,
+                "runuser",
+                "-u",
+                user,
+                "--",
+                *command,
+            ]
+
+        if user and os.geteuid() == 0:
+            return [
+                "runuser",
+                "-u",
+                user,
+                "--",
+                *command,
+            ]
+
+        return command
+
     def start_process(name, command):
         path = LOG_DIR / f"{name}.log"
 
@@ -82,7 +125,7 @@ def main():
         log_files[name] = log_file
 
         process = subprocess.Popen(
-            command,
+            prepare_command(name, command),
             cwd=ROOT,
             stdout=log_file,
             stderr=subprocess.STDOUT,

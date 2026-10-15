@@ -143,7 +143,10 @@ void TcpTransport::shutdown() {
     }
 }
 
-int TcpTransport::create_server(int port) {
+int TcpTransport::create_server(
+    int port,
+    const char* bind_address
+) {
     int fd = ::socket(AF_INET, SOCK_STREAM, 0);
 
     if (fd < 0) {
@@ -161,7 +164,7 @@ int TcpTransport::create_server(int port) {
     addr.sin_port = htons(port);
 
     if (::inet_pton(
-            AF_INET, "127.0.0.1", &addr.sin_addr
+        AF_INET, bind_address, &addr.sin_addr
         ) != 1 ||
         ::bind(
             fd,

@@ -8,6 +8,8 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+import csv
+import shutil
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,11 +21,33 @@ def timestamp():
     return time.monotonic_ns()
 
 
+
 def start_bridge(role, log_file):
-    """Start one bridge process in its own process group."""
+    """Start a hybrid bridge in the appropriate network namespace."""
+
+    env = os.environ.copy()
+    env["TELEOP_TRANSPORT"] = "hybrid"
+
+    if role == "robot":
+        env["TELEOP_TCP_HOST"] = "10.200.1.1"
+        env["TELEOP_UDP_LOCAL"] = "10.200.1.2"
+        env["TELEOP_UDP_PEER"] = "10.200.1.1"
+
+        command = [
+            "ip", "netns", "exec", "teleop-robot",
+            str(BRIDGE), role,
+        ]
+    else:
+        env["TELEOP_TCP_BIND"] = "10.200.1.1"
+        env["TELEOP_UDP_LOCAL"] = "10.200.1.1"
+        env["TELEOP_UDP_PEER"] = "10.200.1.2"
+
+        command = [str(BRIDGE), role]
+
     return subprocess.Popen(
-        [str(BRIDGE), role],
+        command,
         cwd=ROOT,
+        env=env,
         stdout=log_file,
         stderr=subprocess.STDOUT,
         start_new_session=True,
@@ -41,6 +65,61 @@ def stop_process(process, sig=signal.SIGTERM):
     except subprocess.TimeoutExpired:
         os.killpg(process.pid, signal.SIGKILL)
         process.wait()
+
+
+def analyze_head_recovery(restart_ns, bridge_started_ns):
+    """Measure recovery using validated head-video frame arrivals."""
+
+    csv_path = ROOT / "results" / "video_frames_rx.csv"
+
+    if not csv_path.exists():
+        print("[RECOVERY] No head-video receiver CSV found")
+        return
+
+    frames = []
+
+    with csv_path.open(newline="") as f:
+        for row in csv.DictReader(f):
+            try:
+                frames.append({
+                    "capture_ns": int(row["capture_ns"]),
+                    "event_ns": int(row["event_ns"]),
+                    "frame_id": int(row["frame_id"]),
+                    "latency_ms": float(row["latency_ms"]),
+                })
+            except (ValueError, KeyError):
+                continue
+
+    # Only count frames captured after the restart event.
+    recovered = [
+        frame
+        for frame in frames
+        if (
+            frame["capture_ns"] >= restart_ns
+            and frame["event_ns"] >= bridge_started_ns
+        )
+    ]
+
+    if not recovered:
+        print("[RECOVERY] No fresh head frame received after restart")
+        return
+
+    first = min(recovered, key=lambda frame: frame["event_ns"])
+
+    recovery_ms = (
+        first["event_ns"] - restart_ns
+    ) / 1_000_000
+
+    after_start_ms = (
+        first["event_ns"] - bridge_started_ns
+    ) / 1_000_000
+
+    print("\n========== HEAD VIDEO RECOVERY ==========")
+    print(f"First recovered frame ID: {first['frame_id']}")
+    print(f"Frame latency: {first['latency_ms']:.3f} ms")
+    print(f"Recovery from restart: {recovery_ms:.3f} ms")
+    print(f"Recovery after bridge launch: {after_start_ms:.3f} ms")
+    print(f"Recovery below 1000 ms: {recovery_ms < 1000}")
 
 
 def main():
@@ -65,6 +144,11 @@ def main():
     args = parser.parse_args()
     role = args.restart
 
+    if os.geteuid() != 0:
+        parser.error(
+            "Run this experiment with sudo -E"
+        )
+
     if args.duration <= 15:
         parser.error("--duration must be greater than 15 seconds")
 
@@ -72,6 +156,13 @@ def main():
         raise SystemExit(f"Bridge binary not found: {BRIDGE}")
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+    head_csv = ROOT / "results" / "video_frames_rx.csv"
+
+    if head_csv.exists():
+        backup_path = LOG_DIR / "video_frames_rx_before_restart.csv"
+        shutil.copy2(head_csv, backup_path)
+        head_csv.unlink()
 
     bridge_log_path = LOG_DIR / f"{role}_bridge.log"
     runner_log_path = LOG_DIR / f"runner_{role}.log"
@@ -107,6 +198,8 @@ def main():
                     "experiments/run_three_cameras.py",
                     "--duration",
                     str(args.duration),
+                    "--robot-netns",
+                    "teleop-robot",
                 ],
                 cwd=ROOT,
                 stdout=runner_log,
@@ -184,6 +277,11 @@ def main():
             print(
                 f"[TEST] Runner exit code: {result}",
                 flush=True,
+            )
+
+            analyze_head_recovery(
+                restart_ns=t0,
+                bridge_started_ns=t1,
             )
 
             if result != 0:

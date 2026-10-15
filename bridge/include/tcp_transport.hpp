@@ -25,7 +25,10 @@ public:
     void shutdown() override;
 
     // Operator-side TCP listener.
-    static int create_server(int port);
+    static int create_server(
+        int port,
+        const char* bind_address = "127.0.0.1"
+    );
 
     // Accept one robot bridge connection.
     static std::unique_ptr<TcpTransport> accept_client(

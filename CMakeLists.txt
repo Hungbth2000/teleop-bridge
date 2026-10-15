@@ -12,6 +12,9 @@ find_package(zenohcxx REQUIRED)
 add_executable(teleop_bridge
     bridge/src/main.cpp
     bridge/src/transport/tcp_transport.cpp
+    bridge/src/transport/udp_transport.cpp
+    bridge/src/transport/hybrid_transport.cpp
+    bridge/src/transport/transport_factory.cpp
 )
 
 target_link_libraries(teleop_bridge PRIVATE
@@ -60,4 +63,55 @@ if(BUILD_TESTING)
             COMMAND ${test_name}
         )
     endforeach()
+
+    # UDP transport unit test
+    add_executable(test_udp_transport
+        tests/test_udp_transport.cpp
+        bridge/src/transport/udp_transport.cpp
+    )
+
+    target_include_directories(test_udp_transport PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/bridge/include
+    )
+
+    target_compile_options(test_udp_transport PRIVATE
+        -Wall
+        -Wextra
+        -Wpedantic
+    )
+
+    add_test(
+        NAME test_udp_transport
+        COMMAND test_udp_transport
+    )
+
+    set_tests_properties(test_udp_transport PROPERTIES
+        TIMEOUT 5
+    )
+
+    # Hybrid transport unit test
+    add_executable(test_hybrid_transport
+        tests/test_hybrid_transport.cpp
+        bridge/src/transport/hybrid_transport.cpp
+    )
+
+    target_include_directories(test_hybrid_transport PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/bridge/include
+    )
+
+    target_compile_options(test_hybrid_transport PRIVATE
+        -Wall
+        -Wextra
+        -Wpedantic
+    )
+
+    add_test(
+        NAME test_hybrid_transport
+        COMMAND test_hybrid_transport
+    )
+
+    set_tests_properties(test_hybrid_transport PROPERTIES
+        TIMEOUT 5
+    )
+
 endif()

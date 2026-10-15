@@ -3,6 +3,7 @@
 
 #include "scheduler.hpp"
 #include "transport.hpp"
+#include "transport_factory.hpp"
 #include "receive_stats.hpp"
 #include "tcp_transport.hpp"
 #include "rate_limiter.hpp"
@@ -455,6 +456,8 @@ void print_bandwidth_stats(
         << std::flush;
 }
 
+bool use_hybrid_transport();
+
 void run_connected(
     zenoh::Session& session,
     std::unique_ptr<teleop::ITransport> transport,
@@ -483,7 +486,10 @@ void run_connected(
 
     // One CSV writer per connected bridge session.
     // Appends to the role-specific file.
-    teleop::CsvTelemetry csv_telemetry(role, "tcp");
+    CsvTelemetry csv_telemetry(
+        role,
+        use_hybrid_transport() ? "hybrid" : "tcp"
+    );
 
     std::atomic<std::uint64_t> next_sequence{1};
 
@@ -1656,19 +1662,64 @@ void run_connected(
     );
 }
 
+const char* env_address(
+    const char* name,
+    const char* fallback = "127.0.0.1"
+) {
+    const char* value = std::getenv(name);
+
+    return (value != nullptr && value[0] != '\0')
+        ? value
+        : fallback;
+}
+
+bool use_hybrid_transport() {
+    const std::string mode =
+        env_address("TELEOP_TRANSPORT", "tcp");
+
+    if (mode != "tcp" && mode != "hybrid") {
+        throw std::runtime_error(
+            "TELEOP_TRANSPORT must be tcp or hybrid"
+        );
+    }
+
+    return mode == "hybrid";
+}
 
 void run_operator() {
+
+    std::cout
+        << "[bridge] Transport mode: "
+        << (use_hybrid_transport() ? "hybrid" : "tcp")
+        << '\n';
+
     auto session = open_zenoh(7447);
 
-    int server = teleop::TcpTransport::create_server(9000);
+    const char* bind_address =
+        env_address("TELEOP_TCP_BIND");
+
+    int server = teleop::TransportFactory::create_server(
+        9000, bind_address
+    );
 
     std::cout
         << "[operator] Connected to zenoh router 7447\n"
-        << "[operator] TCP listening on 127.0.0.1:9000\n";
+        << "[operator] TCP listening on "
+        << bind_address << ":9000\n";
 
     while (true) {
-        auto transport =
-            teleop::TcpTransport::accept_client(server);
+        std::unique_ptr<teleop::ITransport> transport;
+
+        if (use_hybrid_transport()) {
+            transport = teleop::TransportFactory::accept_hybrid(
+                server,
+                env_address("TELEOP_UDP_LOCAL"),
+                env_address("TELEOP_UDP_PEER")
+            );
+        } else {
+            transport =
+                teleop::TransportFactory::accept_client(server);
+        }
 
         if (!transport) {
             std::cerr << "[operator] TCP accept failed\n";
@@ -1685,16 +1736,36 @@ void run_operator() {
 }
 
 void run_robot() {
+
+    std::cout
+        << "[bridge] Transport mode: "
+        << (use_hybrid_transport() ? "hybrid" : "tcp")
+        << '\n';
+
     auto session = open_zenoh(7448);
+
+    const char* operator_address =
+        env_address("TELEOP_TCP_HOST");
 
     std::cout
         << "[robot] Connected to zenoh router 7448\n";
 
     while (true) {
-        auto transport =
-            teleop::TcpTransport::connect_to(
-                "127.0.0.1", 9000
+        std::unique_ptr<teleop::ITransport> transport;
+
+        if (use_hybrid_transport()) {
+            transport = teleop::TransportFactory::connect_hybrid(
+                operator_address,
+                9000,
+                env_address("TELEOP_UDP_LOCAL"),
+                env_address("TELEOP_UDP_PEER")
             );
+        } else {
+            transport =
+                teleop::TransportFactory::connect_to(
+                    operator_address, 9000
+                );
+        }
 
         if (transport) {
             std::cout
