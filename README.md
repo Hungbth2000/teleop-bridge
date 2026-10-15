@@ -1,392 +1,428 @@
-# Remote Teleoperation Bridge
+# Teleoperation Operator
 
-**Coding Challenge — Remote Teleoperation Engineer (Networking & Streaming)**
+**A Zenoh-based teleoperation prototype with C++ network bridges, hybrid TCP/UDP transport, and repeatable network-impairment tests.**
 
-**Implementation:** C++ transport bridge, Zenoh, Python simulation nodes  
-**Environment:** Linux / WSL2, Linux network namespaces, `tc netem`  
-**Status:** Core bridge implemented; transport and network validation partially completed
+An operator in Stuttgart controls a simulated wheeled, dual-arm robot in a Netherlands warehouse. The target deployment must tolerate packet loss, constrained bandwidth, Wi-Fi roaming and temporary outages while operating behind warehouse NAT without inbound ports.
 
-## Overview
+> **Status:** Local Zenoh applications, C++ bridges, simulated video/control, and Linux network-emulation experiments have been exercised. The public VPS relay, physical cameras/actuators, warehouse AP roaming, cellular failover, and production security are **proposed—not deployed or validated**. All reported short application latencies use a common clock on one WSL2 host, not geographically separated devices.
 
-This project implements a communication bridge between an operator and a simulated mobile robot.
+## Contents
 
-The scenario represents an operator in Stuttgart controlling a robot in a warehouse in the Netherlands. The warehouse network may experience variable latency, packet loss, reduced bandwidth, and temporary disconnections during Wi-Fi roaming.
+- [System at a glance](#system-at-a-glance)
+- [Build and run locally](#build-and-run-locally)
+- [Task 1 — Architecture and design decisions](#task-1--architecture-and-design-decisions)
+- [Task 2 — Build and measure](#task-2--build-and-measure)
+- [Task 3 — Network impairment testing](#task-3--network-impairment-testing)
+- [Evidence and reproducibility](#evidence-and-reproducibility)
+- [Limitations and next steps](#limitations-and-next-steps)
 
-The system uses two local Zenoh routers, connected by a C++ bridge. Operator and robot applications communicate only with their respective local router, allowing the bridge to handle the differences between local and remote deployment.
+## System at a glance
 
-The main engineering challenge is that teleoperation traffic has conflicting requirements. Motion commands, video frames, and robot-state updates must arrive quickly, while safety-related commands and configuration queries require reliable delivery.
+![architecture](https://github.com/Hungbth2000/teleop-bridge/blob/main/docs/images/architecture2.png)
 
-The implemented solution separates best-effort real-time traffic from reliable, ordered traffic and evaluates several transport protocols.
-
----
-
-# Task 1 — System Architecture
-
-A concise two-page architecture design is maintained in `docs/architecture.md`. The principal design decisions are summarized here.
-
-## 1.1 System topology
-
-**Operator site**
-
-- A1 publishes 100 Hz motion commands and safety-related commands.
-- A2 receives and validates camera frames.
-- A3 receives 50 Hz robot-state updates and sends configuration queries.
-- A local Zenoh router communicates with the operator-side C++ bridge.
-
-**Communication link**
-
-- The operator-side and robot-side bridges exchange messages over an emulated network.
-- Best-effort messages use UDP.
-- Reliable ordered messages use TCP, QUIC, or KCP, depending on the experiment.
-
-**Robot site**
-
-- A local Zenoh router connects to the robot-side bridge.
-- B1 publishes head-camera frames at 1280 × 720, 30 fps.
-- B2 publishes two wrist-camera streams at 640 × 360, 30 fps.
-- B3 receives control commands, maintains safety state, publishes robot state, and answers configuration queries.
-
-In the test environment, the operator and robot run on one Linux host but use separate network environments.
-
-The real deployment design assumes that the robot initiates outbound connectivity, since warehouse IT does not allow inbound ports. A production relay or rendezvous mechanism is part of the proposed deployment architecture, not a capability established by the current local testbed.
-
-## 1.2 Traffic classification
-
-| Lane | Direction | Frequency | Delivery strategy |
+| Channel | Direction | Local test transport | Purpose |
 |---|---|---|---|
-| A1 motion | Operator → Robot | 100 Hz | UDP, newest valid command wins |
-| A2 head camera | Robot → Operator | 30 fps | UDP, fragmented frames |
-| A2 wrist cameras | Robot → Operator | 30 fps each | UDP, fragmented frames |
-| A3 robot state | Robot → Operator | 50 Hz | UDP, freshness prioritized |
-| A3 configuration | Request/reply | On demand | Reliable ordered transport |
-| B3 safety commands | Operator → Robot | On demand | Reliable ordered transport |
+| Head + two wrist cameras | Robot → operator | UDP | Prefer current frames; avoid retransmission-induced queues |
+| Motion commands | Operator → robot | UDP | 100 Hz updates; reject stale/out-of-order commands |
+| Robot state | Robot → operator | UDP | 50 Hz updates |
+| E-stop / Reset | Operator → robot | TCP | Ordered/retried commands, deduplicated at controller |
+| Configuration query/reply | Both | TCP | Reliable Zenoh requests and responses |
 
-The bridge distinguishes messages that prioritize freshness from messages that require reliable ordered delivery.
+The Zenoh routers connect **local applications** and the corresponding bridges. In the testbed they listen at `127.0.0.1:7447` (operator) and `127.0.0.1:7448` (robot). Internet-facing authentication/tunneling is a design requirement, **not a proven property of the tested bridge**.
 
-For motion, a delayed old command may be less useful than a newer command. For safety and configuration, missing commands or replies require explicit handling.
+## Build and run locally
 
-## 1.3 Transport architecture
+This section describes the **single-host Linux/WSL2 testbed**, not the proposed VPS/Wi-Fi/LTE deployment. It uses an operator in the default namespace and a robot in `teleop-robot`. Start each long-running service in its own terminal. Commands below use the supplied repository startup examples. Other mock-node entry points and dependency versions still need verification against the source tree.
 
-Three hybrid configurations have been implemented:
+### 1. Dependencies
 
-| Mode | Best-effort channel | Reliable channel |
-|---|---|---|
-| `hybrid` | UDP | TCP |
-| `hybrid_quic` | UDP | QUIC |
-| `hybrid_kcp` | UDP | KCP |
+**Platform:** Ubuntu/Linux (WSL2 is the tested environment), `sudo`, Python 3 with virtual-environment support, a C++17-capable compiler and build system, Zenoh router (`zenohd`), and Linux networking utilities (`iproute2`, `tc`/`netem`, `ping`). The camera decoder in Task 2 uses PyAV. Exact compiler, Zenoh, Python and library versions are **not documented in the supplied material** and should be pinned once confirmed from the repository.
 
-Standalone transport modes are also available for comparative testing.
+Install commonly required system tools on Ubuntu:
 
-The hybrid design avoids forcing high-frequency video and motion traffic through a single ordered reliable queue.
+```bash
+sudo apt update
+sudo apt install -y build-essential cmake pkg-config git \
+  python3 python3-venv python3-pip iproute2 iputils-ping
+```
 
-Reliable commands and queries use the selected reliable transport. The controller additionally maintains command identifiers and persistent state to support duplicate detection and recovery.
+`tc` comes from `iproute2`. **Install `zenohd` using the version documented by your repository** and verify it is on `PATH` (`zenohd --help`). C++ dependencies (including Zenoh client libraries, if linked directly) must be installed according to the project's build configuration; the full dependency list is not available in the supplied README.
 
-Transport reliability alone is not sufficient to guarantee exactly-once application effects, especially across disconnects and process restarts. That behavior must be verified at the application level.
+Prepare Python from the repository root:
 
-## 1.4 Bandwidth plan
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+# If provided by the repository:
+python -m pip install -r requirements.txt
+```
 
-The assignment defines a robot-to-operator budget of 8 Mbit/s, temporarily reduced to 2 Mbit/s for 15 seconds every minute.
+The `requirements.txt` command applies **only if that file exists**; ensure PyAV and any Zenoh Python binding needed by the mock applications are included. To compile the bridges, inspect the project root for `CMakeLists.txt`, a `Makefile`, or build instructions. For a CMake-based project, the standard sequence is:
 
-The intended priority is:
+```bash
+# Run only if the repository has CMakeLists.txt and all dependencies are installed
+cmake -S . -B build
+cmake --build build -j
+```
 
-1. Safety-related control and essential signaling.
-2. Robot-state information needed by the operator.
-3. Head-camera video.
-4. Wrist-camera video quality and frame rate.
+The bridge executable is `./build/teleop_bridge`; verify that this file exists after building (`test -x ./build/teleop_bridge`).
 
-Under restricted bandwidth, wrist-camera quality should be reduced before head-camera usefulness is sacrificed.
+### 2. Set up the network namespace
 
-The final architecture document must specify the numerical bitrate allocated to each stream, account for transport overhead, and show how the bridge enforces the total budget.
+```bash
+sudo bash scripts/setup_network.sh
+ip -br addr show veth-teleop-op
+sudo ip netns exec teleop-robot ip -br addr show veth-teleop-rb
+ping -c 3 10.200.1.2
+sudo ip netns exec teleop-robot ping -c 3 10.200.1.1
+```
 
-**Verification pending:** The available experiment results do not yet demonstrate compliance with the 8-to-2 Mbit/s schedule or the required 80% timely, intact head-frame delivery at 2 Mbit/s.
+| Endpoint | Namespace | Interface | IPv4 |
+|---|---|---|---|
+| Operator | Default | `veth-teleop-op` | `10.200.1.1/24` |
+| Robot | `teleop-robot` | `veth-teleop-rb` | `10.200.1.2/24` |
 
-## 1.5 Latency and safety requirements
+The setup script creates or verifies the veth pair and tests connectivity. The robot namespace shares the same Linux kernel, so monotonic timestamps are comparable in these experiments.
 
-| Requirement | Target |
-|---|---|
-| Motion freshness | Reject commands older than 150 ms |
-| Motion ordering | Never apply an older command after a newer one |
-| Motion watchdog | Stop if no fresh command arrives for 300 ms |
-| E-stop effect | Within 200 ms |
-| Head frames at 2 Mbit/s | At least 80% intact and within 200 ms |
-| Bridge restart recovery | Control and video return within 1 second |
+### 3. Start the Zenoh routers
 
-These are acceptance requirements, not measured achievements.
+Start each router in a separate terminal from the repository root, after configuring the namespace:
 
-The architecture document must additionally provide a calculated per-hop latency budget for camera-to-screen and hand-to-motion paths. Measurements from the current testbed should then be used to determine whether the budget is realistic.
+**Terminal 1 — operator router (default namespace):**
 
-## 1.6 Roaming and failover
+```bash
+zenohd --listen tcp/127.0.0.1:7447
+```
 
-The proposed deployment uses Wi-Fi as the primary connection, with an optional cellular backup.
+**Terminal 2 — robot router (`teleop-robot` namespace):**
 
-The robot must react safely when communications are interrupted:
+```bash
+sudo ip netns exec teleop-robot \
+  zenohd --listen tcp/127.0.0.1:7448
+```
 
-- After 300 ms without a fresh motion command, the local motion watchdog should stop the robot.
-- Following a two-second interruption, the connection must be re-established and old motion commands must not be replayed as current commands.
-- Following a 30-second interruption, the robot must remain in a safe state until connectivity and control authorization are restored.
+These loopback endpoints are local **within their respective namespaces**. They are used by the local applications and bridges, not as the cross-namespace connection.
 
-The final architecture document will include explicit event timelines for both interruption durations, as requested by the assignment.
+### 4. Start the C++ bridges
 
-**Scope limitation:** The current warehouse testbed emulates link outages but does not implement or validate physical Wi-Fi roaming or cellular handover.
+With both routers running, open two more terminals in the repository root. Start the operator bridge first, then the robot bridge.
 
-## 1.7 Security
+**Terminal 3 — operator bridge (default namespace):**
 
-The design must consider unauthorized commands, command replay, endpoint impersonation, eavesdropping, and compromised credentials.
+```bash
+TELEOP_TRANSPORT=hybrid \
+TELEOP_TCP_BIND=10.200.1.1 \
+TELEOP_UDP_LOCAL=10.200.1.1 \
+TELEOP_UDP_PEER=10.200.1.2 \
+./build/teleop_bridge operator
+```
 
-A production deployment should authenticate both bridge endpoints, encrypt communication, reject replayed commands, and store private keys in protected storage.
+**Terminal 4 — robot bridge (`teleop-robot` namespace):**
 
-QUIC provides facilities for TLS-protected communication. However, the current laboratory configuration disables client-side server-certificate verification and must not be presented as production secure.
+```bash
+sudo ip netns exec teleop-robot env \
+  TELEOP_TRANSPORT=hybrid \
+  TELEOP_TCP_HOST=10.200.1.1 \
+  TELEOP_UDP_LOCAL=10.200.1.2 \
+  TELEOP_UDP_PEER=10.200.1.1 \
+  ./build/teleop_bridge robot
+```
 
-The current KCP test implementation also requires an authenticated security layer for real-world deployment.
+| Bridge | Namespace | TCP role | Local IP | UDP peer |
+|---|---|---|---|---|
+| Operator | Default | Listens on `10.200.1.1` | `10.200.1.1` | `10.200.1.2` |
+| Robot | `teleop-robot` | Connects to `10.200.1.1` | `10.200.1.2` | `10.200.1.1` |
 
-Key distribution, certificate rotation, and production credential storage remain architecture-level design items rather than verified testbed capabilities.
+Both bridges use `TELEOP_TRANSPORT=hybrid` (UDP real-time lane; TCP reliable lane). These commands connect over the **local veth pair**, not through the proposed public VPS relay.
 
----
+### 5. Start the mock nodes
 
-# Task 2 — Build and Measure
+Run B3 before sending motion commands from A1. Make sure the `results/` directory exists before using `tee`.
 
-## 2.1 Implementation environment
+**Terminal 5 — B3 robot controller (`teleop-robot` namespace):**
 
-The testbed consists of:
+```bash
+mkdir -p results
+sudo ip netns exec teleop-robot \
+  .venv/bin/python -u mock/robot/b3_controller.py \
+  2>&1 | tee results/task2_recovery_b3.log
+```
 
-- Linux / WSL2
-- Operator and robot network environments
-- Two Zenoh routers
-- C++ bridge processes
-- Python operator and robot simulation nodes
-- Linux `tc netem` for network emulation
-- CSV logging and automated experiment scripts
+The pipeline writes B3's combined standard output/error to the terminal and `results/task2_recovery_b3.log`. The file name comes from the provided recovery-test command; use a different log name for other experiments if you need to preserve separate logs. The `.venv` environment is addressed by its explicit executable path, so activating it in the shell is not required for this command.
 
-The robot-side network namespace uses the address `10.200.1.2`, while the operator-side interface uses `10.200.1.1`.
+**Terminal 6 — A1 motion sender (operator namespace):**
 
-The bridge provides connectivity between the local Zenoh environments without requiring the simulation nodes to know the remote network topology.
+```bash
+.venv/bin/python -u mock/operator/a1_commands.py
+```
 
-## 2.2 Motion commands
+| Mock node | Namespace | Function | Startup status |
+|---|---|---|---|
+| A1 commands | Operator | 100 Hz motion commands | Command shown above |
+| A2 viewer | Operator | Receive/decode camera streams | Direct command not yet confirmed |
+| A3 state/queries | Operator | Receive state and issue queries | Direct command not yet confirmed |
+| B1 head camera | Robot | H.264 1280×720 at 30 fps | Direct command not yet confirmed |
+| B2 wrist cameras | Robot | Two H.264 640×360 at 30 fps | Direct commands not yet confirmed |
+| B3 robot controller | Robot | Validate/apply motion, E-stop, watchdog, state | Command shown above |
 
-A1 generates motion commands at approximately 100 Hz.
+The integrated runner in the next section handles the multi-camera experiment; avoid independently starting duplicate mock publishers if the runner already launches them. Consult `experiments/run_three_cameras.py` before running it alongside manually started nodes.
 
-Each command contains a sequence number, creation timestamp, sender session identifier, and motion payload.
+### 6. Run the integrated workload and analyze results
 
-B3 validates command freshness and sequence ordering. The maximum accepted command age is 150 ms.
+With the two routers, both bridges, and required mock services running, the documented integrated runner exercises the three-camera workload (including concurrent control/state/query traffic as configured by the runner):
 
-A motion watchdog is configured to detect missing fresh control updates and transition the simulated controller into a stopped state.
+```bash
+sudo -E .venv/bin/python experiments/run_three_cameras.py \
+  --duration 75 \
+  --robot-netns teleop-robot
+```
 
-The controller uses sender-session identifiers to avoid treating delayed commands from a retired control session as valid new commands.
+For Task 2's good-frame analysis, archive raw output before another run and then execute:
 
-### Motion latency instrumentation
+```bash
+python experiments/analyze_phase_good_frames.py \
+  --evidence results/task2/good_frames_tcp_udp/good_frame_evidence \
+  --report results/task2/good_frames_tcp_udp/good_frame_report
+```
 
-The robot-side controller records:
+To reproduce Task 3's packaged video metrics:
 
-- Sender session identifier
-- Sequence number
-- Command creation timestamp
-- Reception timestamp
-- Delivery latency
-- Whether the command was stale at reception
+```bash
+python experiments/analyze_task3_video.py
+```
 
-Reception measurements are recorded independently of whether the command is applied.
+Task 3 network impairments are configured using `experiments/intercity_network.py` and `experiments/warehouse_network.py`. **Their invocation/stop flags are not available here**: check each script's help/source before launching, and remove any remaining `tc` rules when returning to the Office LAN baseline. Other fault-injection entry points and evidence locations appear in Tasks 2–3 below.
 
-This allows evaluation of communication latency while E-stop is active.
+### 7. Stop and clean up
 
-Three preliminary smoke-test sessions produced p95 command-delivery latencies of 2.281 ms, 4.094 ms, and 3.059 ms, with no stale commands among the received samples.
+Stop mock senders/receivers, bridges and Zenoh routers (usually `Ctrl+C` in their terminals), then stop any Task 3 impairment process. Verify `tc qdisc show dev veth-teleop-op` and the robot-side interface to make sure a network profile has not leaked into the next test. Leave the namespace in place for subsequent runs; `scripts/setup_network.sh` is designed to verify/reuse an existing consistent configuration.
 
-These results have not yet been associated with a verified final transport/profile matrix.
+> **Before treating this as a fully copy-paste build guide:** confirm the Zenoh version/flags, Python dependency manifest, C++ bridge build targets and startup options, and B1/B2/B3/A2/A3 entry points against the actual repository. These details cannot be reliably reconstructed from experiment reports alone.
 
-## 2.3 Video streaming
+## Task 1 — Architecture and design decisions
 
-The simulation generates deterministic H.264 camera frames.
+### Proposed deployment and bandwidth
 
-Each frame has identifying information, and transmitted frames may be divided into fragments.
+The deployment design has both bridges initiate outbound connections to a public VPS, avoiding inbound warehouse firewall openings. Warehouse Wi-Fi is the primary path; LTE is a separate backup uplink. Neither the relay nor failover was exercised in Tasks 2–3.
 
-The operator-side receiver reconstructs frames and records complete, expired, invalid, or corrupted frames.
+The **nominal encoded-stream estimates** below are design inputs from the architecture diagram, **not measured camera encoder rates**. The robot uplink is the capacity-constrained direction.
 
-Camera CSV measurements include frame identifiers, capture timestamps, reception timestamps, and measured latency.
+| Traffic | Planned nominal rate | At 2 Mbit/s capacity |
+|---|---:|---|
+| Head H.264, 1280×720, 30 fps | ~1.20 Mbit/s | Keep first; reduce quality if necessary |
+| Two wrist H.264 streams | ~0.25 Mbit/s each | Lower quality / disable first |
+| Robot state | ~0.04 Mbit/s | Preserve |
+| **Nominal media + state** | **~1.74 Mbit/s** | Must leave room for transport overhead and bursts |
+| Motion (opposite direction) | **~0.08 Mbit/s payload** | 100 bytes × 100 Hz × 8 |
 
-The primary assignment metric is:
+The bridge test configures a robot-outbound **8 → 2 Mbit/s** budget for part of its run. Task 2 verifies application-level head-frame timeliness under that *configured* budget, **not** strict aggregate wire-byte compliance with 2 Mbit/s. The diagram's local `~174/~186 Mbit/s` TCP annotations are not validated WAN bitrate requirements.
 
-**Good-frame percentage = intact frames displayed within 200 ms / captured frames × 100%.**
+### Target latency and safety policy
 
-Frame completion alone is insufficient to establish this requirement.
-
-## 2.4 Robot state and configuration queries
-
-B3 publishes robot-state messages at approximately 50 Hz.
-
-A3 records missing messages, invalid messages, duplicate or out-of-order reception, and message age.
-
-Configuration queries use Zenoh's request-reply mechanism, forwarded through the reliable transport channel.
-
-Each query records its status, first reply time, completion time, and number of replies.
-
-Successful operation requires exactly one reply or an explicit timeout.
-
-## 2.5 Reliable safety commands
-
-B3 implements emergency-stop and reset commands.
-
-The controller maintains a persistent SQLite record of safety-related command state. Command identifiers support duplicate detection and prevent repeated application of commands already processed.
-
-E-stop prevents motion execution until the controller is reset.
-
-The available logs demonstrate the existence of these mechanisms but do not yet establish the required maximum 200 ms command-to-effect latency.
-
-Repeated E-stop tests, duplicate/reordering tests, and interruption tests are therefore still required.
-
-## 2.6 Bandwidth enforcement
-
-The assignment requires the bridge to enforce an 8 Mbit/s robot-to-operator budget that drops to 2 Mbit/s for 15 seconds each minute.
-
-Validation must include actual transmitted-byte accounting, not only the configured target rate.
-
-The final evidence should include:
-
-- Configured bandwidth budget over time
-- Measured bridge send rate
-- Head and wrist video good-frame percentages
-- Frame latency over time
-- Motion-command age over time
-
-The required combined timeline plot has not yet been produced from the available measurements.
-
-## 2.7 Restart recovery
-
-A compliant system must restore fresh motion-command delivery and valid video within one second after either bridge process restarts.
-
-This should be measured separately for operator-side and robot-side bridge failures.
-
-The recovery interval should be measured from the specified restart event to the first verified fresh command and first valid recovered video frame.
-
-This acceptance test remains pending.
-
----
-
-# Task 3 — Network and Transport Evaluation
-
-## 3.1 Network emulation
-
-Three network profiles were configured and tested.
-
-| Profile | Measured mean RTT | Observed ICMP loss |
+| Budget component | Camera → decoded frame | Hand → simulated motion |
 |---|---:|---:|
-| Office LAN | 0.049 ms | 0% |
-| Inter-city | 20.531 ms | 0.24% |
-| Warehouse Wi-Fi | Approximately 92.19 ms | Approximately 3.65% |
+| Capture/input | 30 ms | 5 ms |
+| Local route/bridge | 10 ms | 5 ms |
+| WAN including relay | 45 ms | 45 ms |
+| Decode/validation/actuation | 35 ms | 15 ms |
+| Jitter allowance | 60 ms | — |
+| **Calculated design target** | **180 ms** | **70 ms** |
 
-The inter-city configuration used approximately 10 ± 2 ms delay and 0.1% loss in each direction.
+These values are **engineering allocations**, not measured per-hop physical latencies. In particular, 45 ms one-way WAN time is not guaranteed under the warehouse profile. The local controller rejects motion older than **150 ms**, rejects duplicate/older sequences and obsolete sessions, and triggers a simulated stop no later than **300 ms** after fresh accepted motion ceases (implemented watchdog threshold: **280 ms**). The remote E-stop target is **200 ms**, but cannot be guaranteed during a network blackout; a real robot requires independent onboard safety provisions.
 
-Consequently, the expected round-trip ICMP loss is approximately 0.2%, consistent with the 0.24% observed across 5,000 probes.
+### Proposed roaming and outage behavior
 
-The warehouse configuration used variable delay, a Gilbert–Elliott burst-loss model, temporary latency spikes, and periodic nominal 500 ms blackouts every 30 seconds.
+Plan overlapping 5 GHz AP coverage with 802.11k/v where supported; validate 802.11r client compatibility before enabling it. Keep cellular as a warm backup, and clear queued stale controls after any reconnection. Transport migration is not automatically seamless merely because a second interface exists.
 
-The warehouse measurements were consistent with approximately 40 ms minimum, 90 ms average, and 280 ms maximum RTT.
-
-Overall warehouse packet loss includes deliberate blackout intervals; it should not be interpreted as the ordinary baseline loss rate.
-
-## 3.2 Office LAN transport comparison
-
-The initial office LAN hybrid benchmarks used 75-second workloads.
-
-| Metric | TCP/UDP | QUIC/UDP | KCP/UDP |
-|---|---:|---:|---:|
-| Head frames received | 2250 | 2250 | 2250 |
-| Left wrist frames received | 2191 | 2211 | 2214 |
-| Right wrist frames received | 2190 | 2212 | 2211 |
-| Robot-state updates received | 3850 | 3850 | 3850 |
-| Missing robot-state updates | 0 | 0 | 0 |
-| State-age p95 | 4.158 ms | 2.686 ms | 4.242 ms |
-| Successful configuration queries | 75/75 | 75/75 | 75/75 |
-
-All three configurations successfully completed the office LAN workload.
-
-These results establish an initial functional baseline, but they are not sufficient to determine the best transport across all required metrics.
-
-In particular, the comparison must also include timely intact frames, A1 delivery latency, configuration-query response-time distributions, and B3 safety-command behavior.
-
-## 3.3 Per-lane evaluation metrics
-
-The final comparison will use:
-
-| Traffic lane | Primary metrics |
+| Time / event | Intended response |
 |---|---|
-| A1 motion | Reception-age p50/p95/p99, loss, stale rejection, safety violations |
-| A2 head | Intact frames within 200 ms, frame-latency p50/p95/p99 |
-| A2 wrist left | Intact frames within 200 ms, frame-latency p50/p95/p99 |
-| A2 wrist right | Intact frames within 200 ms, frame-latency p50/p95/p99 |
-| A3 state | Message-age p50/p95/p99, missing and out-of-order updates |
-| A3 queries | Response-time p50/p95/p99, success, timeout, duplicate replies |
-| B3 reliable commands | Effect latency, ACK latency, duplicate and ordering violations |
-| Bridge recovery | Time until fresh commands and intact video return |
+| Command becomes >150 ms old | B3 rejects it on arrival |
+| ≤300 ms without fresh commands | Local watchdog stops simulated motion |
+| 2-second disruption | Attempt Wi-Fi recovery or cellular switchover; reauthenticate and require fresh data before enabling control |
+| 30-second disruption | Stay stopped; use bounded retries; refresh state and require explicit re-enable before motion |
 
-Measurements from separate benchmark sessions must not be combined without matching their session or run identifiers.
+These are **policies**, not measured 2-second/30-second failover timelines. Task 3 tested approximately 0.5-second emulated blackouts, without real LTE or physical actuators.
 
-## 3.4 Design evolution and lessons learned
+### Security and estimated equipment
 
-### Initial single-transport approach
+Production risks include control injection/replay, forged video/state, relay compromise, exposed credentials and traffic flooding. Proposed protections: mutual authentication via TLS 1.3/QUIC or an authenticated tunnel, per-topic authorization, session/sequence/freshness checks, rate limits, and locally enforced fail-safe behavior. Store robot secrets in protected OS storage/TPM when available, operator secrets in a platform keystore, and relay service credentials separately. **Do not deploy the lab QUIC mode without certificate verification or standalone unauthenticated KCP on the public Internet.**
 
-The initial implementation supported using a single transport for different message types.
+| Component | Site | Rough budget / status |
+|---|---|---|
+| Linux computers + Zenoh/C++ bridges | Both | Existing in testbed; production SKUs TBD |
+| 3 H.264 cameras | Robot | SKUs / price TBD; simulated streams tested |
+| 2 × UniFi U6+ APs | Warehouse | ~€178 total; proposed |
+| Teltonika RUT241 **LTE** router | Robot | ~€184; proposed (not 5G) |
+| Hetzner relay VPS | Cloud | ~€5.99/month before applicable extras; proposed |
 
-This simplified the communication architecture but exposed problems when reliable ordered transmission carried high-frequency, time-sensitive traffic.
+Prices are historical budgetary estimates, not verified current quotes. See [UniFi](https://eu.store.ui.com/eu/en/products/u6-plus), [RUT241](https://geizhals.de/teltonika-rut241-lte-wlan-router-rut241034000-a3820183.html), and [Hetzner](https://docs.hetzner.com/general/infrastructure-and-availability/price-adjustment/). Installation, SIM, mounting, power, camera hardware and labor are not included.
 
-An early all-KCP experiment under impaired network conditions showed significant queueing and degraded application performance.
+**Decisions weighed:** (1) Reject one ordered reliable queue for all data in favor of UDP for freshness-sensitive streams and TCP for reliable control; preliminary all-KCP tests exhibited queue buildup. (2) Prefer outbound relay to prohibited robot-side inbound ports, though it has not been implemented. (3) Prioritize head video and control over wrist quality when bandwidth falls; strict egress shaping and automatic adaptation still need verification.
 
-The experiment was preliminary and used a different network configuration from the final corrected inter-city profile, so it should not be compared directly with later measurements.
+## Task 2 — Build and measure
 
-### Adoption of hybrid routing
+The 75-second integrated tests used three prerecorded H.264 streams (head **1280×720**, two wrists **640×360**, all 30 fps), 100 Hz motion updates, state, reliable commands and configuration queries. Stream-frame timestamps share a WSL2 monotonic clock. **Task 2 video timing ends at successful PyAV decode—not physical screen presentation.**
 
-The bridge was extended to distinguish best-effort and reliable ordered delivery.
+### 2.1 Video: good frames within 200 ms
 
-Motion, video, and state updates were assigned to UDP, while queries and reliable control commands were assigned to TCP, QUIC, or KCP.
+Frames are uniquely identified, reassembled, checked for length/CRC32, decoded with PyAV, checked for expected dimensions, and counted as *good* only if decoded within 200 ms of capture. The outbound budget cycles through **45 s at 8 Mbit/s, 15 s at 2 Mbit/s** (per 60 s cycle).
 
-This avoids making current real-time data wait unnecessarily behind the retransmission of older data in a shared reliable ordered stream.
+| Stream | Configured budget | Good / captured | Good rate | Capture→decode p95 |
+|---|---:|---:|---:|---:|
+| Head | 8 Mbit/s | 1,453/1,453 | 100% | 13.364 ms |
+| **Head** | **2 Mbit/s** | **797/797** | **100%** | **48.074 ms** |
+| Left wrist | 8 Mbit/s | 1,451/1,451 | 100% | 6.489 ms |
+| Left wrist | 2 Mbit/s | 774/799 | 96.87% | 71.458 ms |
+| Right wrist | 8 Mbit/s | 1,451/1,451 | 100% | 6.330 ms |
+| Right wrist | 2 Mbit/s | 773/799 | 96.75% | 64.240 ms |
 
-It also permits the reliable transport to be evaluated separately from the real-time data path.
+**Result:** Meets the **≥80% on-time, intact head-frame** criterion under the *configured* 2 Mbit/s phase. Overall, head **2,250/2,250**, left **2,225/2,250**, and right **2,224/2,250** were good. This does **not** independently prove byte-accurate egress shaping or pixel-level equality.
 
-### Improvements to experimental reproducibility
+### 2.2 Motion: freshness, ordering and watchdog
 
-During implementation, the test runner was modified to improve receiver cleanup and avoid overlapping experiment processes.
+A1 emits 100-byte commands at 100 Hz. B3 computes command age from shared monotonic timestamps, applies only valid current-session increasing sequences, and rejects stale, duplicated or out-of-order messages. The cap in §2.1 applies to **robot→operator**, not the command direction.
 
-The inter-city network profile was corrected after checking measured RTT rather than relying only on configured delay.
+| Measurement | Result |
+|---|---:|
+| Received / applied in normal workload | 7,561 / 7,561 |
+| Applied-command age p50 / p95 / p99 | **1.997 / 4.300 / 4.779 ms** |
+| Maximum applied-command age | 9.974 ms |
+| Detected normal-run safety violations | 0 |
+| Injected stale command (201.329 ms) | Rejected; not applied |
+| Injected duplicate seq 100 / older seq 99 | Both rejected; not applied |
+| Stop after A1 interruption | **282.170 ms**, simulated `moving=False` |
 
-Additional robot-side motion logging was introduced so that command-delivery latency could be evaluated independently of whether the safety controller accepted a command.
+**Result:** Tested acceptance conditions pass. The 300 ms stop criterion applies to **simulated controller state**, not actual motor braking. The 7,561 records are **received at B3**; complete delivery of all commands sent by A1 was not established.
 
-These changes illustrate an iterative process of identifying weaknesses in the implementation or evaluation method and improving them based on observable evidence.
+### 2.3 Reliable E-stop / Reset
 
-## 3.5 Preliminary transport recommendation
+A1 sends uniquely identified reliable commands via **TCP**. B3 uses SQLite to track applied IDs and latch state; retries retain the same ID, enabling deduplication.
 
-The current evidence supports the use of a hybrid architecture for this simulated workload.
+| Measurement | Result |
+|---|---:|
+| E-stop / Reset commands | 11 / 11 |
+| Applied and acknowledged | **22 / 22** |
+| Lost / duplicate / reordered applications | **0 / 0 / 0** |
+| Maximum E-stop effect latency | **6.431 ms** (all 11 ≤200 ms) |
+| Injected lost ACK | 2 sends, 2 receptions, **1 application** |
+| Repeated E-stop / older Reset ID | `DUPLICATE` / `OLD_COMMAND`; no extra effect |
 
-UDP is suitable for traffic where freshness matters more than guaranteed recovery of old data, provided the application rejects stale data and handles missing messages safely.
+**Result:** Exactly-once *application in the recorded scenarios*, not a universal guarantee. The effect timestamp is recorded **before SQLite commit completion**; neither durable post-commit latency nor physical E-stop effect was measured. A loss-of-connectivity interval longer than 200 ms precludes a guaranteed remote E-stop effect within 200 ms.
 
-A reliable ordered channel remains necessary for control operations that require confirmed processing and for request-response communication.
+### 2.4 Configuration queries
 
-The available office LAN measurements do not yet establish a definitive choice between TCP, QUIC, and KCP for the reliable channel.
+| Scenario | Measured outcome |
+|---|---|
+| 75 s workload, 1 query/s | **75/75 successful**, 0 duplicate replies; first-reply mean 5.404 ms, p95 10.535 ms, p99 11.059 ms |
+| 8 concurrent queries | **8/8 successful**, latency 2.83–5.26 ms |
+| B3 delay 4,000 ms; A3 timeout 3,000 ms | **0/3 valid replies**; completion ~3,019–3,081 ms; client remained operational |
 
-A final choice requires comparing reliable-command latency, query response time, reconnection performance, and behavior during network interruption.
+The timeout test demonstrates graceful zero-reply handling; the CSV alone does not distinguish a true timeout from another cause of no valid replies. Eight requests do not characterize maximum capacity.
 
-Security and deployment complexity must also be considered. For example, a transport with acceptable laboratory latency may still require additional authentication or operational infrastructure before production use.
+### 2.5 Bridge-process recovery
 
----
+Separate 40-second runs killed one bridge via `SIGKILL`, kept it offline for approximately **5 s**, then restarted it. Recovery times are measured **after process relaunch**, excluding the forced downtime.
 
-# Conclusion
+| Path recovered after relaunch | Operator bridge restart | Robot bridge restart |
+|---|---:|---:|
+| Head video | 123.661 ms | 51.088 ms |
+| Left wrist video | 124.156 ms | 44.407 ms |
+| Right wrist video | 138.945 ms | 23.127 ms |
+| Fresh motion | 117.282 ms | 20.440 ms |
+| **Slowest measured path** | **138.945 ms** | **51.088 ms (calculated)** |
 
-This project demonstrates a simulated multi-transport teleoperation communication system built with a C++ bridge and Zenoh-based applications.
+These results are local **process-restart recovery**, not restoration from bridge failure, physical roaming or Internet failover. The original Task 2 source was truncated during the robot-side table; the 51.088 ms maximum is calculated from the four surviving path values and should be checked against the complete report.
 
-The key design decision is to separate time-sensitive best-effort traffic from reliable ordered control traffic.
+## Task 3 — Network impairment testing
 
-The implementation supports TCP/UDP, QUIC/UDP, and KCP/UDP hybrid configurations, deterministic camera workloads, motion-command validation, robot-state reporting, configuration queries, and persistent safety-related command state.
+Task 3 used Linux `tc netem` on the same WSL2 virtual link—not physical multi-site Internet or warehouse Wi-Fi.
 
-Network measurements validate the intended delay characteristics of the three emulated environments, and preliminary office LAN experiments demonstrate functional communication across all three hybrid configurations.
+### 3.1 Profiles and validated conditions
 
-The remaining acceptance tests are particularly important: enforcing the bandwidth budget, meeting the 2 Mbit/s head-camera threshold, verifying E-stop effects within 200 ms, and recovering control and video within one second after bridge restarts.
+| Profile | Configured impairment | Observed RTT min / mean / max | Aggregate ICMP loss |
+|---|---|---|---:|
+| Office LAN | None | 0.020 / **0.049** / 0.340 ms | 0% |
+| Inter-city | 10 ± 2 ms delay and 0.1% loss per direction | 16.937 / **20.416** / 24.552 ms | 0.24% |
+| Warehouse | 45 ± 25 ms delay/direction, burst loss, spikes, ~500 ms blackout every 30 s | 41.0 / **91.362** / 273.0 ms* | 3.133% |
 
-The final evaluation should state explicitly which requirements were demonstrated, which were not met, and which remain unverified.
+*Corrected warehouse RTT excludes four anomalous 0 ms samples; originals are retained.* The network probe recorded three blackouts of **509.841, 526.587 and 510.107 ms**. Background loss was *configured* at roughly 1% per direction, but its separate contribution was not isolated from blackout loss. These loss percentages are observed aggregate ICMP round-trip outcomes, not one-way background-loss estimates.
 
----
+### 3.2 On-time received video and queries
 
-# Build, Run, and Reproduce
+Task 3 matches transmitter/receiver frame IDs and counts capture-to-**reception** latency of 0–200 ms. Unlike Task 2, these data **do not independently verify H.264 decoding**.
 
-The final repository README will include the exact verified dependency installation, CMake build commands, Zenoh router startup, namespace setup, bridge launch commands, workload execution, and analysis steps.
+| Metric | Office | Inter-city | Warehouse |
+|---|---:|---:|---:|
+| Head good-frame delivery | 100.00% | 99.20% | **96.22%** |
+| Left wrist delivery | 97.38% | 99.69% | 97.07% |
+| Right wrist delivery | 97.33% | 99.78% | 97.29% |
+| Head p95 latency | 23.211 ms | 52.061 ms | **82.016 ms** |
+| Left wrist p95 latency | 13.711 ms | 38.601 ms | 72.498 ms |
+| Right wrist p95 latency | 18.516 ms | 39.313 ms | 71.700 ms |
+| Successful queries | 75/75 | 75/75 | 75/75 |
 
-Experiment outputs are retained in `results/`, including frame-level CSVs, motion-reception CSVs, query measurements, controller logs, and network-validation evidence.
+**Evidence caveat:** The office and inter-city values came from archived matching TX/RX records whose precise active network profile and bridge mode were **not independently logged**. The warehouse results were reproduced in a clean 75-second retest with separate impairment evidence. Comparisons are informative, not fully controlled comparisons of all three profiles.
 
-The repository should provide a reproducible path from a clean environment to the reported results.
+### 3.3 Warehouse motion and blackout recovery
+
+| Clean warehouse motion test | Measured |
+|---|---:|
+| Received commands (one sender session) | 7,365 |
+| Applied | 4,380 |
+| Rejected for older sequence ordering | **2,985 (40.5% of received)** |
+| Missing sequences within observed span | 200 |
+| Duplicate sequence records / stale applied | **0 / 0** |
+| Applied-command age mean / p95 / p99 | **39.165 / 60.751 / 68.886 ms** |
+| Maximum applied age | 139.232 ms |
+
+Sequence checks prevented old updates being applied after newer ones, but the **40.5% rejection rate** suggests a motion-smoothness risk. It is not proof of physical jitter or a measured loss rate from all generated A1 commands.
+
+| Application-trial blackout | #1 | #2 |
+|---|---:|---:|
+| Duration | 520.709 ms | 510.461 ms |
+| Time **after blackout end** to first applied motion | 29.773 ms | 26.245 ms |
+| Age of first recovered command | 26.741 ms | 24.510 ms |
+
+Application traffic recovered quickly **once the blackout ended**. These intervals omit the blackout itself, and neither watchdog/E-stop during those blackouts nor actual actuator recovery was independently measured.
+
+## Evidence and reproducibility
+
+### Task 2
+
+- Video inputs, receiver/decoder CSVs, bridge rates and logs: `results/task2/good_frames_tcp_udp/good_frame_evidence/`; generated summaries: `results/task2/good_frames_tcp_udp/good_frame_report/`.
+- Motion receiver and fault tests: `results/task2/fast_commands_tcp_udp/` (including `evidence/motion_rx.csv`, stale/sequence tests and `safety_tests/watchdog/watchdog_summary.json`).
+- E-stop/Reset and lost-ACK tests: `results/task2/reliable_commands_tcp_udp/`.
+- Query, concurrency and timeout tests: `results/task2/request_reply_tcp_udp/`.
+- Bridge restart: `results/task2/recovery_tcp_udp/operator_bridge_restart/` and corresponding robot-side recovery artifacts (check the complete source report).
+
+Recompute video performance from archived Task 2 evidence:
+
+```bash
+python experiments/analyze_phase_good_frames.py \
+  --evidence results/task2/good_frames_tcp_udp/good_frame_evidence \
+  --report results/task2/good_frames_tcp_udp/good_frame_report
+```
+
+For targeted motion checks, see `experiments/test_stale_motion.py` and `experiments/test_motion_sequence.py`. The controller records watchdog `last_motion_ns`, `stop_ns` and `elapsed_ms` in its event evidence. Archive outputs from each run before starting a new one to avoid mixing records.
+
+### Task 3
+
+Raw network, blackout, controller and recovery evidence: `results/task3/real_network/`. Selected camera runs are packaged under `results/task3/real_network/selected_video_runs/`, with per-stream `tx.csv`/`rx.csv` and a `manifest.json` containing run IDs, source paths, frame counts and SHA-256 checksums.
+
+```bash
+python experiments/analyze_task3_video.py
+```
+
+This verifies the packaged evidence hashes, joins frame identifiers, and recomputes on-time reception. `experiments/package_task3_video.py` documents extraction from cumulative source logs; **repackaging** requires the original cumulative logs, but **reanalyzing** requires only the packaged evidence.
+
+## Limitations and next steps
+
+1. **Verify real network limits.** Account for complete outbound wire bytes, burst rates and competing flows; configured bridge budgets are not proof of a physical 2 Mbit/s cap.
+2. **Improve warehouse motion continuity.** Investigate packet reordering, receive scheduling and gaps between accepted updates while preserving freshness/sequence protection.
+3. **Test actual fail-safe behavior.** Instrument watchdog/E-stop during blackouts and measure physical braking, state persistence, reset/re-enable authority and relay disconnects.
+4. **Integrate production networking/security.** Implement and test the VPS relay, TLS certificate validation/authentication, Wi-Fi roaming, cellular switchover and key provisioning/revocation.
+5. **Validate physical end-to-end timing.** Repeat camera-to-display and operator-to-actuator measurements on distinct hosts with an explicit cross-host clock synchronization strategy; compare real H.264 output against the design bitrate assumptions.
+6. **Complete experiment provenance.** Record exact `tc` rules, bridge mode, software revision, start/stop times, full TX/RX counts and source report files for each run.
+
+**Overall:** The prototype demonstrated timely video, safe application-layer rejection of obsolete commands, reliable-command deduplication, functioning queries and fast *post-restoration* local recovery. It **has not yet demonstrated** the complete secure Stuttgart-to-Netherlands deployment or physical robot safety under outages.
