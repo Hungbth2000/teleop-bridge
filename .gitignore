@@ -11,6 +11,17 @@ cmake-build-*/
 results/*
 !results/README.md
 
+# Preserve Task 2 experimental evidence
+!results/task2/
+results/task2/*
+!results/task2/good_frames_tcp_udp/
+results/task2/good_frames_tcp_udp/*
+!results/task2/good_frames_tcp_udp/good_frame_report/
+!results/task2/good_frames_tcp_udp/good_frame_evidence/
+
+# Exclude large reconstructed video recordings
+results/task2/good_frames_tcp_udp/good_frame_evidence/*.h264
+
 # Local databases
 *.sqlite3
 *.sqlite3-shm
