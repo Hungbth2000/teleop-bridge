@@ -1,0 +1,21 @@
+{
+  "video_window_monotonic_s": {
+    "start": 45332.262215,
+    "end": 45407.281297
+  },
+  "clock_assumption": "Application and controller monotonic timestamps share the same clock",
+  "overlapping_blackouts": [
+    {
+      "start_monotonic_s": 45351.450877,
+      "end_monotonic_s": 45351.971586,
+      "duration_ms": 520.709,
+      "seconds_after_video_start": 19.189
+    },
+    {
+      "start_monotonic_s": 45381.46229,
+      "end_monotonic_s": 45381.972751,
+      "duration_ms": 510.461,
+      "seconds_after_video_start": 49.2
+    }
+  ]
+}

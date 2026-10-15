@@ -1,0 +1,328 @@
+{
+  "created_utc": "2026-10-15T19:52:45.220562+00:00",
+  "description": "Original evidence preserved before Task 3 validation",
+  "sources": [
+    {
+      "source": "results/final_validation/network_evidence",
+      "snapshot": "results/task3/real_network/original_evidence/network_evidence"
+    },
+    {
+      "source": "results/hybrid_intercity",
+      "snapshot": "results/task3/real_network/original_evidence/hybrid_intercity"
+    },
+    {
+      "source": "results/warehouse_wifi",
+      "snapshot": "results/task3/real_network/original_evidence/warehouse_wifi"
+    },
+    {
+      "source": "results/warehouse_profile_validation.log",
+      "snapshot": "results/task3/real_network/original_evidence/warehouse_profile_validation.log"
+    },
+    {
+      "source": "results/warehouse_ping_validation.log",
+      "snapshot": "results/task3/real_network/original_evidence/warehouse_ping_validation.log"
+    },
+    {
+      "source": "results/final_validation/tcp_udp_office",
+      "snapshot": "results/task3/real_network/original_evidence/tcp_udp_office"
+    }
+  ],
+  "missing_sources": [],
+  "files": [
+    {
+      "path": "original_evidence/hybrid_intercity/query_workload.csv",
+      "bytes": 2922,
+      "sha256": "d64d9c1aa1fb83088c68091336e0936a057e1291eb7718574d21d5f49c95bf8f"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/runner.log",
+      "bytes": 965,
+      "sha256": "1c9f4772cfdec3f451cae984ddbdafe66b42d406c3a004f288f7051d40f70263"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/telemetry_operator_hybrid.csv",
+      "bytes": 913096,
+      "sha256": "d02e49f3c125b7d9ab71204f8ed3a6828a3d18557626d24f1e247645a7ad34af"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/telemetry_robot_hybrid.csv",
+      "bytes": 872045,
+      "sha256": "c3ea67c89830e6cdb75eb47f8fb5d966ba41f67621377a60eae48681d4c08f58"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/a1_motion.log",
+      "bytes": 5627,
+      "sha256": "4e0fe72e819652060052a91ce273013952651e6d0471c61eb2b1b5054d8a3c3b"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/a2_viewer.log",
+      "bytes": 28269,
+      "sha256": "6ce8eabe708045c7e3fe47cb9b7220eec816ab873beb220384f4e576791df35b"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/a3_queries.log",
+      "bytes": 4806,
+      "sha256": "b3ca05fbc9045dd02117fff4b8c4fa43df7116cd4fb3a39691731d037a7011e8"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/a3_state.log",
+      "bytes": 317,
+      "sha256": "ee9928d547b5d325f6b36206740375162141e9a560651f984575c034f44c77c5"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/head_rx.log",
+      "bytes": 1139,
+      "sha256": "3adbceb069fab029412f9d8825f2cf51eb64707cca3b410628ec4a624cb1a4fa"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/head_tx.log",
+      "bytes": 5433,
+      "sha256": "9697620227d03a77e606aea0278e7fd8d2959b382c5e98e89abba9bc4656ccbd"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/left_rx.log",
+      "bytes": 1549,
+      "sha256": "dc1cc077a20ac84f99937c6dfdbb04a4412b36284d9bdb22e3afc75dd5ba2345"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/left_tx.log",
+      "bytes": 898,
+      "sha256": "8a97d876412558751333ddae9f3748bae826e94aa03f81cb49a7d4346067e687"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/right_rx.log",
+      "bytes": 1564,
+      "sha256": "40fd45b41c7585e0db95d79ef4c94780c0b6094ee39534157e2b7eee609e0bba"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/right_tx.log",
+      "bytes": 907,
+      "sha256": "788db1c63639e9cf8e269f33013cf35f32633ffa91e0827d30b14597d8d29dc6"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/three_camera_logs/wrists_tx.log",
+      "bytes": 14293,
+      "sha256": "0cb4a9c56e6e305499126d88ca96f8dbb6d7c907016175116f199f96b5a430ab"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/video_frames_rx.csv",
+      "bytes": 742116,
+      "sha256": "bba378d76c09ad7f84a857838c2feb8c1643899af8b3bfc9e613ba8261ea6070"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/video_frames_rx_wrist_left.csv",
+      "bytes": 4377650,
+      "sha256": "823e43d3d10ddffa47f782bd931ae90a14b51fc27ed582a3ad75e85b51715cf8"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/video_frames_rx_wrist_right.csv",
+      "bytes": 4054543,
+      "sha256": "7b701e641c7adc260b7faefa906fbcc6d32eec24a3d898d03a6b4a33543453d6"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/video_frames_tx.csv",
+      "bytes": 5495140,
+      "sha256": "ccd64423f9e9dbbf7595feca36cd76ebd04bdbf9662086cb9ec04fa061f34686"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/video_frames_tx_wrist_left.csv",
+      "bytes": 4498039,
+      "sha256": "296f1e3bcb53fd6b4a84287277cb381ffa0e4d4cb823c4ff36cf7180ec68cf8d"
+    },
+    {
+      "path": "original_evidence/hybrid_intercity/video_frames_tx_wrist_right.csv",
+      "bytes": 4233724,
+      "sha256": "a336c7a2591e011696e04832e99013bb22cc6c49ccf8cf8e515c7bddf1f48b6d"
+    },
+    {
+      "path": "original_evidence/network_evidence/intercity_loss.txt",
+      "bytes": 222,
+      "sha256": "c6ee73fff4a298114038aade9da132cb6eb03e358a42fe04fdb1bedcc18120b4"
+    },
+    {
+      "path": "original_evidence/network_evidence/intercity_ping.txt",
+      "bytes": 29600,
+      "sha256": "b24837eaae41334d7765ed9124f5b4631c4131a4c23a7c3cbcb45fb750ff2d35"
+    },
+    {
+      "path": "original_evidence/network_evidence/intercity_tc.txt",
+      "bytes": 374,
+      "sha256": "dce897ae18d8518a28c03b898ea1cae3202188b6d323918b0d6414c39b7a7e00"
+    },
+    {
+      "path": "original_evidence/network_evidence/office_ping.txt",
+      "bytes": 18097,
+      "sha256": "186b5fa2a9a2a46ca45f41de488597c63758255ab8a280b60980bd4cc61b8dde"
+    },
+    {
+      "path": "original_evidence/network_evidence/office_tc.txt",
+      "bytes": 289,
+      "sha256": "1af7cb7123ee456ff5898cf5fe4e795734200c98b1fe70f2e0ec7dc7f7e82b1a"
+    },
+    {
+      "path": "original_evidence/network_evidence/warehouse_ping.txt",
+      "bytes": 152654,
+      "sha256": "4be778fc8b7543c1e013f10234e8f8e98d7f4311d149e8071704b0bc1671b97b"
+    },
+    {
+      "path": "original_evidence/network_evidence/warehouse_tc.txt",
+      "bytes": 462,
+      "sha256": "ff2c11013bb274d136486f355fd4612eb51634d1da94adc86ac9d79dc5071f71"
+    },
+    {
+      "path": "original_evidence/warehouse_ping_validation.log",
+      "bytes": 114505,
+      "sha256": "93f19e98a170061c8d68dc6f6581f5a8b762f5abd8f5fa753ced8e26b35f1044"
+    },
+    {
+      "path": "original_evidence/warehouse_profile_validation.log",
+      "bytes": 7620,
+      "sha256": "48c54c252d3599e64268723abac7d41701b4d41672d16100d455d520a82fb935"
+    },
+    {
+      "path": "original_evidence/warehouse_wifi/a1_motion.log",
+      "bytes": 5699,
+      "sha256": "98839f10f4b5bd2ba5a40b535e7a2e62244f52e88ecdf847033cf1062ad9106f"
+    },
+    {
+      "path": "original_evidence/warehouse_wifi/a2_viewer.log",
+      "bytes": 28808,
+      "sha256": "dcf27b7df2584aa8d66af0a0ca49c199c72bc74b1fce068944736329ea762e30"
+    },
+    {
+      "path": "original_evidence/warehouse_wifi/a3_queries.log",
+      "bytes": 3338,
+      "sha256": "ceeb640b7165efaeb78d1ecbc7c8fba6208409603776a3c1f5bd152b2a18f336"
+    },
+    {
+      "path": "original_evidence/warehouse_wifi/a3_state.log",
+      "bytes": 326,
+      "sha256": "9c7cdb3d12058b02b6aee7c0744b1413bab0d05dc460563bf2c3249044f3018d"
+    },
+    {
+      "path": "original_evidence/warehouse_wifi/head_tx.log",
+      "bytes": 5435,
+      "sha256": "353418fc7d76793a494b7e56de417e283bec292e441cb6f00197cc664da99065"
+    },
+    {
+      "path": "original_evidence/warehouse_wifi/query_workload.csv",
+      "bytes": 2148,
+      "sha256": "0d8557b1ecb18e529d35772837886d4173486082dbe0fbe2b1a965bd9dc9ac30"
+    },
+    {
+      "path": "original_evidence/warehouse_wifi/video_frames_rx.csv",
+      "bytes": 3318004,
+      "sha256": "806628b47ad51c0c49617ae21a8d6509075ec9af90870da3e29a9aec9006f4cb"
+    },
+    {
+      "path": "original_evidence/warehouse_wifi/video_frames_rx_wrist_left.csv",
+      "bytes": 2535183,
+      "sha256": "97bf6f56f91b403914936894d8961ebd5fd027f93bbfbcd591ddee89d4c50cc8"
+    },
+    {
+      "path": "original_evidence/warehouse_wifi/video_frames_rx_wrist_right.csv",
+      "bytes": 2308140,
+      "sha256": "13267f3783d14e8658c00d13abfbec1d4353a3b931eb6879c66480085b564f54"
+    },
+    {
+      "path": "original_evidence/warehouse_wifi/wrists_tx.log",
+      "bytes": 14297,
+      "sha256": "9ea27f8a6a39d0ceed6c4db9232e237e73e77532c861b82f302e8dbf857290d2"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/query_workload.csv",
+      "bytes": 2782,
+      "sha256": "7e8f5f376088989da991cdad91e8d30e1b5ed52edd475ac64d943f8ad2bc0259"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/runner.log",
+      "bytes": 971,
+      "sha256": "6e2c95a9953e341020c83689e3cfb8081483d02dde2aff47afd418015a31b5a4"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/a1_motion.log",
+      "bytes": 5704,
+      "sha256": "73c9f37bf88dcbca5e4ce6863f38714a9d2a4a6ed45b7c809217143faf31adec"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/a2_viewer.log",
+      "bytes": 27912,
+      "sha256": "992ab32153e2e2a1214e5ddfd7f432ff35b8244a4aca3c86f4988e9a8a69a765"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/a3_queries.log",
+      "bytes": 4825,
+      "sha256": "0884ac80a86a5876d82c94838c9b4d91bea61c6f1b5ceb349bc7e8eea43cf24e"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/a3_state.log",
+      "bytes": 314,
+      "sha256": "dbcfd0b2e83594b3a62cb8064bb18b26a9c0ec2516a5559bca2a8e0d80a0f38e"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/head_rx.log",
+      "bytes": 1139,
+      "sha256": "3adbceb069fab029412f9d8825f2cf51eb64707cca3b410628ec4a624cb1a4fa"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/head_tx.log",
+      "bytes": 5433,
+      "sha256": "db551ea4b624bfa23393d6dbd6a797d9c0db8bdea23f836c8a32a1338c29b5f4"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/left_rx.log",
+      "bytes": 1549,
+      "sha256": "dc1cc077a20ac84f99937c6dfdbb04a4412b36284d9bdb22e3afc75dd5ba2345"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/left_tx.log",
+      "bytes": 898,
+      "sha256": "8a97d876412558751333ddae9f3748bae826e94aa03f81cb49a7d4346067e687"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/right_rx.log",
+      "bytes": 1564,
+      "sha256": "40fd45b41c7585e0db95d79ef4c94780c0b6094ee39534157e2b7eee609e0bba"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/right_tx.log",
+      "bytes": 907,
+      "sha256": "788db1c63639e9cf8e269f33013cf35f32633ffa91e0827d30b14597d8d29dc6"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/three_camera_logs/wrists_tx.log",
+      "bytes": 14293,
+      "sha256": "d7a4508a529a7ba0895f08ec763c873984003b9588e4ab9333afa0483c55dd7f"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/video_frames_rx.csv",
+      "bytes": 1567840,
+      "sha256": "e9b50bef4cd9a64a4b5fed5bdde13f7e2cd2cc5c7ce4a738bac614b4b7cc7fae"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/video_frames_rx_wrist_left.csv",
+      "bytes": 5151276,
+      "sha256": "f9350a2a6e5044e2fbb3cfb828c4f71ee1e42364fdc83a56b1d040351d177e22"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/video_frames_rx_wrist_right.csv",
+      "bytes": 4816166,
+      "sha256": "7b3a85b3b1074bb1a738ce50b174d74f1ec88c0d4ac76c9ab6ee85a1b3e2dbca"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/video_frames_tx.csv",
+      "bytes": 6393081,
+      "sha256": "383475bec6b9150da9ac6837ea16ff8b9e92de6acb95c11b4e5fe2929eee3793"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/video_frames_tx_wrist_left.csv",
+      "bytes": 5390611,
+      "sha256": "62e9be2b1c6ab27fc3a5e71934a6608b0523b6e7e6ce5457e5b3c8affcb4ef7e"
+    },
+    {
+      "path": "original_evidence/tcp_udp_office/video_frames_tx_wrist_right.csv",
+      "bytes": 5108762,
+      "sha256": "969d2ba42a496a3a9fbce2ee2a46d43e094b52fd6d479b6d67a5c87b2e022c5a"
+    }
+  ]
+}

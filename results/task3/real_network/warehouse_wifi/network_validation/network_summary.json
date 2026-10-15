@@ -1,0 +1,42 @@
+{
+  "clock_offset_s": 1792050232.660134,
+  "transmitted": 1500,
+  "received": 1453,
+  "aggregate_loss_pct": 3.13333,
+  "raw_reply_records": 1453,
+  "zero_rtt_samples": 4,
+  "valid_rtt_min_ms": 41.0,
+  "valid_rtt_mean_ms": 91.362,
+  "valid_rtt_max_ms": 273.0,
+  "first_reply_monotonic_s": 46059.723787,
+  "last_reply_monotonic_s": 46139.119256,
+  "overlapping_blackouts": [
+    {
+      "start_monotonic_s": 46074.10573,
+      "end_monotonic_s": 46074.615571,
+      "duration_ms": 509.841,
+      "start_wall_s": 1792096306.765864,
+      "end_wall_s": 1792096307.275705
+    },
+    {
+      "start_monotonic_s": 46104.092532,
+      "end_monotonic_s": 46104.619119,
+      "duration_ms": 526.587,
+      "start_wall_s": 1792096336.752666,
+      "end_wall_s": 1792096337.279253
+    },
+    {
+      "start_monotonic_s": 46134.095388,
+      "end_monotonic_s": 46134.605495,
+      "duration_ms": 510.107,
+      "start_wall_s": 1792096366.755522,
+      "end_wall_s": 1792096367.265629
+    }
+  ],
+  "limitations": [
+    "Blackout overlap is based on received reply timestamps.",
+    "Lost request send timestamps were not captured.",
+    "Aggregate loss includes background and blackout loss.",
+    "Background loss cannot be isolated exactly from this trace."
+  ]
+}

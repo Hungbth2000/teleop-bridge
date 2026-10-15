@@ -1,0 +1,32 @@
+{
+  "head": {
+    "run_id": "bc0912d0",
+    "generated": 2250,
+    "received": 2165,
+    "good": 2165,
+    "missing": 85,
+    "late_or_invalid": 0,
+    "good_percentage": 96.222,
+    "good_latency_p95_ms": 82.016
+  },
+  "left": {
+    "run_id": "33b58e23",
+    "generated": 2250,
+    "received": 2184,
+    "good": 2184,
+    "missing": 66,
+    "late_or_invalid": 0,
+    "good_percentage": 97.067,
+    "good_latency_p95_ms": 72.498
+  },
+  "right": {
+    "run_id": "fccdda22",
+    "generated": 2250,
+    "received": 2189,
+    "good": 2189,
+    "missing": 61,
+    "late_or_invalid": 0,
+    "good_percentage": 97.289,
+    "good_latency_p95_ms": 71.7
+  }
+}

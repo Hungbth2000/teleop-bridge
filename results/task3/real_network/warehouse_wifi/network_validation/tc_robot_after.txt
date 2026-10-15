@@ -1,0 +1,3 @@
+qdisc netem 802a: root refcnt 13 limit 1000 delay 45ms  25ms loss gemodel p 0.2% r 20% 1-h 100% 1-k 0%
+ Sent 25069071 bytes 42904 pkt (dropped 427, overlimits 0 requeues 0) 
+ backlog 302b 3p requeues 0

@@ -1,0 +1,32 @@
+[
+  {
+    "blackout": 1,
+    "duration_ms": 520.709,
+    "last_applied_before": {
+      "sequence": 1975,
+      "applied_s": 45351.438704979,
+      "latency_ms": 34.307876
+    },
+    "first_applied_after": {
+      "sequence": 2032,
+      "applied_s": 45352.001358639,
+      "latency_ms": 26.741096
+    },
+    "resume_after_blackout_ms": 29.773
+  },
+  {
+    "blackout": 2,
+    "duration_ms": 510.461,
+    "last_applied_before": {
+      "sequence": 4976,
+      "applied_s": 45381.438002677,
+      "latency_ms": 23.58158
+    },
+    "first_applied_after": {
+      "sequence": 5032,
+      "applied_s": 45381.998995971,
+      "latency_ms": 24.509798
+    },
+    "resume_after_blackout_ms": 26.245
+  }
+]

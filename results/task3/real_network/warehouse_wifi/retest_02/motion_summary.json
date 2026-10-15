@@ -1,0 +1,19 @@
+{
+  "session_id": "364418079510427855",
+  "received_records": 7365,
+  "sequence_min": 0,
+  "sequence_max": 7564,
+  "unique_sequences_received": 7365,
+  "missing_sequences_between_min_max": 200,
+  "duplicate_sequence_records": 0,
+  "decisions": {
+    "applied": 4380,
+    "rejected_sequence": 2985
+  },
+  "applied_commands": 4380,
+  "stale_commands_applied": 0,
+  "applied_latency_mean_ms": 39.165,
+  "applied_latency_p95_ms": 60.751,
+  "applied_latency_p99_ms": 68.886,
+  "applied_latency_max_ms": 139.232
+}
